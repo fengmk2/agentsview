@@ -5,4 +5,3 @@
 export type TrashResponse = {
   sessions: any[] | null;
 };
-

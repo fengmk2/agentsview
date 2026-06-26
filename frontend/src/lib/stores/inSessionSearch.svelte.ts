@@ -1,11 +1,7 @@
 import { messages } from "./messages.svelte.js";
 import { ui } from "./ui.svelte.js";
 import { SessionsService } from "../api/generated/index";
-import {
-  configureGeneratedClient,
-  isAbortError,
-  withAbort,
-} from "../api/runtime.js";
+import { configureGeneratedClient, isAbortError, withAbort } from "../api/runtime.js";
 
 interface OrdinalsResponse {
   ordinals: number[];
@@ -52,8 +48,7 @@ class InSessionSearchStore {
         this.prevMessageCount = msgCount;
 
         if (queryChanged || sessionChanged || contentChanged) {
-          const preservePosition =
-            contentChanged && !queryChanged && !sessionChanged;
+          const preservePosition = contentChanged && !queryChanged && !sessionChanged;
           this.cancelPending();
           if (!preservePosition) {
             this.matches = [];
@@ -87,11 +82,7 @@ class InSessionSearchStore {
     this.loading = false;
   }
 
-  private async fetchMatches(
-    q: string,
-    sessionId: string,
-    preservePosition = false,
-  ) {
+  private async fetchMatches(q: string, sessionId: string, preservePosition = false) {
     const ac = new AbortController();
     this.abortController = ac;
     this.loading = true;
@@ -117,9 +108,7 @@ class InSessionSearchStore {
       this.matches = found;
 
       if (preservePosition && prevOrdinal !== null) {
-        const idx = found.findIndex(
-          (m) => m.ordinal === prevOrdinal,
-        );
+        const idx = found.findIndex((m) => m.ordinal === prevOrdinal);
         if (idx >= 0) {
           this.currentMatchIndex = idx;
         } else {
@@ -175,16 +164,14 @@ class InSessionSearchStore {
 
   async next() {
     if (this.matches.length === 0) return;
-    this.currentMatchIndex =
-      (this.currentMatchIndex + 1) % this.matches.length;
+    this.currentMatchIndex = (this.currentMatchIndex + 1) % this.matches.length;
     await this.scrollToMatch(this.matches[this.currentMatchIndex]!);
   }
 
   async prev() {
     if (this.matches.length === 0) return;
     this.currentMatchIndex =
-      (this.currentMatchIndex - 1 + this.matches.length) %
-      this.matches.length;
+      (this.currentMatchIndex - 1 + this.matches.length) % this.matches.length;
     await this.scrollToMatch(this.matches[this.currentMatchIndex]!);
   }
 

@@ -474,10 +474,7 @@ describe("ToolBlock show-more for long content", () => {
   });
 
   it("auto-expands hidden Bash fallback content on search match", async () => {
-    const longCommand = Array.from(
-      { length: 30 },
-      (_, i) => `echo hidden-line-${i}`,
-    ).join("\n");
+    const longCommand = Array.from({ length: 30 }, (_, i) => `echo hidden-line-${i}`).join("\n");
     const toolCall: ToolCall = {
       tool_name: "Bash",
       category: "Bash",
@@ -496,9 +493,7 @@ describe("ToolBlock show-more for long content", () => {
     const toolContent = document.querySelector(".tool-content");
     expect(toolContent).not.toBeNull();
     expect(toolContent!.textContent).toContain("hidden-line-29");
-    expect(document.querySelector(".show-more-btn")!.textContent).toContain(
-      "show less",
-    );
+    expect(document.querySelector(".show-more-btn")!.textContent).toContain("show less");
   });
 });
 
@@ -746,9 +741,7 @@ describe("ToolBlock collapsed preview", () => {
     await tick();
 
     const preview = document.querySelector(".tool-header .tool-preview");
-    expect(preview!.textContent).toBe(
-      "#29 · in_progress · Rebuild Companies list table columns",
-    );
+    expect(preview!.textContent).toBe("#29 · in_progress · Rebuild Companies list table columns");
   });
 
   it("shows just task id and status for TaskUpdate without subject", async () => {

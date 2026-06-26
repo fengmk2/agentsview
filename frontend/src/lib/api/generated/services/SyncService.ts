@@ -2,13 +2,13 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { RemoteSyncRequest } from '../models/RemoteSyncRequest';
-import type { ServiceSessionDetail } from '../models/ServiceSessionDetail';
-import type { ServiceSyncInput } from '../models/ServiceSyncInput';
-import type { SyncStatusResponse } from '../models/SyncStatusResponse';
-import type { CancelablePromise } from '../core/CancelablePromise';
-import { OpenAPI } from '../core/OpenAPI';
-import { request as __request } from '../core/request';
+import type { RemoteSyncRequest } from "../models/RemoteSyncRequest";
+import type { ServiceSessionDetail } from "../models/ServiceSessionDetail";
+import type { ServiceSyncInput } from "../models/ServiceSyncInput";
+import type { SyncStatusResponse } from "../models/SyncStatusResponse";
+import type { CancelablePromise } from "../core/CancelablePromise";
+import { OpenAPI } from "../core/OpenAPI";
+import { request as __request } from "../core/request";
 export class SyncService {
   /**
    * Trigger full resync
@@ -17,8 +17,8 @@ export class SyncService {
    */
   public static postApiV1Resync(): CancelablePromise<string> {
     return __request(OpenAPI, {
-      method: 'POST',
-      url: '/api/v1/resync',
+      method: "POST",
+      url: "/api/v1/resync",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,
@@ -41,13 +41,13 @@ export class SyncService {
   public static postApiV1SessionsSync({
     requestBody,
   }: {
-    requestBody: ServiceSyncInput,
+    requestBody: ServiceSyncInput;
   }): CancelablePromise<ServiceSessionDetail> {
     return __request(OpenAPI, {
-      method: 'POST',
-      url: '/api/v1/sessions/sync',
+      method: "POST",
+      url: "/api/v1/sessions/sync",
       body: requestBody,
-      mediaType: 'application/json',
+      mediaType: "application/json",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,
@@ -70,8 +70,8 @@ export class SyncService {
    */
   public static postApiV1Sync(): CancelablePromise<string> {
     return __request(OpenAPI, {
-      method: 'POST',
-      url: '/api/v1/sync',
+      method: "POST",
+      url: "/api/v1/sync",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,
@@ -94,13 +94,13 @@ export class SyncService {
   public static postApiV1SyncRemotes({
     requestBody,
   }: {
-    requestBody: RemoteSyncRequest,
+    requestBody: RemoteSyncRequest;
   }): CancelablePromise<Record<string, any>> {
     return __request(OpenAPI, {
-      method: 'POST',
-      url: '/api/v1/sync/remotes',
+      method: "POST",
+      url: "/api/v1/sync/remotes",
       body: requestBody,
-      mediaType: 'application/json',
+      mediaType: "application/json",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,
@@ -123,8 +123,8 @@ export class SyncService {
    */
   public static getApiV1SyncStatus(): CancelablePromise<SyncStatusResponse> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/sync/status',
+      method: "GET",
+      url: "/api/v1/sync/status",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,

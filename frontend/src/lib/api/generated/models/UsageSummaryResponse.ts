@@ -2,10 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CacheStats } from './CacheStats';
-import type { Comparison } from './Comparison';
-import type { DbUsageSessionCounts } from './DbUsageSessionCounts';
-import type { DbUsageTotals } from './DbUsageTotals';
+import type { CacheStats } from "./CacheStats";
+import type { Comparison } from "./Comparison";
+import type { DbUsageSessionCounts } from "./DbUsageSessionCounts";
+import type { DbUsageTotals } from "./DbUsageTotals";
 export type UsageSummaryResponse = {
   agentTotals: any[] | null;
   cacheStats: CacheStats;
@@ -18,4 +18,3 @@ export type UsageSummaryResponse = {
   to: string;
   totals: DbUsageTotals;
 };
-

@@ -11,4 +11,3 @@ export type DbSkillUsage = {
   session_count: number;
   skill_name: string;
 };
-

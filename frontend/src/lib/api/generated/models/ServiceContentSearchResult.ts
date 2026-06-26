@@ -6,4 +6,3 @@ export type ServiceContentSearchResult = {
   matches: any[] | null;
   next_cursor?: number;
 };
-

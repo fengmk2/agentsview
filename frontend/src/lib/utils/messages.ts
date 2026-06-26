@@ -70,27 +70,19 @@ export interface MessagePreview {
  * For message-body rendering use `renderMarkdown` instead — it
  * emits real code blocks via marked extensions.
  */
-export function previewMessage(
-  text: string | null | undefined,
-): MessagePreview {
+export function previewMessage(text: string | null | undefined): MessagePreview {
   if (!text) return { text: "", isShell: false };
   const isShell = /<bash-(?:input|stdout|stderr)>/.test(text);
   const out = text
-    .replace(
-      /<bash-input>([\s\S]*?)<\/bash-input>/g,
-      (_, cmd: string) => `!${cmd.trim()}`,
-    )
-    .replace(
-      /<bash-(?:stdout|stderr)>([\s\S]*?)<\/bash-(?:stdout|stderr)>/g,
-      (_, body: string) => body.trim(),
+    .replace(/<bash-input>([\s\S]*?)<\/bash-input>/g, (_, cmd: string) => `!${cmd.trim()}`)
+    .replace(/<bash-(?:stdout|stderr)>([\s\S]*?)<\/bash-(?:stdout|stderr)>/g, (_, body: string) =>
+      body.trim(),
     );
   return { text: out, isShell };
 }
 
 /** Plain-text variant of `previewMessage` for non-visual callers
  *  (rename input pre-fill, confirm-delete sentence, etc.). */
-export function normalizeMessagePreview(
-  text: string | null | undefined,
-): string {
+export function normalizeMessagePreview(text: string | null | undefined): string {
   return previewMessage(text).text;
 }

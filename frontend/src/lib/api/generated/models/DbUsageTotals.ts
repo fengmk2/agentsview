@@ -11,4 +11,3 @@ export type DbUsageTotals = {
   outputTokens: number;
   totalCost: number;
 };
-

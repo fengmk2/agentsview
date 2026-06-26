@@ -24,9 +24,7 @@ export function squarify(
   width: number,
   height: number,
 ): TreemapTile[] {
-  const items = input
-    .filter((d) => d.value > 0)
-    .sort((a, b) => b.value - a.value);
+  const items = input.filter((d) => d.value > 0).sort((a, b) => b.value - a.value);
 
   if (items.length === 0 || width <= 0 || height <= 0) return [];
 
@@ -49,10 +47,7 @@ interface ScaledItem {
   value: number;
 }
 
-function worstRatio(
-  row: ScaledItem[],
-  sideLength: number,
-): number {
+function worstRatio(row: ScaledItem[], sideLength: number): number {
   const rowArea = row.reduce((s, d) => s + d.area, 0);
   let worst = 0;
   for (const item of row) {
@@ -93,8 +88,7 @@ function layoutRect(
 
   while (idx < items.length) {
     const candidate = [...row, items[idx]!];
-    if (worstRatio(candidate, shortSide) <=
-        worstRatio(row, shortSide)) {
+    if (worstRatio(candidate, shortSide) <= worstRatio(row, shortSide)) {
       row.push(items[idx]!);
       idx++;
     } else {
@@ -134,13 +128,9 @@ function layoutRect(
   const remaining = items.slice(idx);
   if (remaining.length > 0) {
     if (horizontal) {
-      layoutRect(
-        remaining, x + rowSpan, y, w - rowSpan, h, tiles,
-      );
+      layoutRect(remaining, x + rowSpan, y, w - rowSpan, h, tiles);
     } else {
-      layoutRect(
-        remaining, x, y + rowSpan, w, h - rowSpan, tiles,
-      );
+      layoutRect(remaining, x, y + rowSpan, w, h - rowSpan, tiles);
     }
   }
 }

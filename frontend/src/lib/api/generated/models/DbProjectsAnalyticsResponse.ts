@@ -5,4 +5,3 @@
 export type DbProjectsAnalyticsResponse = {
   projects: any[] | null;
 };
-

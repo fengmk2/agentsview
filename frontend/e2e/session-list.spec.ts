@@ -47,23 +47,17 @@ test.describe("Session list", () => {
         await sp.clearProjectFilter();
       }
       await expect(sp.sessionItems.first()).toBeVisible();
-      await expect(sp.sessionListHeader).toContainText(
-        `${expectedCount} sessions`,
-      );
+      await expect(sp.sessionListHeader).toContainText(`${expectedCount} sessions`);
       await expect(sp.sessionItems).toHaveCount(expectedCount);
     });
   }
 
-  test("URL updates when filter changes on bare /sessions", async ({
-    page,
-  }) => {
+  test("URL updates when filter changes on bare /sessions", async ({ page }) => {
     await sp.filterByProject("project-alpha");
     await expect(page).toHaveURL(/[?&]project=project-alpha/);
   });
 
-  test("URL re-syncs filter from localStorage on tab switch back", async ({
-    page,
-  }) => {
+  test("URL re-syncs filter from localStorage on tab switch back", async ({ page }) => {
     // Apply a filter so the URL and localStorage record it.
     await sp.filterByProject("project-alpha");
     await expect(page).toHaveURL(/[?&]project=project-alpha/);

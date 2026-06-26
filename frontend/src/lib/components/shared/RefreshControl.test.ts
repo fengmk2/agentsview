@@ -79,9 +79,7 @@ describe("RefreshControl", () => {
       props: { lastUpdatedAt: null, onRefresh, label: "Refresh" },
     });
 
-    document
-      .querySelector<HTMLButtonElement>("button.refresh-btn")!
-      .click();
+    document.querySelector<HTMLButtonElement>("button.refresh-btn")!.click();
     expect(onRefresh).toHaveBeenCalledOnce();
 
     unmount(component);
@@ -94,9 +92,7 @@ describe("RefreshControl", () => {
       props: { lastUpdatedAt: null, onRefresh, label: "Refresh", busy: true },
     });
 
-    const button = document.querySelector<HTMLButtonElement>(
-      "button.refresh-btn",
-    );
+    const button = document.querySelector<HTMLButtonElement>("button.refresh-btn");
     expect(button!.disabled).toBe(true);
     expect(button!.classList.contains("querying")).toBe(true);
     button!.click();
@@ -145,10 +141,8 @@ describe("RefreshControl", () => {
   });
 
   it("keeps the timestamp beside the centered icon button", () => {
-    const refreshControl =
-      source.match(/\.refresh-control\s*{[^}]+}/)?.[0] ?? "";
-    const refreshButton =
-      source.match(/\.refresh-btn\s*{[^}]+}/)?.[0] ?? "";
+    const refreshControl = source.match(/\.refresh-control\s*{[^}]+}/)?.[0] ?? "";
+    const refreshButton = source.match(/\.refresh-btn\s*{[^}]+}/)?.[0] ?? "";
 
     expect(refreshControl).toContain("display: inline-flex");
     expect(refreshControl).toContain("align-items: center");

@@ -1,21 +1,11 @@
-import {
-  describe,
-  it,
-  expect,
-  vi,
-  beforeEach,
-  afterEach,
-} from "vite-plus/test";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vite-plus/test";
 import { ui } from "../stores/ui.svelte.js";
 import { sessions } from "../stores/sessions.svelte.js";
 import { starred } from "../stores/starred.svelte.js";
 import { router } from "../stores/router.svelte.js";
 import { registerShortcuts } from "./keyboard.js";
 
-function fireKey(
-  key: string,
-  opts: Partial<KeyboardEventInit> = {},
-) {
+function fireKey(key: string, opts: Partial<KeyboardEventInit> = {}) {
   const event = new KeyboardEvent("keydown", {
     key,
     bubbles: true,
@@ -233,11 +223,7 @@ describe("registerShortcuts", () => {
     }
 
     it("should navigate forward skipping unstarred when filterOnly is enabled", () => {
-      sessions.sessions = [
-        makeSession("s1"),
-        makeSession("s2"),
-        makeSession("s3"),
-      ];
+      sessions.sessions = [makeSession("s1"), makeSession("s2"), makeSession("s3")];
       sessions.activeSessionId = "s1";
       starred.star("s1");
       starred.star("s3");
@@ -250,11 +236,7 @@ describe("registerShortcuts", () => {
     });
 
     it("should navigate forward without filter when filterOnly is disabled", () => {
-      sessions.sessions = [
-        makeSession("s1"),
-        makeSession("s2"),
-        makeSession("s3"),
-      ];
+      sessions.sessions = [makeSession("s1"), makeSession("s2"), makeSession("s3")];
       sessions.activeSessionId = "s1";
       starred.star("s1");
       starred.star("s3");
@@ -267,11 +249,7 @@ describe("registerShortcuts", () => {
     });
 
     it("should navigate backward skipping unstarred when filterOnly is enabled", () => {
-      sessions.sessions = [
-        makeSession("s1"),
-        makeSession("s2"),
-        makeSession("s3"),
-      ];
+      sessions.sessions = [makeSession("s1"), makeSession("s2"), makeSession("s3")];
       sessions.activeSessionId = "s3";
       starred.star("s1");
       starred.star("s3");
@@ -284,10 +262,7 @@ describe("registerShortcuts", () => {
     });
 
     it("should be a no-op when filtered list is empty", () => {
-      sessions.sessions = [
-        makeSession("s1"),
-        makeSession("s2"),
-      ];
+      sessions.sessions = [makeSession("s1"), makeSession("s2")];
       sessions.activeSessionId = "s1";
       // No sessions are starred, so filtered list will be empty
       starred.filterOnly = true;

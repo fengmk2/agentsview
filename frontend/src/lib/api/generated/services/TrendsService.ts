@@ -2,10 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { DbTrendsTermsResponse } from '../models/DbTrendsTermsResponse';
-import type { CancelablePromise } from '../core/CancelablePromise';
-import { OpenAPI } from '../core/OpenAPI';
-import { request as __request } from '../core/request';
+import type { DbTrendsTermsResponse } from "../models/DbTrendsTermsResponse";
+import type { CancelablePromise } from "../core/CancelablePromise";
+import { OpenAPI } from "../core/OpenAPI";
+import { request as __request } from "../core/request";
 export class TrendsService {
   /**
    * Get trend terms
@@ -28,93 +28,93 @@ export class TrendsService {
     includeAutomated,
     termination,
     term,
-    granularity = 'week',
+    granularity = "week",
   }: {
     /**
      * Range start date
      */
-    from?: string,
+    from?: string;
     /**
      * Range end date
      */
-    to?: string,
+    to?: string;
     /**
      * IANA timezone name
      */
-    timezone?: string,
+    timezone?: string;
     /**
      * Filter by machine
      */
-    machine?: string,
+    machine?: string;
     /**
      * Filter by project
      */
-    project?: string,
+    project?: string;
     /**
      * Filter by agent
      */
-    agent?: string,
+    agent?: string;
     /**
      * Day of week, Monday=0 through Sunday=6
      */
-    dow?: number,
+    dow?: number;
     /**
      * Hour of day, 0 through 23
      */
-    hour?: number,
+    hour?: number;
     /**
      * Minimum user message count
      */
-    minUserMessages?: number,
+    minUserMessages?: number;
     /**
      * Filter sessions active since this RFC3339 timestamp
      */
-    activeSince?: string,
+    activeSince?: string;
     /**
      * Automation scope
      */
-    automatedScope?: 'human' | 'all' | 'automated',
+    automatedScope?: "human" | "all" | "automated";
     /**
      * Include one-shot sessions
      */
-    includeOneShot?: boolean,
+    includeOneShot?: boolean;
     /**
      * Include automated sessions
      */
-    includeAutomated?: boolean,
+    includeAutomated?: boolean;
     /**
      * Filter by termination reason
      */
-    termination?: string,
+    termination?: string;
     /**
      * Terms to trend
      */
-    term?: any[] | null,
+    term?: any[] | null;
     /**
      * Time bucket granularity
      */
-    granularity?: 'day' | 'week' | 'month',
+    granularity?: "day" | "week" | "month";
   }): CancelablePromise<DbTrendsTermsResponse> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/trends/terms',
+      method: "GET",
+      url: "/api/v1/trends/terms",
       query: {
-        'from': from,
-        'to': to,
-        'timezone': timezone,
-        'machine': machine,
-        'project': project,
-        'agent': agent,
-        'dow': dow,
-        'hour': hour,
-        'min_user_messages': minUserMessages,
-        'active_since': activeSince,
-        'automated_scope': automatedScope,
-        'include_one_shot': includeOneShot,
-        'include_automated': includeAutomated,
-        'termination': termination,
-        'term': term,
-        'granularity': granularity,
+        from: from,
+        to: to,
+        timezone: timezone,
+        machine: machine,
+        project: project,
+        agent: agent,
+        dow: dow,
+        hour: hour,
+        min_user_messages: minUserMessages,
+        active_since: activeSince,
+        automated_scope: automatedScope,
+        include_one_shot: includeOneShot,
+        include_automated: includeAutomated,
+        termination: termination,
+        term: term,
+        granularity: granularity,
       },
       errors: {
         400: `Bad Request`,

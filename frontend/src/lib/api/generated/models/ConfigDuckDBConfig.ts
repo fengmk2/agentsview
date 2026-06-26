@@ -11,4 +11,3 @@ export type ConfigDuckDBConfig = {
   token?: string;
   url: string;
 };
-

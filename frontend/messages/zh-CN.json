@@ -156,14 +156,8 @@
   "message_content_running_duration": "运行中 {duration}+",
   "message_content_turn_summary": [
     {
-      "declarations": [
-        "input count",
-        "input duration",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input duration", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=other": "turn {duration} · {count} 次调用"
       }
@@ -171,14 +165,8 @@
   ],
   "message_content_running_turn_summary": [
     {
-      "declarations": [
-        "input count",
-        "input duration",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input duration", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=other": "运行中 {duration}+ · {count} 次调用"
       }
@@ -186,13 +174,8 @@
   ],
   "tool_call_group_call_count": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=other": "{count} 次 tool call"
       }
@@ -205,13 +188,8 @@
   "parallel_group_label": "并行",
   "parallel_group_call_count": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=other": "{count} 次调用"
       }
@@ -222,13 +200,8 @@
   "subagent_inline_label": "Subagent 会话",
   "subagent_inline_message_count": [
     {
-      "declarations": [
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=other": "{count} 条消息"
       }
@@ -360,14 +333,8 @@
   "analytics_tool_usage_title": "Tool 使用",
   "analytics_tool_usage_call_count": [
     {
-      "declarations": [
-        "input count",
-        "input countLabel",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input countLabel", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=other": "{countLabel} 次调用"
       }
@@ -388,14 +355,8 @@
   "analytics_projects_title": "项目",
   "analytics_project_messages": [
     {
-      "declarations": [
-        "input count",
-        "input countLabel",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input countLabel", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=other": "{countLabel} 条消息"
       }
@@ -403,14 +364,8 @@
   ],
   "analytics_project_sessions": [
     {
-      "declarations": [
-        "input count",
-        "input countLabel",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input countLabel", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=other": "{countLabel} 个会话"
       }
@@ -438,9 +393,7 @@
         "input countLabel",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=other": "{day} {hour}:00 - {countLabel} 条消息"
       }
@@ -451,14 +404,8 @@
   "analytics_session_shape_autonomy": "自主度",
   "analytics_session_shape_session_count": [
     {
-      "declarations": [
-        "input count",
-        "input countLabel",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input count", "input countLabel", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=other": "{countLabel} 个会话"
       }
@@ -501,9 +448,7 @@
         "input pct",
         "local countPlural = count: plural"
       ],
-      "selectors": [
-        "countPlural"
-      ],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=other": "{skill}：{countLabel} 次调用 ({pct}%)"
       }
@@ -519,10 +464,7 @@
         "local callsPlural = calls: plural",
         "local skillsPlural = skills: plural"
       ],
-      "selectors": [
-        "callsPlural",
-        "skillsPlural"
-      ],
+      "selectors": ["callsPlural", "skillsPlural"],
       "match": {
         "callsPlural=other, skillsPlural=other": "{callsLabel} 次调用 · {skillsLabel} 个 skill"
       }
@@ -553,14 +495,8 @@
   "usage_filter_deselect_all": "取消全选",
   "usage_filter_all_items": [
     {
-      "declarations": [
-        "input label",
-        "input count",
-        "local countPlural = count: plural"
-      ],
-      "selectors": [
-        "countPlural"
-      ],
+      "declarations": ["input label", "input count", "local countPlural = count: plural"],
+      "selectors": ["countPlural"],
       "match": {
         "countPlural=other": "所有 {label}"
       }

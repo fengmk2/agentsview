@@ -5,4 +5,3 @@
 export type OrdinalsResponse = {
   ordinals: any[] | null;
 };
-

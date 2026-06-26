@@ -95,10 +95,7 @@ describe("TrendsStore.fetchTerms", () => {
     expect(trends.response).toEqual(existing);
     expect(trends.loading.terms).toBe(false);
     expect(trends.errors.terms).toBe("boom");
-    expect(warn).toHaveBeenCalledWith(
-      "trends.terms refetch failed:",
-      expect.any(Error),
-    );
+    expect(warn).toHaveBeenCalledWith("trends.terms refetch failed:", expect.any(Error));
     warn.mockRestore();
   });
 

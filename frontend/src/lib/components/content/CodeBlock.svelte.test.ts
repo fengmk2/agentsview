@@ -1,13 +1,11 @@
 // @vitest-environment jsdom
-import { describe, it, expect, afterEach, vi } from "vitest";
+import { describe, it, expect, afterEach, vi } from "vite-plus/test";
 import { mount, unmount, tick } from "svelte";
 import CodeBlock from "./CodeBlock.svelte";
 import { setLocale } from "../../i18n/index.js";
 
 function marks(el: HTMLElement): string[] {
-  return Array.from(el.querySelectorAll("mark.search-highlight")).map(
-    (m) => m.textContent ?? "",
-  );
+  return Array.from(el.querySelectorAll("mark.search-highlight")).map((m) => m.textContent ?? "");
 }
 
 function styledSpans(el: HTMLElement): HTMLSpanElement[] {
@@ -36,9 +34,7 @@ describe("CodeBlock syntax highlighting and search marks", () => {
     });
     await tick();
 
-    const copyButton = document.querySelector<HTMLButtonElement>(
-      "button.copy-btn",
-    );
+    const copyButton = document.querySelector<HTMLButtonElement>("button.copy-btn");
     expect(copyButton?.getAttribute("aria-label")).toBe("复制代码块");
     expect(copyButton?.getAttribute("title")).toBe("复制代码");
   });

@@ -1,12 +1,5 @@
 // @vitest-environment jsdom
-import {
-  afterEach,
-  beforeEach,
-  describe,
-  expect,
-  it,
-  vi,
-} from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { mount, tick, unmount } from "svelte";
 import type { Message } from "../../api/types.js";
 import { messages } from "../../stores/messages.svelte.js";
@@ -26,9 +19,7 @@ const virtualizerMock = vi.hoisted(() => ({
 }));
 
 vi.mock("../../virtual/createVirtualizer.svelte.js", () => ({
-  createVirtualizer: (
-    optsFn: () => { count: number },
-  ) => ({
+  createVirtualizer: (optsFn: () => { count: number }) => ({
     get instance() {
       virtualizerMock.options.count = optsFn().count;
       return virtualizerMock;
@@ -135,12 +126,10 @@ describe("MessageList follow cancellation", () => {
 
   it("keeps delayed ordinal navigation alive after follow latest is disabled", async () => {
     const loaded = deferred<void>();
-    const ensureSpy = vi
-      .spyOn(messages, "ensureOrdinalLoaded")
-      .mockImplementation(async () => {
-        await loaded.promise;
-        messages.messages = [makeMessage(0), makeMessage(10)];
-      });
+    const ensureSpy = vi.spyOn(messages, "ensureOrdinalLoaded").mockImplementation(async () => {
+      await loaded.promise;
+      messages.messages = [makeMessage(0), makeMessage(10)];
+    });
 
     component = mount(MessageList, { target: document.body });
     await tick();

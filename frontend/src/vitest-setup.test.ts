@@ -1,11 +1,8 @@
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vite-plus/test";
 import { installFallbackStorage } from "./vitest-setup";
 
 describe("vitest setup storage fallback", () => {
-  const originalDescriptor = Object.getOwnPropertyDescriptor(
-    globalThis,
-    "localStorage",
-  );
+  const originalDescriptor = Object.getOwnPropertyDescriptor(globalThis, "localStorage");
 
   afterEach(() => {
     if (originalDescriptor) {

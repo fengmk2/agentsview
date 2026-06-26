@@ -6,4 +6,3 @@ export type ServiceToolCallList = {
   count: number;
   tool_calls: any[] | null;
 };
-

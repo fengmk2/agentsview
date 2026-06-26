@@ -16,9 +16,18 @@ describe("projectColor", () => {
 
   it("spreads different names across the palette", () => {
     const names = [
-      "agentsview", "quokka", "arrow-rs", "side-quests",
-      "infrastructure", "blog", "experiments", "docs",
-      "dotfiles", "playground", "sandbox", "notes",
+      "agentsview",
+      "quokka",
+      "arrow-rs",
+      "side-quests",
+      "infrastructure",
+      "blog",
+      "experiments",
+      "docs",
+      "dotfiles",
+      "playground",
+      "sandbox",
+      "notes",
     ];
     const seen = new Set(names.map(projectColor));
     expect(seen.size).toBeGreaterThanOrEqual(6);

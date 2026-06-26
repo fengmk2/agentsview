@@ -1,11 +1,8 @@
 {
   "name": "agentsview-frontend",
-  "private": true,
   "version": "0.1.0",
+  "private": true,
   "type": "module",
-  "engines": {
-    "node": "^20.19 || ^22.12 || >=24"
-  },
   "scripts": {
     "dev": "vp dev",
     "build": "vp build",
@@ -37,13 +34,14 @@
     "svelte": "5.56.1",
     "svelte-check": "4.6.0",
     "typescript": "6.0.3",
-    "vite": "npm:@voidzero-dev/vite-plus-core@0.1.24",
-    "vite-plus": "0.1.24",
-    "vitest": "npm:@voidzero-dev/vite-plus-test@0.1.24"
+    "vite": "https://pkg.pr.new/voidzero-dev/vite-plus/@voidzero-dev/vite-plus-core@dca39038de6ca46e523bf64dc09bf100b636eea9",
+    "vite-plus": "https://pkg.pr.new/voidzero-dev/vite-plus@dca39038de6ca46e523bf64dc09bf100b636eea9"
   },
   "overrides": {
-    "vite": "npm:@voidzero-dev/vite-plus-core@0.1.24",
-    "vitest": "npm:@voidzero-dev/vite-plus-test@0.1.24"
+    "vite": "https://pkg.pr.new/voidzero-dev/vite-plus/@voidzero-dev/vite-plus-core@dca39038de6ca46e523bf64dc09bf100b636eea9"
+  },
+  "engines": {
+    "node": "^20.19 || ^22.12 || >=24"
   },
   "packageManager": "npm@11.17.0"
 }

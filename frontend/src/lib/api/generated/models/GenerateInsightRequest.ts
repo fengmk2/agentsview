@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { InsightCannedSessionFilters } from './InsightCannedSessionFilters';
+import type { InsightCannedSessionFilters } from "./InsightCannedSessionFilters";
 export type GenerateInsightRequest = {
   agent?: string;
   automated_scope?: string;
@@ -17,4 +17,3 @@ export type GenerateInsightRequest = {
   timezone?: string;
   type: string;
 };
-

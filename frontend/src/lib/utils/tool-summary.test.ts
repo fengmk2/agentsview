@@ -10,9 +10,7 @@ function call(partial: Partial<ToolCall>): ToolCall {
 describe("summarizeToolCall", () => {
   it("returns null for malformed input_json", () => {
     expect(
-      summarizeToolCall(
-        call({ tool_name: "Read", category: "Read", input_json: "{not json" }),
-      ),
+      summarizeToolCall(call({ tool_name: "Read", category: "Read", input_json: "{not json" })),
     ).toBeNull();
   });
 
@@ -22,9 +20,7 @@ describe("summarizeToolCall", () => {
 
   it("returns null when no structured fields are present", () => {
     expect(
-      summarizeToolCall(
-        call({ tool_name: "mystery", input_json: JSON.stringify({ foo: 1 }) }),
-      ),
+      summarizeToolCall(call({ tool_name: "mystery", input_json: JSON.stringify({ foo: 1 }) })),
     ).toBeNull();
   });
 

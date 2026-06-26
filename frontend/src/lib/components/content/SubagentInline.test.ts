@@ -6,11 +6,7 @@ import { setLocale } from "../../i18n/index.js";
 // @ts-ignore
 import SubagentInline from "./SubagentInline.svelte";
 
-const {
-  getMessages,
-  getSession,
-  childSessions,
-} = vi.hoisted(() => ({
+const { getMessages, getSession, childSessions } = vi.hoisted(() => ({
   getMessages: vi.fn(),
   getSession: vi.fn(),
   childSessions: new Map<string, Session>(),
@@ -23,9 +19,7 @@ vi.mock("../../api/runtime.js", () => ({
 
 vi.mock("../../api/generated/index", () => ({
   SessionsService: {
-    getApiV1SessionsIdMessages: vi.fn(({ id, limit }) =>
-      getMessages(id, { limit })
-    ),
+    getApiV1SessionsIdMessages: vi.fn(({ id, limit }) => getMessages(id, { limit })),
     getApiV1SessionsId: vi.fn(({ id }) => getSession(id)),
   },
 }));
@@ -46,9 +40,7 @@ vi.mock("../../stores/router.svelte.js", () => ({
   },
 }));
 
-function makeSession(
-  overrides: Partial<Session> = {},
-): Session {
+function makeSession(overrides: Partial<Session> = {}): Session {
   return {
     id: "subagent-session-id",
     project: "proj-a",
@@ -80,10 +72,7 @@ afterEach(() => {
 describe("SubagentInline", () => {
   it("renders subagent controls in Simplified Chinese", async () => {
     setLocale("zh-CN");
-    childSessions.set(
-      "subagent-session-id",
-      makeSession({ message_count: 2 }),
-    );
+    childSessions.set("subagent-session-id", makeSession({ message_count: 2 }));
     getMessages.mockResolvedValue({
       messages: [],
       count: 0,
@@ -98,9 +87,7 @@ describe("SubagentInline", () => {
     await tick();
     expect(document.body.textContent).toContain("Subagent 会话");
     expect(document.body.textContent).toContain("2 条消息");
-    const openLink = document.querySelector<HTMLAnchorElement>(
-      ".open-session-link",
-    );
+    const openLink = document.querySelector<HTMLAnchorElement>(".open-session-link");
     expect(openLink?.textContent).toContain("打开会话");
     expect(openLink?.getAttribute("title")).toBe("作为完整会话打开");
 
@@ -113,10 +100,7 @@ describe("SubagentInline", () => {
   });
 
   it("prefers fetched session metadata for the token summary when available", async () => {
-    childSessions.set(
-      "subagent-session-id",
-      makeSession(),
-    );
+    childSessions.set("subagent-session-id", makeSession());
     getMessages.mockResolvedValue({
       messages: [],
       count: 0,
@@ -134,15 +118,11 @@ describe("SubagentInline", () => {
     });
 
     await tick();
-    expect(
-      document.querySelector(".toggle-tokens")?.textContent,
-    ).toContain("— ctx / 180 out");
+    expect(document.querySelector(".toggle-tokens")?.textContent).toContain("— ctx / 180 out");
 
     document.querySelector<HTMLButtonElement>(".subagent-toggle")?.click();
     await vi.waitFor(() => {
-      expect(
-        document.querySelector(".toggle-tokens")?.textContent,
-      ).toContain("2.4k ctx / 180 out");
+      expect(document.querySelector(".toggle-tokens")?.textContent).toContain("2.4k ctx / 180 out");
     });
 
     unmount(component);

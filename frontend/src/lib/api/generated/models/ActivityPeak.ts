@@ -6,4 +6,3 @@ export type ActivityPeak = {
   agents: number;
   at: string | null;
 };
-

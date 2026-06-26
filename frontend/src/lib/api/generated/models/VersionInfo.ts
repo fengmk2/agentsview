@@ -10,4 +10,3 @@ export type VersionInfo = {
   read_only?: boolean;
   version: string;
 };
-

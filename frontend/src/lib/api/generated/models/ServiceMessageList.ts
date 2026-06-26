@@ -6,4 +6,3 @@ export type ServiceMessageList = {
   count: number;
   messages: any[] | null;
 };
-

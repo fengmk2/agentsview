@@ -8,4 +8,3 @@ export type DbSessionShapeResponse = {
   duration_distribution: any[] | null;
   length_distribution: any[] | null;
 };
-

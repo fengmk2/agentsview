@@ -10,4 +10,3 @@ export type DbTurnTiming = {
   primary_category: string;
   started_at: string;
 };
-

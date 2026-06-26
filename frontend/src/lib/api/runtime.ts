@@ -1,8 +1,4 @@
-import {
-  ApiError as GeneratedApiError,
-  CancelError,
-  OpenAPI,
-} from "./generated/index";
+import { ApiError as GeneratedApiError, CancelError, OpenAPI } from "./generated/index";
 
 const SERVER_URL_KEY = "agentsview-server-url";
 const AUTH_TOKEN_KEY = "agentsview-auth-token";
@@ -166,14 +162,10 @@ export function isAbortError(err: unknown): boolean {
     isCancelled?: unknown;
     name?: unknown;
   };
-  return candidate.isCancelled === true ||
-    candidate.name === "CancelError";
+  return candidate.isCancelled === true || candidate.name === "CancelError";
 }
 
-export function withAbort<T>(
-  promise: Promise<T>,
-  signal?: AbortSignal,
-): Promise<T> {
+export function withAbort<T>(promise: Promise<T>, signal?: AbortSignal): Promise<T> {
   if (!signal || !isCancelable(promise)) return promise;
   if (signal.aborted) {
     promise.cancel();

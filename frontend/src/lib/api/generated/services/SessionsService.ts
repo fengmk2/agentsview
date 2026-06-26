@@ -2,30 +2,30 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { BatchDeleteInputBody } from '../models/BatchDeleteInputBody';
-import type { DbSession } from '../models/DbSession';
-import type { DbSessionActivityResponse } from '../models/DbSessionActivityResponse';
-import type { DbSessionTiming } from '../models/DbSessionTiming';
-import type { DbSidebarSessionIndex } from '../models/DbSidebarSessionIndex';
-import type { EmptyTrashResponse } from '../models/EmptyTrashResponse';
-import type { OpenRequest } from '../models/OpenRequest';
-import type { OpenSessionResponse } from '../models/OpenSessionResponse';
-import type { OrdinalsResponse } from '../models/OrdinalsResponse';
-import type { PublishResponse } from '../models/PublishResponse';
-import type { RenameRequest } from '../models/RenameRequest';
-import type { ResumeRequest } from '../models/ResumeRequest';
-import type { ResumeResponse } from '../models/ResumeResponse';
-import type { ServiceMessageList } from '../models/ServiceMessageList';
-import type { ServiceSessionDetail } from '../models/ServiceSessionDetail';
-import type { ServiceSessionList } from '../models/ServiceSessionList';
-import type { ServiceToolCallList } from '../models/ServiceToolCallList';
-import type { SessionDirectoryResponse } from '../models/SessionDirectoryResponse';
-import type { SessionUsageResponse } from '../models/SessionUsageResponse';
-import type { TrashResponse } from '../models/TrashResponse';
-import type { UploadSessionResponse } from '../models/UploadSessionResponse';
-import type { CancelablePromise } from '../core/CancelablePromise';
-import { OpenAPI } from '../core/OpenAPI';
-import { request as __request } from '../core/request';
+import type { BatchDeleteInputBody } from "../models/BatchDeleteInputBody";
+import type { DbSession } from "../models/DbSession";
+import type { DbSessionActivityResponse } from "../models/DbSessionActivityResponse";
+import type { DbSessionTiming } from "../models/DbSessionTiming";
+import type { DbSidebarSessionIndex } from "../models/DbSidebarSessionIndex";
+import type { EmptyTrashResponse } from "../models/EmptyTrashResponse";
+import type { OpenRequest } from "../models/OpenRequest";
+import type { OpenSessionResponse } from "../models/OpenSessionResponse";
+import type { OrdinalsResponse } from "../models/OrdinalsResponse";
+import type { PublishResponse } from "../models/PublishResponse";
+import type { RenameRequest } from "../models/RenameRequest";
+import type { ResumeRequest } from "../models/ResumeRequest";
+import type { ResumeResponse } from "../models/ResumeResponse";
+import type { ServiceMessageList } from "../models/ServiceMessageList";
+import type { ServiceSessionDetail } from "../models/ServiceSessionDetail";
+import type { ServiceSessionList } from "../models/ServiceSessionList";
+import type { ServiceToolCallList } from "../models/ServiceToolCallList";
+import type { SessionDirectoryResponse } from "../models/SessionDirectoryResponse";
+import type { SessionUsageResponse } from "../models/SessionUsageResponse";
+import type { TrashResponse } from "../models/TrashResponse";
+import type { UploadSessionResponse } from "../models/UploadSessionResponse";
+import type { CancelablePromise } from "../core/CancelablePromise";
+import { OpenAPI } from "../core/OpenAPI";
+import { request as __request } from "../core/request";
 export class SessionsService {
   /**
    * Watch server events
@@ -34,8 +34,8 @@ export class SessionsService {
    */
   public static getApiV1Events(): CancelablePromise<string> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/events',
+      method: "GET",
+      url: "/api/v1/events",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,
@@ -78,134 +78,134 @@ export class SessionsService {
     minToolFailures,
     hasSecret,
     starred,
-    orderBy = 'recent',
+    orderBy = "recent",
     descending,
   }: {
     /**
      * Filter by project
      */
-    project?: string,
+    project?: string;
     /**
      * Exclude a project
      */
-    excludeProject?: string,
+    excludeProject?: string;
     /**
      * Filter by machine
      */
-    machine?: string,
+    machine?: string;
     /**
      * Filter by agent
      */
-    agent?: string,
+    agent?: string;
     /**
      * Filter to a single YYYY-MM-DD date
      */
-    date?: string,
+    date?: string;
     /**
      * Filter start date
      */
-    dateFrom?: string,
+    dateFrom?: string;
     /**
      * Filter end date
      */
-    dateTo?: string,
+    dateTo?: string;
     /**
      * Filter sessions active since this RFC3339 timestamp
      */
-    activeSince?: string,
+    activeSince?: string;
     /**
      * Minimum total message count
      */
-    minMessages?: number,
+    minMessages?: number;
     /**
      * Maximum total message count
      */
-    maxMessages?: number,
+    maxMessages?: number;
     /**
      * Minimum user message count
      */
-    minUserMessages?: number,
+    minUserMessages?: number;
     /**
      * Include one-shot sessions
      */
-    includeOneShot?: boolean,
+    includeOneShot?: boolean;
     /**
      * Include automated sessions
      */
-    includeAutomated?: boolean,
+    includeAutomated?: boolean;
     /**
      * Include child sessions
      */
-    includeChildren?: boolean,
+    includeChildren?: boolean;
     /**
      * Filter by detected outcome
      */
-    outcome?: string,
+    outcome?: string;
     /**
      * Filter by health grade
      */
-    healthGrade?: string,
+    healthGrade?: string;
     /**
      * Opaque pagination cursor
      */
-    cursor?: string,
+    cursor?: string;
     /**
      * Maximum number of results
      */
-    limit?: number,
+    limit?: number;
     /**
      * Filter by termination reason
      */
-    termination?: string,
+    termination?: string;
     /**
      * Minimum tool failure count
      */
-    minToolFailures?: number,
+    minToolFailures?: number;
     /**
      * Filter sessions with secret findings
      */
-    hasSecret?: boolean,
+    hasSecret?: boolean;
     /**
      * Filter sessions by starred status
      */
-    starred?: boolean,
+    starred?: boolean;
     /**
      * Sort order: a comma-separated list of keys, each optionally suffixed :asc or :desc (e.g. messages:desc,started:asc). A key with no suffix uses the descending param, then its natural direction. Valid keys: recent, started, messages, user-messages, output-tokens, peak-context, failures, retries, edit-churn, compactions, context-pressure, health, secrets, id.
      */
-    orderBy?: string,
+    orderBy?: string;
     /**
      * Default sort direction for keys in order_by that carry no explicit :asc/:desc suffix
      */
-    descending?: boolean,
+    descending?: boolean;
   }): CancelablePromise<ServiceSessionList> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/sessions',
+      method: "GET",
+      url: "/api/v1/sessions",
       query: {
-        'project': project,
-        'exclude_project': excludeProject,
-        'machine': machine,
-        'agent': agent,
-        'date': date,
-        'date_from': dateFrom,
-        'date_to': dateTo,
-        'active_since': activeSince,
-        'min_messages': minMessages,
-        'max_messages': maxMessages,
-        'min_user_messages': minUserMessages,
-        'include_one_shot': includeOneShot,
-        'include_automated': includeAutomated,
-        'include_children': includeChildren,
-        'outcome': outcome,
-        'health_grade': healthGrade,
-        'cursor': cursor,
-        'limit': limit,
-        'termination': termination,
-        'min_tool_failures': minToolFailures,
-        'has_secret': hasSecret,
-        'starred': starred,
-        'order_by': orderBy,
-        'descending': descending,
+        project: project,
+        exclude_project: excludeProject,
+        machine: machine,
+        agent: agent,
+        date: date,
+        date_from: dateFrom,
+        date_to: dateTo,
+        active_since: activeSince,
+        min_messages: minMessages,
+        max_messages: maxMessages,
+        min_user_messages: minUserMessages,
+        include_one_shot: includeOneShot,
+        include_automated: includeAutomated,
+        include_children: includeChildren,
+        outcome: outcome,
+        health_grade: healthGrade,
+        cursor: cursor,
+        limit: limit,
+        termination: termination,
+        min_tool_failures: minToolFailures,
+        has_secret: hasSecret,
+        starred: starred,
+        order_by: orderBy,
+        descending: descending,
       },
       errors: {
         400: `Bad Request`,
@@ -250,134 +250,134 @@ export class SessionsService {
     minToolFailures,
     hasSecret,
     starred,
-    orderBy = 'recent',
+    orderBy = "recent",
     descending,
   }: {
     /**
      * Filter by project
      */
-    project?: string,
+    project?: string;
     /**
      * Exclude a project
      */
-    excludeProject?: string,
+    excludeProject?: string;
     /**
      * Filter by machine
      */
-    machine?: string,
+    machine?: string;
     /**
      * Filter by agent
      */
-    agent?: string,
+    agent?: string;
     /**
      * Filter to a single YYYY-MM-DD date
      */
-    date?: string,
+    date?: string;
     /**
      * Filter start date
      */
-    dateFrom?: string,
+    dateFrom?: string;
     /**
      * Filter end date
      */
-    dateTo?: string,
+    dateTo?: string;
     /**
      * Filter sessions active since this RFC3339 timestamp
      */
-    activeSince?: string,
+    activeSince?: string;
     /**
      * Minimum total message count
      */
-    minMessages?: number,
+    minMessages?: number;
     /**
      * Maximum total message count
      */
-    maxMessages?: number,
+    maxMessages?: number;
     /**
      * Minimum user message count
      */
-    minUserMessages?: number,
+    minUserMessages?: number;
     /**
      * Include one-shot sessions
      */
-    includeOneShot?: boolean,
+    includeOneShot?: boolean;
     /**
      * Include automated sessions
      */
-    includeAutomated?: boolean,
+    includeAutomated?: boolean;
     /**
      * Include child sessions
      */
-    includeChildren?: boolean,
+    includeChildren?: boolean;
     /**
      * Filter by detected outcome
      */
-    outcome?: string,
+    outcome?: string;
     /**
      * Filter by health grade
      */
-    healthGrade?: string,
+    healthGrade?: string;
     /**
      * Opaque pagination cursor
      */
-    cursor?: string,
+    cursor?: string;
     /**
      * Maximum number of results
      */
-    limit?: number,
+    limit?: number;
     /**
      * Filter by termination reason
      */
-    termination?: string,
+    termination?: string;
     /**
      * Minimum tool failure count
      */
-    minToolFailures?: number,
+    minToolFailures?: number;
     /**
      * Filter sessions with secret findings
      */
-    hasSecret?: boolean,
+    hasSecret?: boolean;
     /**
      * Filter sessions by starred status
      */
-    starred?: boolean,
+    starred?: boolean;
     /**
      * Sort order: a comma-separated list of keys, each optionally suffixed :asc or :desc (e.g. messages:desc,started:asc). A key with no suffix uses the descending param, then its natural direction. Valid keys: recent, started, messages, user-messages, output-tokens, peak-context, failures, retries, edit-churn, compactions, context-pressure, health, secrets, id.
      */
-    orderBy?: string,
+    orderBy?: string;
     /**
      * Default sort direction for keys in order_by that carry no explicit :asc/:desc suffix
      */
-    descending?: boolean,
+    descending?: boolean;
   }): CancelablePromise<DbSidebarSessionIndex> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/sessions/sidebar-index',
+      method: "GET",
+      url: "/api/v1/sessions/sidebar-index",
       query: {
-        'project': project,
-        'exclude_project': excludeProject,
-        'machine': machine,
-        'agent': agent,
-        'date': date,
-        'date_from': dateFrom,
-        'date_to': dateTo,
-        'active_since': activeSince,
-        'min_messages': minMessages,
-        'max_messages': maxMessages,
-        'min_user_messages': minUserMessages,
-        'include_one_shot': includeOneShot,
-        'include_automated': includeAutomated,
-        'include_children': includeChildren,
-        'outcome': outcome,
-        'health_grade': healthGrade,
-        'cursor': cursor,
-        'limit': limit,
-        'termination': termination,
-        'min_tool_failures': minToolFailures,
-        'has_secret': hasSecret,
-        'starred': starred,
-        'order_by': orderBy,
-        'descending': descending,
+        project: project,
+        exclude_project: excludeProject,
+        machine: machine,
+        agent: agent,
+        date: date,
+        date_from: dateFrom,
+        date_to: dateTo,
+        active_since: activeSince,
+        min_messages: minMessages,
+        max_messages: maxMessages,
+        min_user_messages: minUserMessages,
+        include_one_shot: includeOneShot,
+        include_automated: includeAutomated,
+        include_children: includeChildren,
+        outcome: outcome,
+        health_grade: healthGrade,
+        cursor: cursor,
+        limit: limit,
+        termination: termination,
+        min_tool_failures: minToolFailures,
+        has_secret: hasSecret,
+        starred: starred,
+        order_by: orderBy,
+        descending: descending,
       },
       errors: {
         400: `Bad Request`,
@@ -401,30 +401,30 @@ export class SessionsService {
    */
   public static postApiV1SessionsUpload({
     project,
-    machine = 'remote',
+    machine = "remote",
     formData,
   }: {
     /**
      * Project for imported session
      */
-    project: string,
+    project: string;
     /**
      * Machine name for imported session
      */
-    machine?: string,
+    machine?: string;
     formData?: {
       file: Blob;
-    },
+    };
   }): CancelablePromise<UploadSessionResponse> {
     return __request(OpenAPI, {
-      method: 'POST',
-      url: '/api/v1/sessions/upload',
+      method: "POST",
+      url: "/api/v1/sessions/upload",
       query: {
-        'project': project,
-        'machine': machine,
+        project: project,
+        machine: machine,
       },
       formData: formData,
-      mediaType: 'multipart/form-data',
+      mediaType: "multipart/form-data",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,
@@ -451,13 +451,13 @@ export class SessionsService {
     /**
      * Session ID
      */
-    id: string,
+    id: string;
   }): CancelablePromise<void> {
     return __request(OpenAPI, {
-      method: 'DELETE',
-      url: '/api/v1/sessions/{id}',
+      method: "DELETE",
+      url: "/api/v1/sessions/{id}",
       path: {
-        'id': id,
+        id: id,
       },
       errors: {
         400: `Bad Request`,
@@ -485,13 +485,13 @@ export class SessionsService {
     /**
      * Session ID
      */
-    id: string,
+    id: string;
   }): CancelablePromise<ServiceSessionDetail> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/sessions/{id}',
+      method: "GET",
+      url: "/api/v1/sessions/{id}",
       path: {
-        'id': id,
+        id: id,
       },
       errors: {
         400: `Bad Request`,
@@ -519,13 +519,13 @@ export class SessionsService {
     /**
      * Session ID
      */
-    id: string,
+    id: string;
   }): CancelablePromise<DbSessionActivityResponse> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/sessions/{id}/activity',
+      method: "GET",
+      url: "/api/v1/sessions/{id}/activity",
       path: {
-        'id': id,
+        id: id,
       },
       errors: {
         400: `Bad Request`,
@@ -553,13 +553,13 @@ export class SessionsService {
     /**
      * Session ID
      */
-    id: string,
+    id: string;
   }): CancelablePromise<any[] | null> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/sessions/{id}/children',
+      method: "GET",
+      url: "/api/v1/sessions/{id}/children",
       path: {
-        'id': id,
+        id: id,
       },
       errors: {
         400: `Bad Request`,
@@ -587,13 +587,13 @@ export class SessionsService {
     /**
      * Session ID
      */
-    id: string,
+    id: string;
   }): CancelablePromise<SessionDirectoryResponse> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/sessions/{id}/directory',
+      method: "GET",
+      url: "/api/v1/sessions/{id}/directory",
       path: {
-        'id': id,
+        id: id,
       },
       errors: {
         400: `Bad Request`,
@@ -621,13 +621,13 @@ export class SessionsService {
     /**
      * Session ID
      */
-    id: string,
+    id: string;
   }): CancelablePromise<string> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/sessions/{id}/export',
+      method: "GET",
+      url: "/api/v1/sessions/{id}/export",
       path: {
-        'id': id,
+        id: id,
       },
       errors: {
         400: `Bad Request`,
@@ -656,20 +656,20 @@ export class SessionsService {
     /**
      * Session ID
      */
-    id: string,
+    id: string;
     /**
      * Child session depth
      */
-    depth?: '1' | 'all',
+    depth?: "1" | "all";
   }): CancelablePromise<string> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/sessions/{id}/md',
+      method: "GET",
+      url: "/api/v1/sessions/{id}/md",
       path: {
-        'id': id,
+        id: id,
       },
       query: {
-        'depth': depth,
+        depth: depth,
       },
       errors: {
         400: `Bad Request`,
@@ -700,30 +700,30 @@ export class SessionsService {
     /**
      * Session ID
      */
-    id: string,
+    id: string;
     /**
      * Maximum number of messages
      */
-    limit?: number,
+    limit?: number;
     /**
      * Message ordering direction
      */
-    direction?: 'asc' | 'desc',
+    direction?: "asc" | "desc";
     /**
      * Starting message ordinal
      */
-    from?: number,
+    from?: number;
   }): CancelablePromise<ServiceMessageList> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/sessions/{id}/messages',
+      method: "GET",
+      url: "/api/v1/sessions/{id}/messages",
       path: {
-        'id': id,
+        id: id,
       },
       query: {
-        'limit': limit,
-        'direction': direction,
-        'from': from,
+        limit: limit,
+        direction: direction,
+        from: from,
       },
       errors: {
         400: `Bad Request`,
@@ -752,17 +752,17 @@ export class SessionsService {
     /**
      * Session ID
      */
-    id: string,
-    requestBody: OpenRequest,
+    id: string;
+    requestBody: OpenRequest;
   }): CancelablePromise<OpenSessionResponse> {
     return __request(OpenAPI, {
-      method: 'POST',
-      url: '/api/v1/sessions/{id}/open',
+      method: "POST",
+      url: "/api/v1/sessions/{id}/open",
       path: {
-        'id': id,
+        id: id,
       },
       body: requestBody,
-      mediaType: 'application/json',
+      mediaType: "application/json",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,
@@ -789,13 +789,13 @@ export class SessionsService {
     /**
      * Session ID
      */
-    id: string,
+    id: string;
   }): CancelablePromise<void> {
     return __request(OpenAPI, {
-      method: 'DELETE',
-      url: '/api/v1/sessions/{id}/permanent',
+      method: "DELETE",
+      url: "/api/v1/sessions/{id}/permanent",
       path: {
-        'id': id,
+        id: id,
       },
       errors: {
         400: `Bad Request`,
@@ -824,20 +824,20 @@ export class SessionsService {
     /**
      * Session ID
      */
-    id: string,
+    id: string;
     /**
      * Create a secret gist instead of a public one
      */
-    secret?: boolean,
+    secret?: boolean;
   }): CancelablePromise<PublishResponse> {
     return __request(OpenAPI, {
-      method: 'POST',
-      url: '/api/v1/sessions/{id}/publish',
+      method: "POST",
+      url: "/api/v1/sessions/{id}/publish",
       path: {
-        'id': id,
+        id: id,
       },
       query: {
-        'secret': secret,
+        secret: secret,
       },
       errors: {
         400: `Bad Request`,
@@ -866,17 +866,17 @@ export class SessionsService {
     /**
      * Session ID
      */
-    id: string,
-    requestBody: RenameRequest,
+    id: string;
+    requestBody: RenameRequest;
   }): CancelablePromise<DbSession> {
     return __request(OpenAPI, {
-      method: 'PATCH',
-      url: '/api/v1/sessions/{id}/rename',
+      method: "PATCH",
+      url: "/api/v1/sessions/{id}/rename",
       path: {
-        'id': id,
+        id: id,
       },
       body: requestBody,
-      mediaType: 'application/json',
+      mediaType: "application/json",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,
@@ -903,13 +903,13 @@ export class SessionsService {
     /**
      * Session ID
      */
-    id: string,
+    id: string;
   }): CancelablePromise<void> {
     return __request(OpenAPI, {
-      method: 'POST',
-      url: '/api/v1/sessions/{id}/restore',
+      method: "POST",
+      url: "/api/v1/sessions/{id}/restore",
       path: {
-        'id': id,
+        id: id,
       },
       errors: {
         400: `Bad Request`,
@@ -938,17 +938,17 @@ export class SessionsService {
     /**
      * Session ID
      */
-    id: string,
-    requestBody: ResumeRequest,
+    id: string;
+    requestBody: ResumeRequest;
   }): CancelablePromise<ResumeResponse> {
     return __request(OpenAPI, {
-      method: 'POST',
-      url: '/api/v1/sessions/{id}/resume',
+      method: "POST",
+      url: "/api/v1/sessions/{id}/resume",
       path: {
-        'id': id,
+        id: id,
       },
       body: requestBody,
-      mediaType: 'application/json',
+      mediaType: "application/json",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,
@@ -976,20 +976,20 @@ export class SessionsService {
     /**
      * Session ID
      */
-    id: string,
+    id: string;
     /**
      * Search query
      */
-    q?: string,
+    q?: string;
   }): CancelablePromise<OrdinalsResponse> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/sessions/{id}/search',
+      method: "GET",
+      url: "/api/v1/sessions/{id}/search",
       path: {
-        'id': id,
+        id: id,
       },
       query: {
-        'q': q,
+        q: q,
       },
       errors: {
         400: `Bad Request`,
@@ -1017,13 +1017,13 @@ export class SessionsService {
     /**
      * Session ID
      */
-    id: string,
+    id: string;
   }): CancelablePromise<DbSessionTiming> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/sessions/{id}/timing',
+      method: "GET",
+      url: "/api/v1/sessions/{id}/timing",
       path: {
-        'id': id,
+        id: id,
       },
       errors: {
         400: `Bad Request`,
@@ -1051,13 +1051,13 @@ export class SessionsService {
     /**
      * Session ID
      */
-    id: string,
+    id: string;
   }): CancelablePromise<ServiceToolCallList> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/sessions/{id}/tool-calls',
+      method: "GET",
+      url: "/api/v1/sessions/{id}/tool-calls",
       path: {
-        'id': id,
+        id: id,
       },
       errors: {
         400: `Bad Request`,
@@ -1085,13 +1085,13 @@ export class SessionsService {
     /**
      * Session ID
      */
-    id: string,
+    id: string;
   }): CancelablePromise<SessionUsageResponse> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/sessions/{id}/usage',
+      method: "GET",
+      url: "/api/v1/sessions/{id}/usage",
       path: {
-        'id': id,
+        id: id,
       },
       errors: {
         400: `Bad Request`,
@@ -1119,13 +1119,13 @@ export class SessionsService {
     /**
      * Session ID
      */
-    id: string,
+    id: string;
   }): CancelablePromise<string> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/sessions/{id}/watch',
+      method: "GET",
+      url: "/api/v1/sessions/{id}/watch",
       path: {
-        'id': id,
+        id: id,
       },
       errors: {
         400: `Bad Request`,
@@ -1149,8 +1149,8 @@ export class SessionsService {
    */
   public static deleteApiV1Trash(): CancelablePromise<EmptyTrashResponse> {
     return __request(OpenAPI, {
-      method: 'DELETE',
-      url: '/api/v1/trash',
+      method: "DELETE",
+      url: "/api/v1/trash",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,
@@ -1172,8 +1172,8 @@ export class SessionsService {
    */
   public static getApiV1Trash(): CancelablePromise<TrashResponse> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/trash',
+      method: "GET",
+      url: "/api/v1/trash",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,
@@ -1196,13 +1196,13 @@ export class SessionsService {
   public static postApiV1SessionsBatchDelete({
     requestBody,
   }: {
-    requestBody: BatchDeleteInputBody,
+    requestBody: BatchDeleteInputBody;
   }): CancelablePromise<void> {
     return __request(OpenAPI, {
-      method: 'POST',
-      url: '/api/v1/sessions/batch-delete',
+      method: "POST",
+      url: "/api/v1/sessions/batch-delete",
       body: requestBody,
-      mediaType: 'application/json',
+      mediaType: "application/json",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,

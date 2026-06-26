@@ -37,17 +37,11 @@ class SessionActivityStore {
   }
 
   get activeBucketIndex(): number | null {
-    return findActiveBucketIndex(
-      this.buckets,
-      this.firstVisibleTimestamp,
-    );
+    return findActiveBucketIndex(this.buckets, this.firstVisibleTimestamp);
   }
 
   async load(sessionId: string) {
-    if (
-      this.cachedSessionId === sessionId &&
-      (this.buckets.length > 0 || this.loaded)
-    ) {
+    if (this.cachedSessionId === sessionId && (this.buckets.length > 0 || this.loaded)) {
       return;
     }
     // Clear stale data from a different session before
@@ -62,10 +56,9 @@ class SessionActivityStore {
     this.firstVisibleTimestamp = null;
     try {
       configureGeneratedClient();
-      const resp =
-        await SessionsService.getApiV1SessionsIdActivity({
-          id: sessionId,
-        }) as unknown as SessionActivityResponse;
+      const resp = (await SessionsService.getApiV1SessionsIdActivity({
+        id: sessionId,
+      })) as unknown as SessionActivityResponse;
       // Ignore stale responses from previous sessions.
       if (version !== this.loadVersion) return;
       this.buckets = resp.buckets;
@@ -75,10 +68,7 @@ class SessionActivityStore {
       this.loaded = true;
     } catch (e) {
       if (version !== this.loadVersion) return;
-      this.error =
-        e instanceof Error
-          ? e.message
-          : "Failed to load activity";
+      this.error = e instanceof Error ? e.message : "Failed to load activity";
       this.buckets = [];
       this.cachedSessionId = sessionId;
       this.loaded = true;

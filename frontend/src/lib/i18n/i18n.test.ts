@@ -95,12 +95,12 @@ describe("i18n locale selection", () => {
     expect(m.parallel_group_call_count({ count: 2 })).toBe("2 calls");
     expect(m.subagent_inline_message_count({ count: 1 })).toBe("1 message");
     expect(m.subagent_inline_message_count({ count: 5 })).toBe("5 messages");
-    expect(
-      m.message_content_turn_summary({ count: 1, duration: "2m 1s" }),
-    ).toBe("turn 2m 1s · 1 call");
-    expect(
-      m.message_content_turn_summary({ count: 4, duration: "2m 1s" }),
-    ).toBe("turn 2m 1s · 4 calls");
+    expect(m.message_content_turn_summary({ count: 1, duration: "2m 1s" })).toBe(
+      "turn 2m 1s · 1 call",
+    );
+    expect(m.message_content_turn_summary({ count: 4, duration: "2m 1s" })).toBe(
+      "turn 2m 1s · 4 calls",
+    );
 
     // Simplified Chinese has no plural distinction, so a single variant
     // serves every count.
@@ -128,9 +128,7 @@ describe("i18n locale selection", () => {
   });
 
   it("sets the Paraglide runtime locale with its default reload behavior", () => {
-    const setParaglideLocale = vi
-      .spyOn(runtime, "setLocale")
-      .mockImplementation(() => undefined);
+    const setParaglideLocale = vi.spyOn(runtime, "setLocale").mockImplementation(() => undefined);
 
     setLocale("zh-CN");
 

@@ -1,18 +1,9 @@
 // @vitest-environment jsdom
-import {
-  describe,
-  it,
-  expect,
-  vi,
-  beforeEach,
-  afterEach,
-} from "vite-plus/test";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vite-plus/test";
 import { mount, tick, unmount } from "svelte";
 const mocks = vi.hoisted(() => ({
   downloadExport: vi.fn().mockResolvedValue(undefined),
-  getMarkdownExportUrl: vi
-    .fn()
-    .mockReturnValue("/api/v1/sessions/sess-123/md"),
+  getMarkdownExportUrl: vi.fn().mockReturnValue("/api/v1/sessions/sess-123/md"),
   copyToClipboard: vi.fn().mockResolvedValue(true),
 }));
 
@@ -86,10 +77,8 @@ describe("AppHeader export actions", () => {
     exportButton!.click();
     await tick();
 
-    const copyButton = Array.from(
-      document.querySelectorAll<HTMLButtonElement>("button"),
-    ).find((button) =>
-      button.textContent?.includes("Copy markdown export link"),
+    const copyButton = Array.from(document.querySelectorAll<HTMLButtonElement>("button")).find(
+      (button) => button.textContent?.includes("Copy markdown export link"),
     );
     expect(copyButton).not.toBeNull();
 
@@ -120,10 +109,8 @@ describe("AppHeader export actions", () => {
     exportButton!.click();
     await tick();
 
-    const copyPathButton = Array.from(
-      document.querySelectorAll<HTMLButtonElement>("button"),
-    ).find((button) =>
-      button.textContent?.includes("Copy source file path"),
+    const copyPathButton = Array.from(document.querySelectorAll<HTMLButtonElement>("button")).find(
+      (button) => button.textContent?.includes("Copy source file path"),
     );
     expect(copyPathButton).toBeDefined();
 
@@ -185,9 +172,7 @@ describe("AppHeader export actions", () => {
 
     expect(syncButton).not.toBeNull();
     expect(syncButton?.textContent?.trim()).toBe("Sync");
-    expect(
-      syncButton?.querySelector("svg.lucide-database-backup"),
-    ).not.toBeNull();
+    expect(syncButton?.querySelector("svg.lucide-database-backup")).not.toBeNull();
   });
 
   it("labels read-only global refresh with the refresh action", async () => {
@@ -207,9 +192,7 @@ describe("AppHeader export actions", () => {
 
     expect(refreshButton).not.toBeNull();
     expect(refreshButton?.textContent?.trim()).toBe("Refresh");
-    expect(
-      refreshButton?.querySelector("svg.lucide-database-backup"),
-    ).not.toBeNull();
+    expect(refreshButton?.querySelector("svg.lucide-database-backup")).not.toBeNull();
   });
 
   it("renders translated shell navigation when locale is Simplified Chinese", async () => {
@@ -218,9 +201,7 @@ describe("AppHeader export actions", () => {
     component = mount(AppHeader, { target: document.body });
     await tick();
 
-    expect(
-      document.querySelector<HTMLButtonElement>('button[aria-label="会话"]'),
-    ).not.toBeNull();
+    expect(document.querySelector<HTMLButtonElement>('button[aria-label="会话"]')).not.toBeNull();
     expect(
       document.querySelector<HTMLButtonElement>('button[aria-label="同步会话"]'),
     ).not.toBeNull();

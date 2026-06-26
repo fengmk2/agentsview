@@ -10,20 +10,11 @@ export { localDateStr };
 
 type Preset = "day" | "week" | "month" | "custom";
 
-const PRESETS: ReadonlySet<string> = new Set<Preset>([
-  "day",
-  "week",
-  "month",
-  "custom",
-]);
+const PRESETS: ReadonlySet<string> = new Set<Preset>(["day", "week", "month", "custom"]);
 
 export type Automation = "all" | "interactive" | "automated";
 
-const AUTOMATIONS: ReadonlySet<string> = new Set<Automation>([
-  "all",
-  "interactive",
-  "automated",
-]);
+const AUTOMATIONS: ReadonlySet<string> = new Set<Automation>(["all", "interactive", "automated"]);
 
 function parseWindowDays(raw: string | undefined): number | null {
   if (!raw) return null;
@@ -141,10 +132,7 @@ class ActivityStore {
         this.preset === "custom" && this.from
           ? new Date(this.from + "T00:00:00").toISOString()
           : undefined;
-      const toParam =
-        this.preset === "custom" && this.to
-          ? customToInstant(this.to)
-          : undefined;
+      const toParam = this.preset === "custom" && this.to ? customToInstant(this.to) : undefined;
       const res = await ActivityService.getApiV1ActivityReport({
         preset: this.preset,
         date: this.date,
@@ -154,13 +142,7 @@ class ActivityStore {
         // The store keeps bucket as a free-form override string (populated by
         // the Task 4 control); the generated client narrows it to the server's
         // accepted set. An out-of-set value is rejected server-side.
-        bucket: (this.bucket || undefined) as
-          | "5m"
-          | "15m"
-          | "1h"
-          | "1d"
-          | "1w"
-          | undefined,
+        bucket: (this.bucket || undefined) as "5m" | "15m" | "1h" | "1d" | "1w" | undefined,
         project: this.project || undefined,
         agent: this.agent || undefined,
         machine: this.machine || undefined,
@@ -183,8 +165,7 @@ class ActivityStore {
       // changes are always foreground and clear on error.
       if (background && this.report !== null) return;
       this.report = null;
-      this.error =
-        e instanceof Error ? e.message : "Failed to load activity report";
+      this.error = e instanceof Error ? e.message : "Failed to load activity report";
     }
   }
 
@@ -206,25 +187,25 @@ class ActivityStore {
       configureGeneratedClient();
       let ok = true;
       try {
-        const res = (await MetadataService.getApiV1Projects(
-          opts,
-        )) as unknown as { projects: ProjectInfo[] };
+        const res = (await MetadataService.getApiV1Projects(opts)) as unknown as {
+          projects: ProjectInfo[];
+        };
         if (ver === this.#filterOptionsVersion) this.projects = res.projects;
       } catch {
         ok = false; // keep the current list; retry on the next call
       }
       try {
-        const res = (await MetadataService.getApiV1Agents(
-          opts,
-        )) as unknown as { agents: AgentInfo[] };
+        const res = (await MetadataService.getApiV1Agents(opts)) as unknown as {
+          agents: AgentInfo[];
+        };
         if (ver === this.#filterOptionsVersion) this.agents = res.agents;
       } catch {
         ok = false;
       }
       try {
-        const res = (await MetadataService.getApiV1Machines(
-          opts,
-        )) as unknown as { machines: string[] };
+        const res = (await MetadataService.getApiV1Machines(opts)) as unknown as {
+          machines: string[];
+        };
         if (ver === this.#filterOptionsVersion) this.machines = res.machines;
       } catch {
         ok = false;
@@ -298,9 +279,7 @@ class ActivityStore {
       this.to = range.to;
       this.rollingWindowDays = windowDays;
     } else {
-      this.preset = PRESETS.has(params.preset ?? "")
-        ? (params.preset as Preset)
-        : "day";
+      this.preset = PRESETS.has(params.preset ?? "") ? (params.preset as Preset) : "day";
       this.date = params.date || localDateStr(new Date());
       this.from = params.from ?? "";
       this.to = params.to ?? "";
@@ -376,11 +355,7 @@ class ActivityStore {
     this.writeUrl();
   }
 
-  setCustomRange(
-    from: string,
-    to: string,
-    rollingWindowDays: number | null = null,
-  ) {
+  setCustomRange(from: string, to: string, rollingWindowDays: number | null = null) {
     this.preset = "custom";
     this.date = from;
     this.from = from;
@@ -403,11 +378,7 @@ class ActivityStore {
       // Advance one calendar month, clamping the day to the target month's last
       // day so e.g. Jan 31 -> Feb 28 instead of overflowing into March.
       const target = new Date(d.getFullYear(), d.getMonth() + direction, 1);
-      const lastDay = new Date(
-        target.getFullYear(),
-        target.getMonth() + 1,
-        0,
-      ).getDate();
+      const lastDay = new Date(target.getFullYear(), target.getMonth() + 1, 0).getDate();
       target.setDate(Math.min(d.getDate(), lastDay));
       d.setTime(target.getTime());
     } else {

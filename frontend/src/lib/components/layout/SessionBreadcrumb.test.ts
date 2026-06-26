@@ -1,29 +1,17 @@
 // @vitest-environment jsdom
-import {
-  describe,
-  it,
-  expect,
-  vi,
-  beforeEach,
-  afterEach,
-} from "vite-plus/test";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vite-plus/test";
 import { mount, unmount, tick } from "svelte";
 import { createClassComponent } from "svelte/legacy";
 // @ts-ignore
 import SessionBreadcrumb from "./SessionBreadcrumb.svelte";
 import type { Message, Session } from "../../api/types.js";
-import {
-  OpenersService,
-  SessionsService,
-} from "../../api/generated/index";
+import { OpenersService, SessionsService } from "../../api/generated/index";
 import { messages } from "../../stores/messages.svelte.js";
 import { setLocale } from "../../i18n/index.js";
 
 vi.mock("../../api/client.js", () => ({
   listOpeners: vi.fn().mockResolvedValue({ openers: [] }),
-  getSessionDirectory: vi
-    .fn()
-    .mockResolvedValue({ path: "" }),
+  getSessionDirectory: vi.fn().mockResolvedValue({ path: "" }),
   resumeSession: vi.fn(),
   openSession: vi.fn(),
 }));
@@ -33,8 +21,7 @@ vi.mock("../../utils/clipboard.js", () => ({
 }));
 
 vi.mock("../../api/generated/index", async (importOriginal) => {
-  const orig =
-    await importOriginal<typeof import("../../api/generated/index")>();
+  const orig = await importOriginal<typeof import("../../api/generated/index")>();
   return {
     ...orig,
     OpenersService: {
@@ -99,9 +86,7 @@ interface SessionUsage {
   server_running: boolean;
 }
 
-function makeUsage(
-  overrides: Partial<SessionUsage> = {},
-): SessionUsage {
+function makeUsage(overrides: Partial<SessionUsage> = {}): SessionUsage {
   return {
     session_id: "run:123456789abcdef",
     agent: "claude",
@@ -154,15 +139,9 @@ async function flushPromises() {
 }
 
 beforeEach(() => {
-  openersService.getApiV1Openers
-    .mockReset()
-    .mockResolvedValue({ openers: [] });
-  sessionsService.getApiV1SessionsIdDirectory
-    .mockReset()
-    .mockResolvedValue({ path: "" });
-  sessionsService.getApiV1SessionsIdUsage
-    .mockReset()
-    .mockResolvedValue(makeUsage());
+  openersService.getApiV1Openers.mockReset().mockResolvedValue({ openers: [] });
+  sessionsService.getApiV1SessionsIdDirectory.mockReset().mockResolvedValue({ path: "" });
+  sessionsService.getApiV1SessionsIdUsage.mockReset().mockResolvedValue(makeUsage());
 });
 
 afterEach(() => {
@@ -202,30 +181,20 @@ describe("SessionBreadcrumb", () => {
     });
     await tick();
 
-    const backButton = document.querySelector<HTMLButtonElement>(
-      ".breadcrumb-link",
-    );
+    const backButton = document.querySelector<HTMLButtonElement>(".breadcrumb-link");
     expect(backButton?.textContent?.trim()).toBe("会话");
     expect(backButton?.getAttribute("title")).toBe("返回会话列表");
 
-    const linkButton = document.querySelector<HTMLButtonElement>(
-      ".link-btn",
-    );
+    const linkButton = document.querySelector<HTMLButtonElement>(".link-btn");
     expect(linkButton?.getAttribute("aria-label")).toBe("复制会话链接");
     expect(linkButton?.getAttribute("title")).toBe("复制会话链接");
 
-    const findButton = document.querySelector<HTMLButtonElement>(
-      ".find-btn",
-    );
+    const findButton = document.querySelector<HTMLButtonElement>(".find-btn");
     expect(findButton?.getAttribute("aria-label")).toBe("在会话中查找");
     expect(findButton?.getAttribute("title")).toBe("在会话中查找 (/)");
 
-    const resumeButton = document.querySelector<HTMLButtonElement>(
-      ".resume-btn",
-    );
-    expect(resumeButton?.textContent?.replace(/\s+/g, " ").trim()).toBe(
-      "继续",
-    );
+    const resumeButton = document.querySelector<HTMLButtonElement>(".resume-btn");
+    expect(resumeButton?.textContent?.replace(/\s+/g, " ").trim()).toBe("继续");
     resumeButton?.click();
     await tick();
 
@@ -235,9 +204,7 @@ describe("SessionBreadcrumb", () => {
     expect(document.body.textContent).toContain("打开方式");
     expect(document.body.textContent).toContain("VS Code");
 
-    const actionsButton = document.querySelector<HTMLButtonElement>(
-      ".actions-btn",
-    );
+    const actionsButton = document.querySelector<HTMLButtonElement>(".actions-btn");
     expect(actionsButton?.getAttribute("aria-label")).toBe("会话操作");
     actionsButton?.click();
     await tick();
@@ -260,12 +227,8 @@ describe("SessionBreadcrumb", () => {
     await tick();
     const badge = document.querySelector(".agent-badge");
     expect(badge).toBeTruthy();
-    expect(badge?.getAttribute("style")).toContain(
-      "var(--accent-rose)",
-    );
-    expect(badge?.getAttribute("style")).toContain(
-      "var(--accent-rose-foreground)",
-    );
+    expect(badge?.getAttribute("style")).toContain("var(--accent-rose)");
+    expect(badge?.getAttribute("style")).toContain("var(--accent-rose-foreground)");
 
     unmount(component);
   });
@@ -281,12 +244,8 @@ describe("SessionBreadcrumb", () => {
 
     await tick();
     const badge = document.querySelector(".agent-badge");
-    expect(badge?.getAttribute("style")).toContain(
-      "var(--accent-blue)",
-    );
-    expect(badge?.getAttribute("style")).toContain(
-      "var(--accent-blue-foreground)",
-    );
+    expect(badge?.getAttribute("style")).toContain("var(--accent-blue)");
+    expect(badge?.getAttribute("style")).toContain("var(--accent-blue-foreground)");
 
     unmount(component);
   });
@@ -314,21 +273,15 @@ describe("SessionBreadcrumb", () => {
       expect(linkBtn).toBeTruthy();
 
       // First copy
-      linkBtn!.dispatchEvent(
-        new MouseEvent("click", { bubbles: true }),
-      );
+      linkBtn!.dispatchEvent(new MouseEvent("click", { bubbles: true }));
       await tick();
       await vi.advanceTimersByTimeAsync(0);
       await tick();
-      expect(
-        linkBtn!.classList.contains("link-btn--copied"),
-      ).toBe(true);
+      expect(linkBtn!.classList.contains("link-btn--copied")).toBe(true);
 
       // Advance 1s, then copy again
       await vi.advanceTimersByTimeAsync(1000);
-      linkBtn!.dispatchEvent(
-        new MouseEvent("click", { bubbles: true }),
-      );
+      linkBtn!.dispatchEvent(new MouseEvent("click", { bubbles: true }));
       await tick();
       await vi.advanceTimersByTimeAsync(0);
       await tick();
@@ -337,16 +290,12 @@ describe("SessionBreadcrumb", () => {
       // would have expired, but it was cleared
       await vi.advanceTimersByTimeAsync(600);
       await tick();
-      expect(
-        linkBtn!.classList.contains("link-btn--copied"),
-      ).toBe(true);
+      expect(linkBtn!.classList.contains("link-btn--copied")).toBe(true);
 
       // After full 1.5s from second click, state clears
       await vi.advanceTimersByTimeAsync(900);
       await tick();
-      expect(
-        linkBtn!.classList.contains("link-btn--copied"),
-      ).toBe(false);
+      expect(linkBtn!.classList.contains("link-btn--copied")).toBe(false);
 
       unmount(component);
     });
@@ -368,9 +317,7 @@ describe("SessionBreadcrumb", () => {
 
     await tick();
     const tokenBadge = document.querySelector(".token-badge");
-    expect(tokenBadge?.textContent?.replace(/\s+/g, " ").trim()).toBe(
-      "2.4k ctx / 180 out",
-    );
+    expect(tokenBadge?.textContent?.replace(/\s+/g, " ").trim()).toBe("2.4k ctx / 180 out");
 
     unmount(component);
   });
@@ -391,9 +338,7 @@ describe("SessionBreadcrumb", () => {
 
     await tick();
     const tokenBadge = document.querySelector(".token-badge");
-    expect(tokenBadge?.textContent?.replace(/\s+/g, " ").trim()).toBe(
-      "— ctx / 180 out",
-    );
+    expect(tokenBadge?.textContent?.replace(/\s+/g, " ").trim()).toBe("— ctx / 180 out");
 
     unmount(component);
   });
@@ -414,12 +359,8 @@ describe("SessionBreadcrumb", () => {
 
     await tick();
 
-    const mobileTokenBadge = document.querySelector(
-      ".token-badge--mobile",
-    );
-    expect(
-      mobileTokenBadge?.textContent?.replace(/\s+/g, " ").trim(),
-    ).toBe("2.4k ctx / 180 out");
+    const mobileTokenBadge = document.querySelector(".token-badge--mobile");
+    expect(mobileTokenBadge?.textContent?.replace(/\s+/g, " ").trim()).toBe("2.4k ctx / 180 out");
 
     unmount(component);
   });
@@ -506,12 +447,8 @@ describe("SessionBreadcrumb", () => {
       const mobileTokenIdx = children.findIndex((el) =>
         el.classList.contains("token-badge--mobile"),
       );
-      const costIdx = children.findIndex((el) =>
-        el.classList.contains("cost-badge"),
-      );
-      const modelIdx = children.findIndex((el) =>
-        el.classList.contains("model-badge"),
-      );
+      const costIdx = children.findIndex((el) => el.classList.contains("cost-badge"));
+      const modelIdx = children.findIndex((el) => el.classList.contains("model-badge"));
 
       expect(desktopTokenIdx).toBeGreaterThanOrEqual(0);
       expect(mobileTokenIdx).toBeGreaterThan(desktopTokenIdx);
@@ -536,9 +473,7 @@ describe("SessionBreadcrumb", () => {
 
       await flushPromises();
       await vi.waitFor(() => {
-        expect(
-          sessionsService.getApiV1SessionsIdUsage,
-        ).toHaveBeenCalled();
+        expect(sessionsService.getApiV1SessionsIdUsage).toHaveBeenCalled();
       });
       await flushPromises();
       expect(document.querySelector(".cost-badge")).toBeNull();
@@ -547,9 +482,7 @@ describe("SessionBreadcrumb", () => {
     });
 
     it("renders no cost badge when the usage request fails", async () => {
-      sessionsService.getApiV1SessionsIdUsage.mockRejectedValue(
-        new Error("boom"),
-      );
+      sessionsService.getApiV1SessionsIdUsage.mockRejectedValue(new Error("boom"));
 
       const component = mount(SessionBreadcrumb, {
         target: document.body,
@@ -561,9 +494,7 @@ describe("SessionBreadcrumb", () => {
 
       await flushPromises();
       await vi.waitFor(() => {
-        expect(
-          sessionsService.getApiV1SessionsIdUsage,
-        ).toHaveBeenCalled();
+        expect(sessionsService.getApiV1SessionsIdUsage).toHaveBeenCalled();
       });
       await flushPromises();
       expect(document.querySelector(".cost-badge")).toBeNull();
@@ -611,21 +542,15 @@ describe("SessionBreadcrumb", () => {
         }),
       );
       await flushPromises();
-      expect(
-        document.querySelector(".cost-badge")?.textContent?.trim(),
-      ).toBe("$2.00");
+      expect(document.querySelector(".cost-badge")?.textContent?.trim()).toBe("$2.00");
 
       component.$destroy();
     });
 
     it("refetches when a resync changes context tokens without output movement", async () => {
       sessionsService.getApiV1SessionsIdUsage
-        .mockResolvedValueOnce(
-          makeUsage({ has_cost: true, cost_usd: 1 }),
-        )
-        .mockResolvedValueOnce(
-          makeUsage({ has_cost: true, cost_usd: 1.75 }),
-        );
+        .mockResolvedValueOnce(makeUsage({ has_cost: true, cost_usd: 1 }))
+        .mockResolvedValueOnce(makeUsage({ has_cost: true, cost_usd: 1.75 }));
 
       const component = createClassComponent({
         component: SessionBreadcrumb,
@@ -649,9 +574,7 @@ describe("SessionBreadcrumb", () => {
         const badge = document.querySelector(".cost-badge");
         expect(badge?.textContent?.trim()).toBe("$1.75");
       });
-      expect(
-        sessionsService.getApiV1SessionsIdUsage,
-      ).toHaveBeenCalledTimes(2);
+      expect(sessionsService.getApiV1SessionsIdUsage).toHaveBeenCalledTimes(2);
 
       component.$destroy();
     });
@@ -693,9 +616,7 @@ describe("SessionBreadcrumb", () => {
         session: makeSession("claude", { id: "run:aaa" }),
       });
       await flushPromises();
-      expect(
-        sessionsService.getApiV1SessionsIdUsage,
-      ).toHaveBeenCalledTimes(3);
+      expect(sessionsService.getApiV1SessionsIdUsage).toHaveBeenCalledTimes(3);
 
       // B's late response must not be shown on A.
       bRequest.resolve(
@@ -747,9 +668,7 @@ describe("SessionBreadcrumb", () => {
         session: makeSession("claude", { message_count: 3 }),
       });
       await flushPromises();
-      expect(
-        sessionsService.getApiV1SessionsIdUsage,
-      ).toHaveBeenCalledTimes(2);
+      expect(sessionsService.getApiV1SessionsIdUsage).toHaveBeenCalledTimes(2);
 
       second.resolve(makeUsage({ has_cost: true, cost_usd: 3.5 }));
       await vi.waitFor(() => {
@@ -759,12 +678,9 @@ describe("SessionBreadcrumb", () => {
 
       first.resolve(makeUsage({ has_cost: true, cost_usd: 1 }));
       await flushPromises();
-      expect(
-        document.querySelector(".cost-badge")?.textContent?.trim(),
-      ).toBe("$3.50");
+      expect(document.querySelector(".cost-badge")?.textContent?.trim()).toBe("$3.50");
 
       component.$destroy();
     });
   });
-
 });

@@ -6,4 +6,3 @@ export type DbRecentEditsResult = {
   files: any[] | null;
   has_more: boolean;
 };
-

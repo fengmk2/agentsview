@@ -6,4 +6,3 @@ export type DbSkillTrendEntry = {
   by_skill: Record<string, number>;
   date: string;
 };
-

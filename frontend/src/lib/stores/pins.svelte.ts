@@ -40,9 +40,9 @@ class PinsStore {
     const mutVer = this.#mutationVersion;
     try {
       configureGeneratedClient();
-      const res = await PinsService.getApiV1Pins({
+      const res = (await PinsService.getApiV1Pins({
         project,
-      }) as unknown as PinsResponse;
+      })) as unknown as PinsResponse;
       // Apply only if this is the latest load AND no mutation
       // occurred since the request started (which would make
       // this response stale relative to the optimistic state).
@@ -71,14 +71,11 @@ class PinsStore {
     }
     try {
       configureGeneratedClient();
-      const res =
-        await PinsService.getApiV1SessionsIdPins({
-          id: sessionId,
-        }) as unknown as PinsResponse;
+      const res = (await PinsService.getApiV1SessionsIdPins({
+        id: sessionId,
+      })) as unknown as PinsResponse;
       if (this.#loadVersion === loadVer && this.#mutationVersion === mutVer) {
-        this.sessionPinIds = new Set(
-          res.pins.map((p) => p.message_id),
-        );
+        this.sessionPinIds = new Set(res.pins.map((p) => p.message_id));
       }
     } catch {
       // Silently ignore — pins are non-critical.
@@ -118,11 +115,7 @@ class PinsStore {
         this.sessionPinIds = next;
       }
       this.pins = this.pins.filter(
-        (p) =>
-          !(
-            p.session_id === sessionId &&
-            p.message_id === messageId
-          ),
+        (p) => !(p.session_id === sessionId && p.message_id === messageId),
       );
     } catch {
       // Silently ignore — refetch will reconcile state.
@@ -132,11 +125,7 @@ class PinsStore {
     }
   }
 
-  async togglePin(
-    sessionId: string,
-    messageId: number,
-    ordinal: number,
-  ) {
+  async togglePin(sessionId: string, messageId: number, ordinal: number) {
     if (this.#inflight.has(messageId)) return;
     if (this.sessionPinIds.has(messageId)) {
       await this.unpin(sessionId, messageId);
@@ -145,12 +134,11 @@ class PinsStore {
       this.#mutationVersion++;
       try {
         configureGeneratedClient();
-        const result =
-          await PinsService.postApiV1SessionsIdMessagesMessageidPin({
-            id: sessionId,
-            messageId,
-            requestBody: {},
-          }) as unknown as PinMessageResponse;
+        const result = (await PinsService.postApiV1SessionsIdMessagesMessageidPin({
+          id: sessionId,
+          messageId,
+          requestBody: {},
+        })) as unknown as PinMessageResponse;
         // Only update sessionPinIds if still viewing the same session.
         if (this.#currentSessionId === sessionId) {
           const next = new Set(this.sessionPinIds);
@@ -165,13 +153,7 @@ class PinsStore {
             ordinal,
             created_at: new Date().toISOString(),
           },
-          ...this.pins.filter(
-            (p) =>
-              !(
-                p.session_id === sessionId &&
-                p.message_id === messageId
-              ),
-          ),
+          ...this.pins.filter((p) => !(p.session_id === sessionId && p.message_id === messageId)),
         ];
       } catch {
         // Silently ignore — refetch will reconcile state.

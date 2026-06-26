@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { mount, tick, unmount } from "svelte";
 // @ts-ignore
 import SettingsPage from "./SettingsPage.svelte";
@@ -8,8 +8,7 @@ import { settings } from "../../stores/settings.svelte.js";
 import { initI18n, LOCALE_STORAGE_KEY } from "../../i18n/index.js";
 
 vi.mock("../../api/runtime.js", async (importOriginal) => {
-  const orig =
-    await importOriginal<typeof import("../../api/runtime.js")>();
+  const orig = await importOriginal<typeof import("../../api/runtime.js")>();
   return {
     ...orig,
     configureGeneratedClient: vi.fn(),
@@ -21,8 +20,7 @@ vi.mock("../../api/runtime.js", async (importOriginal) => {
 });
 
 vi.mock("../../api/generated/index", async (importOriginal) => {
-  const orig =
-    await importOriginal<typeof import("../../api/generated/index")>();
+  const orig = await importOriginal<typeof import("../../api/generated/index")>();
   return {
     ...orig,
     SettingsService: {
@@ -67,9 +65,7 @@ describe("SettingsPage", () => {
     await tick();
 
     expect(document.body.textContent).toContain("Loading settings");
-    expect(
-      settingsService.getApiV1SettingsWorktreeMappings,
-    ).not.toHaveBeenCalled();
+    expect(settingsService.getApiV1SettingsWorktreeMappings).not.toHaveBeenCalled();
 
     resolveSettings({
       agent_dirs: {},
@@ -82,9 +78,7 @@ describe("SettingsPage", () => {
     });
     await tick();
 
-    expect(
-      settingsService.getApiV1SettingsWorktreeMappings,
-    ).not.toHaveBeenCalled();
+    expect(settingsService.getApiV1SettingsWorktreeMappings).not.toHaveBeenCalled();
 
     unmount(component);
   });
@@ -109,9 +103,7 @@ describe("SettingsPage", () => {
     await tick();
     await tick();
 
-    expect(
-      document.body.querySelector('select[aria-label="Interface language"]'),
-    ).toBeNull();
+    expect(document.body.querySelector('select[aria-label="Interface language"]')).toBeNull();
     expect(document.body.textContent).toContain("Settings");
 
     const trigger = document.body.querySelector(
@@ -122,14 +114,12 @@ describe("SettingsPage", () => {
     trigger!.click();
     await tick();
 
-    const option = Array.from(
-      document.body.querySelectorAll('[role="option"]'),
-    ).find((el) => el.textContent?.includes("Simplified Chinese"));
+    const option = Array.from(document.body.querySelectorAll('[role="option"]')).find((el) =>
+      el.textContent?.includes("Simplified Chinese"),
+    );
     expect(option).toBeTruthy();
 
-    (option as HTMLElement).dispatchEvent(
-      new MouseEvent("mousedown", { bubbles: true }),
-    );
+    (option as HTMLElement).dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
     await tick();
 
     expect(localStorage.getItem(LOCALE_STORAGE_KEY)).toBe("zh-CN");

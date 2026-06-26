@@ -4,12 +4,7 @@ import type {
   SignalsTrendBucket,
 } from "../../api/types.js";
 
-export type QualityPatternSeverity =
-  | "clear"
-  | "watch"
-  | "warning"
-  | "critical"
-  | "unavailable";
+export type QualityPatternSeverity = "clear" | "watch" | "warning" | "critical" | "unavailable";
 
 export interface QualityPatternDriver {
   id: keyof QualitySignalTotals | string;
@@ -83,9 +78,7 @@ export const QUALITY_PATTERN_SEVERITY_THRESHOLDS = {
   criticalRatio: 0.35,
 } as const;
 
-export function buildQualitySummary(
-  signals: SignalsAnalyticsResponse | null,
-): QualitySummaryView {
+export function buildQualitySummary(signals: SignalsAnalyticsResponse | null): QualitySummaryView {
   if (!signals) {
     return {
       totalSessions: 0,
@@ -98,23 +91,17 @@ export function buildQualitySummary(
     };
   }
 
-  const scoreDistribution = Object.entries(
-    signals.grade_distribution ?? {},
-  )
+  const scoreDistribution = Object.entries(signals.grade_distribution ?? {})
     .map(([grade, count]) => ({ grade, count }))
     .sort((a, b) => gradeRank(a.grade) - gradeRank(b.grade));
 
   return {
-    totalSessions:
-      signals.scored_sessions + signals.unscored_sessions,
+    totalSessions: signals.scored_sessions + signals.unscored_sessions,
     scoredSessions: signals.scored_sessions,
     unscoredSessions: signals.unscored_sessions,
-    computedQualitySessions:
-      signals.quality_health?.computed_sessions ?? 0,
+    computedQualitySessions: signals.quality_health?.computed_sessions ?? 0,
     avgHealthScore: signals.avg_health_score,
-    lowQualitySessions:
-      (signals.grade_distribution?.D ?? 0) +
-      (signals.grade_distribution?.F ?? 0),
+    lowQualitySessions: (signals.grade_distribution?.D ?? 0) + (signals.grade_distribution?.F ?? 0),
     scoreDistribution,
   };
 }
@@ -136,9 +123,7 @@ export function buildRuleBasedRecommendations(
   patterns: QualityPatternView[],
 ): RuleBasedRecommendation[] {
   return patterns
-    .filter((p) =>
-      p.severity !== "clear" && p.severity !== "unavailable"
-    )
+    .filter((p) => p.severity !== "clear" && p.severity !== "unavailable")
     .slice(0, 4)
     .map((pattern) => ({
       id: `rule-${pattern.id}`,
@@ -151,29 +136,13 @@ export function buildRuleBasedRecommendations(
     }));
 }
 
-function promptMaturityPattern(
-  signals: SignalsAnalyticsResponse,
-): QualityPatternView {
+function promptMaturityPattern(signals: SignalsAnalyticsResponse): QualityPatternView {
   const totals = signals.quality_health?.totals ?? emptyTotals;
-  const sessions =
-    signals.quality_health?.sessions_with_signal ?? emptyTotals;
-  const computed =
-    signals.quality_health?.computed_sessions ?? 0;
+  const sessions = signals.quality_health?.sessions_with_signal ?? emptyTotals;
+  const computed = signals.quality_health?.computed_sessions ?? 0;
   const drivers: QualityPatternDriver[] = [
-    signalDriver(
-      "short_prompt_count",
-      "Short task starts",
-      totals,
-      sessions,
-      "weak",
-    ),
-    signalDriver(
-      "unstructured_start",
-      "Unstructured starts",
-      totals,
-      sessions,
-      "contextual",
-    ),
+    signalDriver("short_prompt_count", "Short task starts", totals, sessions, "weak"),
+    signalDriver("unstructured_start", "Unstructured starts", totals, sessions, "contextual"),
     signalDriver(
       "missing_success_criteria_count",
       "Missing success criteria",
@@ -188,31 +157,21 @@ function promptMaturityPattern(
       sessions,
       "weak",
     ),
-    signalDriver(
-      "duplicate_prompt_count",
-      "Repeated prompts",
-      totals,
-      sessions,
-      "contextual",
-    ),
+    signalDriver("duplicate_prompt_count", "Repeated prompts", totals, sessions, "contextual"),
   ];
-  const severityDrivers = drivers.filter(
-    (driver) => driver.strength !== "weak",
-  );
+  const severityDrivers = drivers.filter((driver) => driver.strength !== "weak");
   const affected = maxSessions(severityDrivers);
 
   return {
     id: "prompt_maturity",
     title: "Prompt maturity",
-    summary:
-      "Task framing and acceptance evidence. Short prompts are context only.",
-    severity: computed === 0
-      ? "unavailable"
-      : severityFromRatio(affected, computed),
-    severityDescription: computed === 0
-      ? "No Phase 3 prompt-quality computations are available for this range."
-      : severityDescription(affected, computed) +
-        " Weak prompt-only markers do not set severity by themselves.",
+    summary: "Task framing and acceptance evidence. Short prompts are context only.",
+    severity: computed === 0 ? "unavailable" : severityFromRatio(affected, computed),
+    severityDescription:
+      computed === 0
+        ? "No Phase 3 prompt-quality computations are available for this range."
+        : severityDescription(affected, computed) +
+          " Weak prompt-only markers do not set severity by themselves.",
     affectedSessions: affected,
     totalSessions: computed,
     drivers,
@@ -220,17 +179,15 @@ function promptMaturityPattern(
     trend: scorePressureTrend(signals.trend),
     examples: topAgentExamples(signals),
     examplesLabel: "Comparison groups",
-    action: "Open the linked examples before changing prompts; tune only signals with poor outcome lift.",
+    action:
+      "Open the linked examples before changing prompts; tune only signals with poor outcome lift.",
   };
 }
 
-function contextHealthPattern(
-  signals: SignalsAnalyticsResponse,
-): QualityPatternView {
+function contextHealthPattern(signals: SignalsAnalyticsResponse): QualityPatternView {
   const h = signals.context_health;
   const totals = signals.quality_health?.totals ?? emptyTotals;
-  const sessions =
-    signals.quality_health?.sessions_with_signal ?? emptyTotals;
+  const sessions = signals.quality_health?.sessions_with_signal ?? emptyTotals;
   const total = totalSessions(signals);
   const drivers: QualityPatternDriver[] = [
     {
@@ -251,20 +208,14 @@ function contextHealthPattern(
       total: h.high_pressure_sessions,
       sessions: h.high_pressure_sessions,
     },
-    signalDriver(
-      "no_code_context_count",
-      "Missing code context",
-      totals,
-      sessions,
-    ),
+    signalDriver("no_code_context_count", "Missing code context", totals, sessions),
   ];
   const affected = maxSessions(drivers);
 
   return {
     id: "context_health",
     title: "Context health",
-    summary:
-      "Code-context gaps, compactions, mid-task context loss, and high context pressure.",
+    summary: "Code-context gaps, compactions, mid-task context loss, and high context pressure.",
     severity: severityFromRatio(affected, total),
     severityDescription: severityDescription(affected, total),
     affectedSessions: affected,
@@ -278,13 +229,10 @@ function contextHealthPattern(
   };
 }
 
-function workflowHygienePattern(
-  signals: SignalsAnalyticsResponse,
-): QualityPatternView {
+function workflowHygienePattern(signals: SignalsAnalyticsResponse): QualityPatternView {
   const outcomes = signals.outcome_distribution ?? {};
   const totals = signals.quality_health?.totals ?? emptyTotals;
-  const sessions =
-    signals.quality_health?.sessions_with_signal ?? emptyTotals;
+  const sessions = signals.quality_health?.sessions_with_signal ?? emptyTotals;
   const total = totalSessions(signals);
   const errored = outcomes.errored ?? 0;
   const abandoned = outcomes.abandoned ?? 0;
@@ -303,17 +251,12 @@ function workflowHygienePattern(
     sessions,
     "contextual",
   );
-  const affected = Math.max(
-    interrupted,
-    runawayDriver.sessions,
-    frustrationDriver.sessions,
-  );
+  const affected = Math.max(interrupted, runawayDriver.sessions, frustrationDriver.sessions);
 
   return {
     id: "workflow_hygiene",
     title: "Workflow hygiene",
-    summary:
-      "Errored, abandoned, frustrated, and repeated failing tool-cycle sessions.",
+    summary: "Errored, abandoned, frustrated, and repeated failing tool-cycle sessions.",
     severity: severityFromRatio(affected, total),
     severityDescription: severityDescription(affected, total),
     affectedSessions: affected,
@@ -353,9 +296,7 @@ function workflowHygienePattern(
   };
 }
 
-function toolReliabilityPattern(
-  signals: SignalsAnalyticsResponse,
-): QualityPatternView {
+function toolReliabilityPattern(signals: SignalsAnalyticsResponse): QualityPatternView {
   const h = signals.tool_health;
   const total = totalSessions(signals);
   const drivers: QualityPatternDriver[] = [
@@ -363,31 +304,19 @@ function toolReliabilityPattern(
       id: "tool_failure_signals",
       label: "Failure signals",
       total: h.total_failure_signals,
-      sessions: toolDriverSessions(
-        signals,
-        "tool_failure_signals",
-        h.sessions_with_failures,
-      ),
+      sessions: toolDriverSessions(signals, "tool_failure_signals", h.sessions_with_failures),
     },
     {
       id: "tool_retries",
       label: "Retries",
       total: h.total_retries,
-      sessions: toolDriverSessions(
-        signals,
-        "tool_retries",
-        h.sessions_with_failures,
-      ),
+      sessions: toolDriverSessions(signals, "tool_retries", h.sessions_with_failures),
     },
     {
       id: "edit_churn",
       label: "Edit churn",
       total: h.total_edit_churn,
-      sessions: toolDriverSessions(
-        signals,
-        "edit_churn",
-        h.sessions_with_failures,
-      ),
+      sessions: toolDriverSessions(signals, "edit_churn", h.sessions_with_failures),
     },
   ];
   const affected = maxSessions(drivers);
@@ -395,8 +324,7 @@ function toolReliabilityPattern(
   return {
     id: "tool_reliability",
     title: "Tool reliability",
-    summary:
-      "Tool failures, retries, and edit churn counted directly from session tool events.",
+    summary: "Tool failures, retries, and edit churn counted directly from session tool events.",
     severity: severityFromRatio(affected, total),
     severityDescription: severityDescription(affected, total),
     affectedSessions: affected,
@@ -444,16 +372,10 @@ function totalSessions(signals: SignalsAnalyticsResponse): number {
 }
 
 function maxSessions(drivers: QualityPatternDriver[]): number {
-  return drivers.reduce(
-    (max, driver) => Math.max(max, driver.sessions),
-    0,
-  );
+  return drivers.reduce((max, driver) => Math.max(max, driver.sessions), 0);
 }
 
-function severityFromRatio(
-  affected: number,
-  total: number,
-): QualityPatternSeverity {
+function severityFromRatio(affected: number, total: number): QualityPatternSeverity {
   if (total <= 0) return "unavailable";
   const ratio = affected / total;
   if (ratio === 0) return "clear";
@@ -482,18 +404,13 @@ function severityDescription(affected: number, total: number): string {
 function scorePressureTrend(trend: SignalsTrendBucket[]) {
   return trend.map((t) => ({
     date: t.date,
-    value:
-      t.avg_health_score == null
-        ? 0
-        : Math.max(0, Math.round(100 - t.avg_health_score)),
+    value: t.avg_health_score == null ? 0 : Math.max(0, Math.round(100 - t.avg_health_score)),
     label: "points below 100 average score",
     score: t.avg_health_score,
   }));
 }
 
-function topProjectExamples(
-  signals: SignalsAnalyticsResponse,
-): QualityPatternExample[] {
+function topProjectExamples(signals: SignalsAnalyticsResponse): QualityPatternExample[] {
   return [...signals.by_project]
     .sort((a, b) => {
       if (b.avg_failure_signals !== a.avg_failure_signals) {
@@ -509,13 +426,10 @@ function topProjectExamples(
     }));
 }
 
-function topAgentExamples(
-  signals: SignalsAnalyticsResponse,
-): QualityPatternExample[] {
+function topAgentExamples(signals: SignalsAnalyticsResponse): QualityPatternExample[] {
   return [...signals.by_agent]
     .sort((a, b) => {
-      const incompleteDelta =
-        (100 - b.completed_rate) - (100 - a.completed_rate);
+      const incompleteDelta = 100 - b.completed_rate - (100 - a.completed_rate);
       if (incompleteDelta !== 0) return incompleteDelta;
       return b.session_count - a.session_count;
     })

@@ -23,8 +23,28 @@ const pinsService = PinsService as unknown as {
   deleteApiV1SessionsIdMessagesMessageidPin: ReturnType<typeof vi.fn>;
 };
 
-const PIN_ALPHA = { id: 1, session_id: "s1", message_id: 10, ordinal: 1, content: "alpha pin", role: "user", created_at: "", session_project: "alpha", session_title: "alpha session" };
-const PIN_BETA  = { id: 2, session_id: "s2", message_id: 20, ordinal: 1, content: "beta pin",  role: "user", created_at: "", session_project: "beta",  session_title: "beta session"  };
+const PIN_ALPHA = {
+  id: 1,
+  session_id: "s1",
+  message_id: 10,
+  ordinal: 1,
+  content: "alpha pin",
+  role: "user",
+  created_at: "",
+  session_project: "alpha",
+  session_title: "alpha session",
+};
+const PIN_BETA = {
+  id: 2,
+  session_id: "s2",
+  message_id: 20,
+  ordinal: 1,
+  content: "beta pin",
+  role: "user",
+  created_at: "",
+  session_project: "beta",
+  session_title: "beta session",
+};
 
 describe("PinsStore.loadAll project filtering", () => {
   let store: ReturnType<typeof createPinsStore>;
@@ -47,9 +67,11 @@ describe("PinsStore.loadAll project filtering", () => {
     expect(store.pins).toEqual([PIN_ALPHA]);
 
     // Switch to project beta — the fetch hangs; capture the in-flight call.
-    let resolveBeta!: (v: { pins: typeof PIN_BETA[] }) => void;
+    let resolveBeta!: (v: { pins: (typeof PIN_BETA)[] }) => void;
     pinsService.getApiV1Pins.mockReturnValue(
-      new Promise((r) => { resolveBeta = r; })
+      new Promise((r) => {
+        resolveBeta = r;
+      }),
     );
     const betaLoad = store.loadAll("beta");
 
@@ -82,9 +104,11 @@ describe("PinsStore.loadAll project filtering", () => {
     await store.loadAll("alpha");
 
     // Re-fetch the same project — fetch hangs.
-    let resolve!: (v: { pins: typeof PIN_ALPHA[] }) => void;
+    let resolve!: (v: { pins: (typeof PIN_ALPHA)[] }) => void;
     pinsService.getApiV1Pins.mockReturnValue(
-      new Promise((r) => { resolve = r; })
+      new Promise((r) => {
+        resolve = r;
+      }),
     );
     const refetch = store.loadAll("alpha");
 
@@ -113,9 +137,11 @@ describe("PinsStore.loadAll project filtering", () => {
 
   it("does not apply a superseded load response after project changes", async () => {
     // Start a slow alpha load.
-    let resolveAlpha!: (v: { pins: typeof PIN_ALPHA[] }) => void;
+    let resolveAlpha!: (v: { pins: (typeof PIN_ALPHA)[] }) => void;
     pinsService.getApiV1Pins.mockReturnValueOnce(
-      new Promise((r) => { resolveAlpha = r; })
+      new Promise((r) => {
+        resolveAlpha = r;
+      }),
     );
     const alphaLoad = store.loadAll("alpha");
 

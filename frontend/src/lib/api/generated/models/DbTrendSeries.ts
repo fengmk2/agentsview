@@ -8,4 +8,3 @@ export type DbTrendSeries = {
   total: number;
   variants: any[] | null;
 };
-

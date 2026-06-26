@@ -1,14 +1,5 @@
-import {
-  describe,
-  it,
-  expect,
-  vi,
-  afterEach,
-} from "vite-plus/test";
-import {
-  parsePath,
-  RouterStore,
-} from "./router.svelte.js";
+import { describe, it, expect, vi, afterEach } from "vite-plus/test";
+import { parsePath, RouterStore } from "./router.svelte.js";
 
 function setURL(path: string) {
   window.history.replaceState(null, "", path);
@@ -62,14 +53,7 @@ describe("parsePath", () => {
   });
 
   it("parses page routes", () => {
-    for (const route of [
-      "usage",
-      "trends",
-      "insights",
-      "pinned",
-      "trash",
-      "settings",
-    ]) {
+    for (const route of ["usage", "trends", "insights", "pinned", "trash", "settings"]) {
       setURL(`/${route}`);
       const result = parsePath();
       expect(result.route).toBe(route);
@@ -196,9 +180,7 @@ describe("RouterStore", () => {
     setURL("/sessions");
     store = new RouterStore();
     store.navigateToSession("abc-123");
-    expect(window.location.pathname).toBe(
-      "/sessions/abc-123",
-    );
+    expect(window.location.pathname).toBe("/sessions/abc-123");
     expect(store.sessionId).toBe("abc-123");
   });
 
@@ -206,22 +188,16 @@ describe("RouterStore", () => {
     setURL("/sessions");
     store = new RouterStore();
     store.navigateToSession("abc-123", { msg: "last" });
-    expect(window.location.pathname).toBe(
-      "/sessions/abc-123",
-    );
+    expect(window.location.pathname).toBe("/sessions/abc-123");
     expect(window.location.search).toBe("?msg=last");
   });
 
   it("navigateToSession preserves session route params from the sessions view", () => {
-    setURL(
-      "/sessions?window_days=14&project=myproj&termination=unclean&msg=stale",
-    );
+    setURL("/sessions?window_days=14&project=myproj&termination=unclean&msg=stale");
     store = new RouterStore();
     store.navigateToSession("abc-123");
 
-    expect(window.location.pathname).toBe(
-      "/sessions/abc-123",
-    );
+    expect(window.location.pathname).toBe("/sessions/abc-123");
     expect(window.location.search).toContain("window_days=14");
     expect(window.location.search).toContain("project=myproj");
     expect(window.location.search).toContain("termination=unclean");
@@ -229,24 +205,18 @@ describe("RouterStore", () => {
   });
 
   it("navigateToSession can clear stale preserved route params", () => {
-    setURL(
-      "/sessions?window_days=14&project=myproj&include_one_shot=false",
-    );
+    setURL("/sessions?window_days=14&project=myproj&include_one_shot=false");
     store = new RouterStore();
     store.navigateToSession("abc-123", undefined, ["include_one_shot"]);
 
-    expect(window.location.pathname).toBe(
-      "/sessions/abc-123",
-    );
+    expect(window.location.pathname).toBe("/sessions/abc-123");
     expect(window.location.search).toContain("window_days=14");
     expect(window.location.search).toContain("project=myproj");
     expect(window.location.search).not.toContain("include_one_shot=false");
   });
 
   it("navigateToSessions preserves session route params for drilldowns", () => {
-    setURL(
-      "/sessions?date_from=2026-01-01&date_to=2026-01-31&project=myproj",
-    );
+    setURL("/sessions?date_from=2026-01-01&date_to=2026-01-31&project=myproj");
     store = new RouterStore();
     store.navigateToSessions({ agent: "codex" });
 
@@ -258,14 +228,9 @@ describe("RouterStore", () => {
   });
 
   it("navigateToSessions can clear preserved route params for drilldowns", () => {
-    setURL(
-      "/sessions?date_from=2026-01-01&date_to=2026-01-31&min_messages=10&max_messages=50",
-    );
+    setURL("/sessions?date_from=2026-01-01&date_to=2026-01-31&min_messages=10&max_messages=50");
     store = new RouterStore();
-    store.navigateToSessions(
-      { min_messages: "100" },
-      ["min_messages", "max_messages"],
-    );
+    store.navigateToSessions({ min_messages: "100" }, ["min_messages", "max_messages"]);
 
     expect(window.location.search).toContain("date_from=2026-01-01");
     expect(window.location.search).toContain("date_to=2026-01-31");
@@ -278,9 +243,7 @@ describe("RouterStore", () => {
     store = new RouterStore();
     store.navigateToSession("abc-123");
 
-    expect(window.location.pathname).toBe(
-      "/sessions/abc-123",
-    );
+    expect(window.location.pathname).toBe("/sessions/abc-123");
     expect(window.location.search).toBe("");
   });
 
@@ -312,20 +275,12 @@ describe("RouterStore", () => {
     setURL("/");
     const addSpy = vi.spyOn(window, "addEventListener");
     store = new RouterStore();
-    const registeredCb = addSpy.mock.calls.find(
-      ([event]) => event === "popstate",
-    )?.[1];
+    const registeredCb = addSpy.mock.calls.find(([event]) => event === "popstate")?.[1];
     addSpy.mockRestore();
 
-    const removeSpy = vi.spyOn(
-      window,
-      "removeEventListener",
-    );
+    const removeSpy = vi.spyOn(window, "removeEventListener");
     store.destroy();
-    expect(removeSpy).toHaveBeenCalledWith(
-      "popstate",
-      registeredCb,
-    );
+    expect(removeSpy).toHaveBeenCalledWith("popstate", registeredCb);
     removeSpy.mockRestore();
   });
 
@@ -351,9 +306,7 @@ describe("RouterStore", () => {
     setURL("/sessions?desktop");
     store = new RouterStore();
     store.navigateToSession("abc-123");
-    expect(window.location.pathname).toBe(
-      "/sessions/abc-123",
-    );
+    expect(window.location.pathname).toBe("/sessions/abc-123");
     expect(window.location.search).toBe("?desktop=");
     expect(store.params).toEqual({ desktop: "" });
   });
@@ -363,9 +316,7 @@ describe("RouterStore", () => {
     store = new RouterStore();
     store.navigateFromSession({ project: "myproj" });
     expect(window.location.search).toContain("desktop=");
-    expect(window.location.search).toContain(
-      "project=myproj",
-    );
+    expect(window.location.search).toContain("project=myproj");
     expect(store.params).toEqual({
       desktop: "",
       project: "myproj",
@@ -443,9 +394,7 @@ describe("RouterStore", () => {
   });
 
   it("buildSessionHref preserves session route params from the sessions view", () => {
-    setURL(
-      "/sessions?window_days=14&project=myproj&termination=unclean&msg=stale",
-    );
+    setURL("/sessions?window_days=14&project=myproj&termination=unclean&msg=stale");
     store = new RouterStore();
     const href = store.buildSessionHref("abc-123");
 

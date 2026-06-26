@@ -2,9 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CancelablePromise } from '../core/CancelablePromise';
-import { OpenAPI } from '../core/OpenAPI';
-import { request as __request } from '../core/request';
+import type { CancelablePromise } from "../core/CancelablePromise";
+import { OpenAPI } from "../core/OpenAPI";
+import { request as __request } from "../core/request";
 export class ImportService {
   /**
    * Import ChatGPT archive
@@ -18,19 +18,19 @@ export class ImportService {
     /**
      * Use text/event-stream to stream progress
      */
-    accept?: string,
+    accept?: string;
     formData?: {
       file: Blob;
-    },
+    };
   }): CancelablePromise<Record<string, any>> {
     return __request(OpenAPI, {
-      method: 'POST',
-      url: '/api/v1/import/chatgpt',
+      method: "POST",
+      url: "/api/v1/import/chatgpt",
       headers: {
-        'Accept': accept,
+        Accept: accept,
       },
       formData: formData,
-      mediaType: 'multipart/form-data',
+      mediaType: "multipart/form-data",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,
@@ -58,19 +58,19 @@ export class ImportService {
     /**
      * Use text/event-stream to stream progress
      */
-    accept?: string,
+    accept?: string;
     formData?: {
       file: Blob;
-    },
+    };
   }): CancelablePromise<Record<string, any>> {
     return __request(OpenAPI, {
-      method: 'POST',
-      url: '/api/v1/import/claude-ai',
+      method: "POST",
+      url: "/api/v1/import/claude-ai",
       headers: {
-        'Accept': accept,
+        Accept: accept,
       },
       formData: formData,
-      mediaType: 'multipart/form-data',
+      mediaType: "multipart/form-data",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,

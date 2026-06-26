@@ -38,8 +38,7 @@ class StarredStore {
     const rid = ++this.refreshId;
     try {
       configureGeneratedClient();
-      const res =
-        await StarredService.getApiV1Starred() as unknown as StarredResponse;
+      const res = (await StarredService.getApiV1Starred()) as unknown as StarredResponse;
       if (this.mutationVersion === mutVer && this.refreshId === rid) {
         this.ids = new Set(res.session_ids);
       }
@@ -121,8 +120,7 @@ class StarredStore {
       clearLocalStorage();
       try {
         configureGeneratedClient();
-        const refreshed =
-          await StarredService.getApiV1Starred() as unknown as StarredResponse;
+        const refreshed = (await StarredService.getApiV1Starred()) as unknown as StarredResponse;
         if (this.mutationVersion === mutVer && this.refreshId === rid) {
           this.ids = new Set(refreshed.session_ids);
         }
@@ -183,14 +181,17 @@ class StarredStore {
     });
   }
 
-  private enqueue(
-    sessionId: string,
-    op: () => Promise<unknown>,
-  ) {
+  private enqueue(sessionId: string, op: () => Promise<unknown>) {
     const prev = this.queues.get(sessionId) ?? Promise.resolve();
     const chain: Promise<void> = prev
-      .then(() => op(), () => op())
-      .then(() => {}, () => {})
+      .then(
+        () => op(),
+        () => op(),
+      )
+      .then(
+        () => {},
+        () => {},
+      )
       .then(() => {
         if (this.queues.get(sessionId) === chain) {
           this.queues.delete(sessionId);
@@ -211,13 +212,15 @@ class StarredStore {
     const mutVer = this.mutationVersion;
     const rid = ++this.refreshId;
     configureGeneratedClient();
-    StarredService.getApiV1Starred().then((res) => {
-      if (this.mutationVersion === mutVer && this.refreshId === rid) {
-        this.ids = new Set((res as unknown as StarredResponse).session_ids);
-      }
-    }).catch(() => {
-      // Server unavailable; keep optimistic state.
-    });
+    StarredService.getApiV1Starred()
+      .then((res) => {
+        if (this.mutationVersion === mutVer && this.refreshId === rid) {
+          this.ids = new Set((res as unknown as StarredResponse).session_ids);
+        }
+      })
+      .catch(() => {
+        // Server unavailable; keep optimistic state.
+      });
   }
 
   /**
@@ -236,17 +239,16 @@ class StarredStore {
       const mutVer = this.mutationVersion;
       const rid = ++this.refreshId;
       configureGeneratedClient();
-      StarredService.getApiV1Starred().then((res) => {
-        if (
-          this.mutationVersion === mutVer &&
-          this.refreshId === rid
-        ) {
-          this.ids = new Set((res as unknown as StarredResponse).session_ids);
-        }
-        this.reconcileRetries = 0;
-      }).catch(() => {
-        this.scheduleReconcile();
-      });
+      StarredService.getApiV1Starred()
+        .then((res) => {
+          if (this.mutationVersion === mutVer && this.refreshId === rid) {
+            this.ids = new Set((res as unknown as StarredResponse).session_ids);
+          }
+          this.reconcileRetries = 0;
+        })
+        .catch(() => {
+          this.scheduleReconcile();
+        });
     }, delay);
   }
 

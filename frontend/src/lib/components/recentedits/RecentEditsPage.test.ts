@@ -1,12 +1,5 @@
 // @vitest-environment jsdom
-import {
-  describe,
-  it,
-  expect,
-  vi,
-  beforeEach,
-  afterEach,
-} from "vite-plus/test";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vite-plus/test";
 import { mount, tick, unmount } from "svelte";
 import { setLocale } from "../../i18n/index.js";
 
@@ -104,9 +97,7 @@ describe("RecentEditsPage", () => {
     await tick();
     await tick();
 
-    const fileRowBtn = document.querySelector<HTMLButtonElement>(
-      ".re-file-row",
-    );
+    const fileRowBtn = document.querySelector<HTMLButtonElement>(".re-file-row");
     expect(fileRowBtn).not.toBeNull();
 
     fileRowBtn!.click();
@@ -121,9 +112,7 @@ describe("RecentEditsPage", () => {
     await tick();
     await tick();
 
-    const fileRowBtn = document.querySelector<HTMLButtonElement>(
-      ".re-file-row",
-    );
+    const fileRowBtn = document.querySelector<HTMLButtonElement>(".re-file-row");
     fileRowBtn!.click();
     await tick();
 
@@ -136,9 +125,7 @@ describe("RecentEditsPage", () => {
     await tick();
     await tick();
 
-    const fileRowBtn = document.querySelector<HTMLButtonElement>(
-      ".re-file-row",
-    );
+    const fileRowBtn = document.querySelector<HTMLButtonElement>(".re-file-row");
     fileRowBtn!.click();
     await tick();
 
@@ -178,8 +165,7 @@ describe("RecentEditsPage", () => {
     await tick();
     await tick();
 
-    const loadMoreBtn =
-      document.querySelector<HTMLButtonElement>(".re-load-more");
+    const loadMoreBtn = document.querySelector<HTMLButtonElement>(".re-load-more");
     expect(loadMoreBtn).not.toBeNull();
     loadMoreBtn!.click();
     await tick();
@@ -187,9 +173,7 @@ describe("RecentEditsPage", () => {
 
     // The second request must start at the loaded file count (2), not a
     // blindly pre-incremented offset, so a failed page can't skip rows.
-    const calls = mocks.getApiV1RecentEdits.mock.calls as unknown as Array<
-      [{ offset: number }]
-    >;
+    const calls = mocks.getApiV1RecentEdits.mock.calls as unknown as Array<[{ offset: number }]>;
     expect(calls).toHaveLength(2);
     expect(calls[0]![0].offset).toBe(0);
     expect(calls[1]![0].offset).toBe(2);
@@ -202,8 +186,7 @@ describe("RecentEditsPage", () => {
       await tick();
       await tick(); // initial load (call #1, no search)
 
-      const searchInput =
-        document.querySelector<HTMLInputElement>(".re-search");
+      const searchInput = document.querySelector<HTMLInputElement>(".re-search");
       expect(searchInput).not.toBeNull();
       searchInput!.value = "config";
       searchInput!.dispatchEvent(new Event("input", { bubbles: true }));

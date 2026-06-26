@@ -19,4 +19,3 @@ export type DbSignalSessionExample = {
   session_id: string;
   signal_total: number;
 };
-

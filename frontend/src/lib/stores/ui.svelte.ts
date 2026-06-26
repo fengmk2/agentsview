@@ -22,20 +22,9 @@ type ModalType =
   | null;
 
 /** Block types that can be toggled visible/hidden. */
-export type BlockType =
-  | "user"
-  | "assistant"
-  | "thinking"
-  | "tool"
-  | "code";
+export type BlockType = "user" | "assistant" | "thinking" | "tool" | "code";
 
-export const ALL_BLOCK_TYPES: BlockType[] = [
-  "user",
-  "assistant",
-  "thinking",
-  "tool",
-  "code",
-];
+export const ALL_BLOCK_TYPES: BlockType[] = ["user", "assistant", "thinking", "tool", "code"];
 
 const BLOCK_FILTER_KEY = "agentsview-block-filters";
 const TRANSCRIPT_MODE_KEY = "agentsview-transcript-mode";
@@ -50,9 +39,7 @@ function readBlockFilters(): Set<BlockType> {
       const arr = JSON.parse(raw);
       if (Array.isArray(arr)) {
         return new Set(
-          arr.filter((t: string) =>
-            ALL_BLOCK_TYPES.includes(t as BlockType),
-          ) as BlockType[],
+          arr.filter((t: string) => ALL_BLOCK_TYPES.includes(t as BlockType)) as BlockType[],
         );
       }
     }
@@ -64,20 +51,12 @@ function readBlockFilters(): Set<BlockType> {
 
 const LAYOUT_KEY = "agentsview-message-layout";
 const ZOOM_KEY = "agentsview-zoom-level";
-const VALID_TRANSCRIPT_MODES: TranscriptMode[] = [
-  "normal",
-  "focused",
-];
+const VALID_TRANSCRIPT_MODES: TranscriptMode[] = ["normal", "focused"];
 
 const IS_DESKTOP =
-  typeof window !== "undefined" &&
-  new URLSearchParams(window.location.search).has(
-    "desktop",
-  );
+  typeof window !== "undefined" && new URLSearchParams(window.location.search).has("desktop");
 
-const ZOOM_STEPS = [
-  67, 75, 80, 90, 100, 110, 125, 150, 175, 200,
-];
+const ZOOM_STEPS = [67, 75, 80, 90, 100, 110, 125, 150, 175, 200];
 const ZOOM_DEFAULT = 100;
 const FONT_SCALE_KEY = "agentsview-font-scale";
 const HIGH_CONTRAST_KEY = "agentsview-high-contrast";
@@ -94,13 +73,9 @@ type DesktopTauriBridge = {
   };
 };
 
-function currentDesktopWebviewWindow():
-  | DesktopTauriWebviewWindow
-  | undefined {
+function currentDesktopWebviewWindow(): DesktopTauriWebviewWindow | undefined {
   if (!IS_DESKTOP || typeof window === "undefined") return;
-  const tauri =
-    (window as Window & { __TAURI__?: DesktopTauriBridge })
-      .__TAURI__;
+  const tauri = (window as Window & { __TAURI__?: DesktopTauriBridge }).__TAURI__;
   return tauri?.webviewWindow?.getCurrentWebviewWindow?.();
 }
 
@@ -113,9 +88,7 @@ function syncDesktopZoom(scaleFactor: number): boolean {
   return true;
 }
 
-function composedRootZoom(
-  fontScale: number, zoomLevel: number,
-): string {
+function composedRootZoom(fontScale: number, zoomLevel: number): string {
   let scale = fontScale / 100;
   if (IS_DESKTOP && !currentDesktopWebviewWindow()) {
     scale *= zoomLevel / 100;
@@ -150,12 +123,7 @@ function readStoredFontScale(): number {
   return FONT_SCALE_DEFAULT;
 }
 
-const VALID_LAYOUTS: MessageLayout[] = [
-  "default",
-  "compact",
-  "stream",
-  "skim",
-];
+const VALID_LAYOUTS: MessageLayout[] = ["default", "compact", "stream", "skim"];
 function readStoredTheme(): Theme | null {
   if (
     typeof localStorage !== "undefined" &&
@@ -170,10 +138,7 @@ function readStoredTheme(): Theme | null {
 function readStoredLayout(): MessageLayout {
   try {
     const raw = localStorage?.getItem(LAYOUT_KEY);
-    if (
-      raw &&
-      VALID_LAYOUTS.includes(raw as MessageLayout)
-    ) {
+    if (raw && VALID_LAYOUTS.includes(raw as MessageLayout)) {
       return raw as MessageLayout;
     }
   } catch {
@@ -185,10 +150,7 @@ function readStoredLayout(): MessageLayout {
 function readStoredTranscriptMode(): TranscriptMode {
   try {
     const raw = localStorage?.getItem(TRANSCRIPT_MODE_KEY);
-    if (
-      raw &&
-      VALID_TRANSCRIPT_MODES.includes(raw as TranscriptMode)
-    ) {
+    if (raw && VALID_TRANSCRIPT_MODES.includes(raw as TranscriptMode)) {
       return raw as TranscriptMode;
     }
   } catch {
@@ -199,9 +161,7 @@ function readStoredTranscriptMode(): TranscriptMode {
 
 function readStoredSidebarWidth(): number {
   try {
-    return clampStoredSidebarWidth(
-      localStorage?.getItem(SIDEBAR_WIDTH_KEY),
-    );
+    return clampStoredSidebarWidth(localStorage?.getItem(SIDEBAR_WIDTH_KEY));
   } catch {
     return SIDEBAR_WIDTH_DEFAULT;
   }
@@ -221,9 +181,7 @@ class UIStore {
   theme: Theme = $state(readStoredTheme() || "light");
   sortNewestFirst: boolean = $state(false);
   messageLayout: MessageLayout = $state(readStoredLayout());
-  transcriptMode: TranscriptMode = $state(
-    readStoredTranscriptMode(),
-  );
+  transcriptMode: TranscriptMode = $state(readStoredTranscriptMode());
   sidebarWidth: number = $state(readStoredSidebarWidth());
   activeModal: ModalType = $state(null);
   /** Whether the next gist publish should be secret instead of public. */
@@ -235,21 +193,13 @@ class UIStore {
 
   zoomLevel: number = $state(readStoredZoom());
   fontScale: number = $state(readStoredFontScale());
-  highContrast: boolean = $state(
-    readStoredBool(HIGH_CONTRAST_KEY, false),
-  );
+  highContrast: boolean = $state(readStoredBool(HIGH_CONTRAST_KEY, false));
 
   sidebarOpen: boolean = $state(true);
   isMobileViewport: boolean = $state(false);
-  vitalsOpen: boolean = $state(
-    readStoredBool(VITALS_KEY, false),
-  );
-  signalPanelOpen: boolean = $state(
-    readStoredBool(SIGNAL_PANEL_KEY, false),
-  );
-  followLatest: boolean = $state(
-    readStoredBool(FOLLOW_LATEST_KEY, false),
-  );
+  vitalsOpen: boolean = $state(readStoredBool(VITALS_KEY, false));
+  signalPanelOpen: boolean = $state(readStoredBool(SIGNAL_PANEL_KEY, false));
+  followLatest: boolean = $state(readStoredBool(FOLLOW_LATEST_KEY, false));
   followLatestRequest: number = $state(0);
 
   /** Set of block types currently visible. */
@@ -275,10 +225,7 @@ class UIStore {
 
       $effect(() => {
         try {
-          localStorage?.setItem(
-            LAYOUT_KEY,
-            this.messageLayout,
-          );
+          localStorage?.setItem(LAYOUT_KEY, this.messageLayout);
         } catch {
           // ignore
         }
@@ -286,10 +233,7 @@ class UIStore {
 
       $effect(() => {
         try {
-          localStorage?.setItem(
-            TRANSCRIPT_MODE_KEY,
-            this.transcriptMode,
-          );
+          localStorage?.setItem(TRANSCRIPT_MODE_KEY, this.transcriptMode);
         } catch {
           // ignore
         }
@@ -297,10 +241,7 @@ class UIStore {
 
       $effect(() => {
         try {
-          localStorage?.setItem(
-            SIDEBAR_WIDTH_KEY,
-            String(this.sidebarWidth),
-          );
+          localStorage?.setItem(SIDEBAR_WIDTH_KEY, String(this.sidebarWidth));
         } catch {
           // ignore
         }
@@ -309,13 +250,8 @@ class UIStore {
       // Apply the root font scale in the document; desktop zoom
       // falls back to CSS when the native webview bridge is absent.
       $effect(() => {
-        (
-          document.documentElement.style as unknown as
-            Record<string, string>
-        ).zoom = composedRootZoom(
-          this.fontScale,
-          this.zoomLevel,
-        );
+        (document.documentElement.style as unknown as Record<string, string>).zoom =
+          composedRootZoom(this.fontScale, this.zoomLevel);
       });
 
       // Persist the desktop window zoom (desktop only).
@@ -323,10 +259,7 @@ class UIStore {
         if (IS_DESKTOP) {
           syncDesktopZoom(this.zoomLevel / 100);
           try {
-            localStorage?.setItem(
-              ZOOM_KEY,
-              String(this.zoomLevel),
-            );
+            localStorage?.setItem(ZOOM_KEY, String(this.zoomLevel));
           } catch {
             // ignore
           }
@@ -336,10 +269,7 @@ class UIStore {
       // Persist the font scale (web and desktop).
       $effect(() => {
         try {
-          localStorage?.setItem(
-            FONT_SCALE_KEY,
-            String(this.fontScale),
-          );
+          localStorage?.setItem(FONT_SCALE_KEY, String(this.fontScale));
         } catch {
           // ignore
         }
@@ -347,15 +277,9 @@ class UIStore {
 
       // Apply and persist high contrast.
       $effect(() => {
-        document.documentElement.classList.toggle(
-          "high-contrast",
-          this.highContrast,
-        );
+        document.documentElement.classList.toggle("high-contrast", this.highContrast);
         try {
-          localStorage?.setItem(
-            HIGH_CONTRAST_KEY,
-            String(this.highContrast),
-          );
+          localStorage?.setItem(HIGH_CONTRAST_KEY, String(this.highContrast));
         } catch {
           // ignore
         }
@@ -363,10 +287,7 @@ class UIStore {
 
       $effect(() => {
         try {
-          localStorage?.setItem(
-            VITALS_KEY,
-            String(this.vitalsOpen),
-          );
+          localStorage?.setItem(VITALS_KEY, String(this.vitalsOpen));
         } catch {
           // ignore
         }
@@ -374,10 +295,7 @@ class UIStore {
 
       $effect(() => {
         try {
-          localStorage?.setItem(
-            SIGNAL_PANEL_KEY,
-            String(this.signalPanelOpen),
-          );
+          localStorage?.setItem(SIGNAL_PANEL_KEY, String(this.signalPanelOpen));
         } catch {
           // ignore
         }
@@ -385,10 +303,7 @@ class UIStore {
 
       $effect(() => {
         try {
-          localStorage?.setItem(
-            FOLLOW_LATEST_KEY,
-            String(this.followLatest),
-          );
+          localStorage?.setItem(FOLLOW_LATEST_KEY, String(this.followLatest));
         } catch {
           // ignore
         }
@@ -476,10 +391,7 @@ class UIStore {
 
   private persistBlockFilters() {
     try {
-      localStorage?.setItem(
-        BLOCK_FILTER_KEY,
-        JSON.stringify([...this.visibleBlocks]),
-      );
+      localStorage?.setItem(BLOCK_FILTER_KEY, JSON.stringify([...this.visibleBlocks]));
     } catch {
       // ignore
     }
@@ -491,8 +403,7 @@ class UIStore {
 
   cycleLayout() {
     const idx = VALID_LAYOUTS.indexOf(this.messageLayout);
-    this.messageLayout =
-      VALID_LAYOUTS[(idx + 1) % VALID_LAYOUTS.length]!;
+    this.messageLayout = VALID_LAYOUTS[(idx + 1) % VALID_LAYOUTS.length]!;
   }
 
   setLayout(layout: MessageLayout) {

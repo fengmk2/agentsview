@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { DbAgentSummary } from './DbAgentSummary';
+import type { DbAgentSummary } from "./DbAgentSummary";
 export type DbAnalyticsSummary = {
   active_days: number;
   active_projects: number;
@@ -17,4 +17,3 @@ export type DbAnalyticsSummary = {
   total_output_tokens: number;
   total_sessions: number;
 };
-

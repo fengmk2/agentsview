@@ -87,9 +87,7 @@ export class SessionsPage {
 
   async clearProjectFilter() {
     await this.projectTypeahead.locator(".typeahead-trigger").click();
-    await this.projectTypeahead
-      .locator(".typeahead-option", { hasText: "All Projects" })
-      .click();
+    await this.projectTypeahead.locator(".typeahead-option", { hasText: "All Projects" }).click();
   }
 
   async pressNextSessionShortcut() {

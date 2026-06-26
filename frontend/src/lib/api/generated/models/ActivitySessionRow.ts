@@ -17,4 +17,3 @@ export type ActivitySessionRow = {
   timing_quality: string;
   title: string;
 };
-

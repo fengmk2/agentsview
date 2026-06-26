@@ -6,4 +6,3 @@ export type DbSkillAgentBreakdown = {
   agent: string;
   count: number;
 };
-

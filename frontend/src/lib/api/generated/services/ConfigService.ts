@@ -2,13 +2,13 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { GithubConfigResponse } from '../models/GithubConfigResponse';
-import type { SetGithubConfigInputBody } from '../models/SetGithubConfigInputBody';
-import type { SetGithubConfigResponse } from '../models/SetGithubConfigResponse';
-import type { TerminalConfigBody } from '../models/TerminalConfigBody';
-import type { CancelablePromise } from '../core/CancelablePromise';
-import { OpenAPI } from '../core/OpenAPI';
-import { request as __request } from '../core/request';
+import type { GithubConfigResponse } from "../models/GithubConfigResponse";
+import type { SetGithubConfigInputBody } from "../models/SetGithubConfigInputBody";
+import type { SetGithubConfigResponse } from "../models/SetGithubConfigResponse";
+import type { TerminalConfigBody } from "../models/TerminalConfigBody";
+import type { CancelablePromise } from "../core/CancelablePromise";
+import { OpenAPI } from "../core/OpenAPI";
+import { request as __request } from "../core/request";
 export class ConfigService {
   /**
    * Get GitHub config
@@ -17,8 +17,8 @@ export class ConfigService {
    */
   public static getApiV1ConfigGithub(): CancelablePromise<GithubConfigResponse> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/config/github',
+      method: "GET",
+      url: "/api/v1/config/github",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,
@@ -41,13 +41,13 @@ export class ConfigService {
   public static postApiV1ConfigGithub({
     requestBody,
   }: {
-    requestBody: SetGithubConfigInputBody,
+    requestBody: SetGithubConfigInputBody;
   }): CancelablePromise<SetGithubConfigResponse> {
     return __request(OpenAPI, {
-      method: 'POST',
-      url: '/api/v1/config/github',
+      method: "POST",
+      url: "/api/v1/config/github",
       body: requestBody,
-      mediaType: 'application/json',
+      mediaType: "application/json",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,
@@ -70,8 +70,8 @@ export class ConfigService {
    */
   public static getApiV1ConfigTerminal(): CancelablePromise<TerminalConfigBody> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/config/terminal',
+      method: "GET",
+      url: "/api/v1/config/terminal",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,
@@ -94,13 +94,13 @@ export class ConfigService {
   public static postApiV1ConfigTerminal({
     requestBody,
   }: {
-    requestBody: TerminalConfigBody,
+    requestBody: TerminalConfigBody;
   }): CancelablePromise<TerminalConfigBody> {
     return __request(OpenAPI, {
-      method: 'POST',
-      url: '/api/v1/config/terminal',
+      method: "POST",
+      url: "/api/v1/config/terminal",
       body: requestBody,
-      mediaType: 'application/json',
+      mediaType: "application/json",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,

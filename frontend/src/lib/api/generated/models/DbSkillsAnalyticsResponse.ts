@@ -8,4 +8,3 @@ export type DbSkillsAnalyticsResponse = {
   total_skill_calls: number;
   trend: any[] | null;
 };
-

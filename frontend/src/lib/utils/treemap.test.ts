@@ -7,9 +7,7 @@ describe("squarify", () => {
   });
 
   it("returns single tile filling the full rect", () => {
-    const tiles = squarify(
-      [{ id: "a", value: 10 }], 400, 300,
-    );
+    const tiles = squarify([{ id: "a", value: 10 }], 400, 300);
     expect(tiles).toHaveLength(1);
     expect(tiles[0]!.x).toBe(0);
     expect(tiles[0]!.y).toBe(0);
@@ -28,9 +26,7 @@ describe("squarify", () => {
       400,
       300,
     );
-    const totalArea = tiles.reduce(
-      (s, t) => s + t.width * t.height, 0,
-    );
+    const totalArea = tiles.reduce((s, t) => s + t.width * t.height, 0);
     expect(totalArea).toBeCloseTo(400 * 300, -1);
   });
 
@@ -76,10 +72,5 @@ function tilesOverlap(a: TreemapTile, b: TreemapTile): boolean {
   const aBottom = a.y + a.height;
   const bRight = b.x + b.width;
   const bBottom = b.y + b.height;
-  return (
-    a.x < bRight - EPS &&
-    aRight > b.x + EPS &&
-    a.y < bBottom - EPS &&
-    aBottom > b.y + EPS
-  );
+  return a.x < bRight - EPS && aRight > b.x + EPS && a.y < bBottom - EPS && aBottom > b.y + EPS;
 }

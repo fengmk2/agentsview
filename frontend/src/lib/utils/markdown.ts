@@ -68,10 +68,7 @@ function getApiBase(): string {
 }
 
 function resolveAssetURLs(text: string): string {
-  return text.replace(
-    /asset:\/\/([^\s)]+)/g,
-    `${getApiBase()}/assets/$1`,
-  );
+  return text.replace(/asset:\/\/([^\s)]+)/g, `${getApiBase()}/assets/$1`);
 }
 
 export function renderMarkdown(text: string): string {

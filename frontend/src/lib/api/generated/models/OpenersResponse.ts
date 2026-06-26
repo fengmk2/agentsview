@@ -5,4 +5,3 @@
 export type OpenersResponse = {
   openers: any[] | null;
 };
-

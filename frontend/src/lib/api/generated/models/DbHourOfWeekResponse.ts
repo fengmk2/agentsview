@@ -5,4 +5,3 @@
 export type DbHourOfWeekResponse = {
   cells: any[] | null;
 };
-

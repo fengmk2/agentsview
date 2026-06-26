@@ -2,10 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { ActivityReport } from '../models/ActivityReport';
-import type { CancelablePromise } from '../core/CancelablePromise';
-import { OpenAPI } from '../core/OpenAPI';
-import { request as __request } from '../core/request';
+import type { ActivityReport } from "../models/ActivityReport";
+import type { CancelablePromise } from "../core/CancelablePromise";
+import { OpenAPI } from "../core/OpenAPI";
+import { request as __request } from "../core/request";
 export class ActivityService {
   /**
    * Get activity report
@@ -22,63 +22,63 @@ export class ActivityService {
     project,
     agent,
     machine,
-    automation = 'all',
+    automation = "all",
   }: {
     /**
      * Range preset
      */
-    preset?: 'day' | 'week' | 'month' | 'custom',
+    preset?: "day" | "week" | "month" | "custom";
     /**
      * Calendar day (YYYY-MM-DD) for presets
      */
-    date?: string,
+    date?: string;
     /**
      * Range start (RFC3339) for custom ranges
      */
-    from?: string,
+    from?: string;
     /**
      * Range end (RFC3339) for custom ranges
      */
-    to?: string,
+    to?: string;
     /**
      * IANA timezone name
      */
-    timezone?: string,
+    timezone?: string;
     /**
      * Timeline bucket size override
      */
-    bucket?: '5m' | '15m' | '1h' | '1d' | '1w',
+    bucket?: "5m" | "15m" | "1h" | "1d" | "1w";
     /**
      * Filter by project
      */
-    project?: string,
+    project?: string;
     /**
      * Filter by agent
      */
-    agent?: string,
+    agent?: string;
     /**
      * Filter by machine
      */
-    machine?: string,
+    machine?: string;
     /**
      * Automation class: all, interactive, or automated
      */
-    automation?: string,
+    automation?: string;
   }): CancelablePromise<ActivityReport> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/activity/report',
+      method: "GET",
+      url: "/api/v1/activity/report",
       query: {
-        'preset': preset,
-        'date': date,
-        'from': from,
-        'to': to,
-        'timezone': timezone,
-        'bucket': bucket,
-        'project': project,
-        'agent': agent,
-        'machine': machine,
-        'automation': automation,
+        preset: preset,
+        date: date,
+        from: from,
+        to: to,
+        timezone: timezone,
+        bucket: bucket,
+        project: project,
+        agent: agent,
+        machine: machine,
+        automation: automation,
       },
       errors: {
         400: `Bad Request`,

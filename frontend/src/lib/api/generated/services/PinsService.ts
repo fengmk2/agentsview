@@ -2,12 +2,12 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { PinMessageResponse } from '../models/PinMessageResponse';
-import type { PinRequest } from '../models/PinRequest';
-import type { PinsResponse } from '../models/PinsResponse';
-import type { CancelablePromise } from '../core/CancelablePromise';
-import { OpenAPI } from '../core/OpenAPI';
-import { request as __request } from '../core/request';
+import type { PinMessageResponse } from "../models/PinMessageResponse";
+import type { PinRequest } from "../models/PinRequest";
+import type { PinsResponse } from "../models/PinsResponse";
+import type { CancelablePromise } from "../core/CancelablePromise";
+import { OpenAPI } from "../core/OpenAPI";
+import { request as __request } from "../core/request";
 export class PinsService {
   /**
    * List pins
@@ -20,13 +20,13 @@ export class PinsService {
     /**
      * Filter by project
      */
-    project?: string,
+    project?: string;
   }): CancelablePromise<PinsResponse> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/pins',
+      method: "GET",
+      url: "/api/v1/pins",
       query: {
-        'project': project,
+        project: project,
       },
       errors: {
         400: `Bad Request`,
@@ -55,18 +55,18 @@ export class PinsService {
     /**
      * Session ID
      */
-    id: string,
+    id: string;
     /**
      * Message ordinal
      */
-    messageId: number,
+    messageId: number;
   }): CancelablePromise<void> {
     return __request(OpenAPI, {
-      method: 'DELETE',
-      url: '/api/v1/sessions/{id}/messages/{messageId}/pin',
+      method: "DELETE",
+      url: "/api/v1/sessions/{id}/messages/{messageId}/pin",
       path: {
-        'id': id,
-        'messageId': messageId,
+        id: id,
+        messageId: messageId,
       },
       errors: {
         400: `Bad Request`,
@@ -96,22 +96,22 @@ export class PinsService {
     /**
      * Session ID
      */
-    id: string,
+    id: string;
     /**
      * Message ordinal
      */
-    messageId: number,
-    requestBody: PinRequest,
+    messageId: number;
+    requestBody: PinRequest;
   }): CancelablePromise<PinMessageResponse> {
     return __request(OpenAPI, {
-      method: 'POST',
-      url: '/api/v1/sessions/{id}/messages/{messageId}/pin',
+      method: "POST",
+      url: "/api/v1/sessions/{id}/messages/{messageId}/pin",
       path: {
-        'id': id,
-        'messageId': messageId,
+        id: id,
+        messageId: messageId,
       },
       body: requestBody,
-      mediaType: 'application/json',
+      mediaType: "application/json",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,
@@ -138,13 +138,13 @@ export class PinsService {
     /**
      * Session ID
      */
-    id: string,
+    id: string;
   }): CancelablePromise<PinsResponse> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/sessions/{id}/pins',
+      method: "GET",
+      url: "/api/v1/sessions/{id}/pins",
       path: {
-        'id': id,
+        id: id,
       },
       errors: {
         400: `Bad Request`,

@@ -19,4 +19,3 @@ export type ActivityTotals = {
   sessions: number;
   untimed_sessions: number;
 };
-

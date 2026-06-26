@@ -2,10 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { DbSignalCalibration } from './DbSignalCalibration';
-import type { DbSignalsContextHealth } from './DbSignalsContextHealth';
-import type { DbSignalsQualityHealth } from './DbSignalsQualityHealth';
-import type { DbSignalsToolHealth } from './DbSignalsToolHealth';
+import type { DbSignalCalibration } from "./DbSignalCalibration";
+import type { DbSignalsContextHealth } from "./DbSignalsContextHealth";
+import type { DbSignalsQualityHealth } from "./DbSignalsQualityHealth";
+import type { DbSignalsToolHealth } from "./DbSignalsToolHealth";
 export type DbSignalsAnalyticsResponse = {
   avg_health_score: number | null;
   by_agent: any[] | null;
@@ -21,4 +21,3 @@ export type DbSignalsAnalyticsResponse = {
   trend: any[] | null;
   unscored_sessions: number;
 };
-

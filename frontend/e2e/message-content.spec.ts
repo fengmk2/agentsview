@@ -16,30 +16,18 @@ const BETA_7 = {
   displayRows: 6,
 };
 
-function getSessionItem(
-  page: Page,
-  project: string,
-  count: number,
-) {
+function getSessionItem(page: Page, project: string, count: number) {
   return page
     .locator(LOC.sessionItem)
     .filter({
-      has: page.locator(
-        `${LOC.sessionProject}:text-is("${project}")`,
-      ),
+      has: page.locator(`${LOC.sessionProject}:text-is("${project}")`),
     })
     .filter({
-      has: page.locator(
-        `${LOC.sessionCount}:text-is("${count}")`,
-      ),
+      has: page.locator(`${LOC.sessionCount}:text-is("${count}")`),
     });
 }
 
-async function selectSession(
-  page: Page,
-  project: string,
-  count: number,
-): Promise<string> {
+async function selectSession(page: Page, project: string, count: number): Promise<string> {
   const item = getSessionItem(page, project, count);
   const sessionId = await item.getAttribute("data-session-id");
   expect(sessionId).toBeTruthy();
@@ -49,31 +37,16 @@ async function selectSession(
   return sessionId!;
 }
 
-async function expectSessionLoaded(
-  page: Page,
-  sessionId: string,
-  expectedRows?: number,
-) {
+async function expectSessionLoaded(page: Page, sessionId: string, expectedRows?: number) {
   const messageList = page.locator(LOC.listScroll);
-  await expect(messageList).toHaveAttribute(
-    "data-session-id",
-    sessionId,
-  );
-  await expect(messageList).toHaveAttribute(
-    "data-messages-session-id",
-    sessionId,
-  );
-  await expect(messageList).toHaveAttribute(
-    "data-loaded",
-    "true",
-  );
+  await expect(messageList).toHaveAttribute("data-session-id", sessionId);
+  await expect(messageList).toHaveAttribute("data-messages-session-id", sessionId);
+  await expect(messageList).toHaveAttribute("data-loaded", "true");
 
   if (expectedRows !== undefined) {
     await expect(page.locator(LOC.row)).toHaveCount(expectedRows);
   } else {
-    await expect(
-      page.locator(LOC.row).first(),
-    ).toBeVisible();
+    await expect(page.locator(LOC.row).first()).toBeVisible();
   }
 }
 
@@ -82,14 +55,10 @@ test.describe("Mixed content rendering", () => {
 
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
-    await expect(
-      page.locator(LOC.sessionItem).first(),
-    ).toBeVisible({ timeout: 5_000 });
+    await expect(page.locator(LOC.sessionItem).first()).toBeVisible({ timeout: 5_000 });
   });
 
-  test("tool group renders for consecutive tool-only messages", async ({
-    page,
-  }) => {
+  test("tool group renders for consecutive tool-only messages", async ({ page }) => {
     const { project, count, displayRows } = BETA_7;
     const sid = await selectSession(page, project, count);
     await expectSessionLoaded(page, sid, displayRows);
@@ -107,9 +76,7 @@ test.describe("Mixed content rendering", () => {
     await expect(toolBlocks).toHaveCount(2);
   });
 
-  test("tool block expands on click and text is selectable", async ({
-    page,
-  }) => {
+  test("tool block expands on click and text is selectable", async ({ page }) => {
     const { project, count, displayRows } = BETA_7;
     const sid = await selectSession(page, project, count);
     await expectSessionLoaded(page, sid, displayRows);
@@ -143,9 +110,7 @@ test.describe("Mixed content rendering", () => {
     expect(headerSelectable).toBe(true);
   });
 
-  test("text selection does not collapse tool block", async ({
-    page,
-  }) => {
+  test("text selection does not collapse tool block", async ({ page }) => {
     const { project, count, displayRows } = BETA_7;
     const sid = await selectSession(page, project, count);
     await expectSessionLoaded(page, sid, displayRows);
@@ -173,16 +138,12 @@ test.describe("Mixed content rendering", () => {
     await expect(toolContent).toBeVisible();
 
     // Clear selection and click again - now it should collapse
-    await page.evaluate(() =>
-      window.getSelection()?.removeAllRanges(),
-    );
+    await page.evaluate(() => window.getSelection()?.removeAllRanges());
     await toolHeader.click();
     await expect(toolContent).not.toBeVisible();
   });
 
-  test("thinking block is collapsed by default", async ({
-    page,
-  }) => {
+  test("thinking block is collapsed by default", async ({ page }) => {
     const { project, count, displayRows } = BETA_7;
     const sid = await selectSession(page, project, count);
     await expectSessionLoaded(page, sid, displayRows);
@@ -200,43 +161,30 @@ test.describe("Mixed content rendering", () => {
 
     // Content should now be visible
     await expect(thinkingContent).toBeVisible();
-    await expect(thinkingContent).toContainText(
-      "Let me analyze...",
-    );
+    await expect(thinkingContent).toContainText("Let me analyze...");
   });
 
-  test("thinking+text message shows response text", async ({
-    page,
-  }) => {
+  test("thinking+text message shows response text", async ({ page }) => {
     const { project, count, displayRows } = BETA_7;
     const sid = await selectSession(page, project, count);
     await expectSessionLoaded(page, sid, displayRows);
 
     // The response text after thinking should be visible
     await expect(
-      page
-        .locator(LOC.row)
-        .filter({
-          hasText: "visible response after thinking",
-        }),
+      page.locator(LOC.row).filter({
+        hasText: "visible response after thinking",
+      }),
     ).toBeVisible();
   });
 
-  test("response text remains after toggling thinking off", async ({
-    page,
-  }) => {
+  test("response text remains after toggling thinking off", async ({ page }) => {
     const { project, count, displayRows } = BETA_7;
     const sid = await selectSession(page, project, count);
     await expectSessionLoaded(page, sid, displayRows);
 
     // Open block filter dropdown and toggle thinking off
-    await page
-      .locator('button[aria-label="Filter block types"]')
-      .click();
-    await page
-      .locator(".block-filter-item")
-      .filter({ hasText: "Thinking blocks" })
-      .click();
+    await page.locator('button[aria-label="Filter block types"]').click();
+    await page.locator(".block-filter-item").filter({ hasText: "Thinking blocks" }).click();
 
     // Thinking blocks should be hidden
     const thinkingBlocks = page.locator(".thinking-block");
@@ -244,11 +192,9 @@ test.describe("Mixed content rendering", () => {
 
     // Response text should still be visible
     await expect(
-      page
-        .locator(LOC.row)
-        .filter({
-          hasText: "visible response after thinking",
-        }),
+      page.locator(LOC.row).filter({
+        hasText: "visible response after thinking",
+      }),
     ).toBeVisible();
   });
 });

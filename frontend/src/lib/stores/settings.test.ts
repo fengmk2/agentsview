@@ -1,15 +1,6 @@
-import {
-  beforeEach,
-  describe,
-  expect,
-  it,
-  vi,
-} from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { settings } from "./settings.svelte.js";
-import {
-  ApiError,
-  SettingsService,
-} from "../api/generated/index";
+import { ApiError, SettingsService } from "../api/generated/index";
 
 const runtime = vi.hoisted(() => ({
   setAuthToken: vi.fn(),
@@ -17,8 +8,7 @@ const runtime = vi.hoisted(() => ({
 }));
 
 vi.mock("../api/runtime.js", async (importOriginal) => {
-  const orig =
-    await importOriginal<typeof import("../api/runtime.js")>();
+  const orig = await importOriginal<typeof import("../api/runtime.js")>();
   return {
     ...orig,
     configureGeneratedClient: vi.fn(),
@@ -29,8 +19,7 @@ vi.mock("../api/runtime.js", async (importOriginal) => {
 });
 
 vi.mock("../api/generated/index", async (importOriginal) => {
-  const orig =
-    await importOriginal<typeof import("../api/generated/index")>();
+  const orig = await importOriginal<typeof import("../api/generated/index")>();
   return {
     ...orig,
     SettingsService: {
@@ -96,9 +85,7 @@ describe("SettingsStore.load mode handling", () => {
 
 describe("SettingsStore.load auth handling", () => {
   it("prompts for a token on 401 responses", async () => {
-    settingsService.getApiV1Settings.mockRejectedValue(
-      apiError(401, "Unauthorized"),
-    );
+    settingsService.getApiV1Settings.mockRejectedValue(apiError(401, "Unauthorized"));
 
     await settings.load();
 
@@ -107,9 +94,7 @@ describe("SettingsStore.load auth handling", () => {
   });
 
   it("surfaces an actionable hint on a bare 403", async () => {
-    settingsService.getApiV1Settings.mockRejectedValue(
-      apiError(403, "Forbidden"),
-    );
+    settingsService.getApiV1Settings.mockRejectedValue(apiError(403, "Forbidden"));
 
     await settings.load();
 
@@ -122,9 +107,7 @@ describe("SettingsStore.load auth handling", () => {
       'Forbidden: request Host "127.0.0.1:18080" is not in the ' +
       "allowed set [127.0.0.1:8080 localhost:8080]. restart with " +
       "--public-url http://127.0.0.1:18080.";
-    settingsService.getApiV1Settings.mockRejectedValue(
-      apiError(403, detail),
-    );
+    settingsService.getApiV1Settings.mockRejectedValue(apiError(403, detail));
 
     await settings.load();
 

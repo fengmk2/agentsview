@@ -5,4 +5,3 @@
 export type StarredResponse = {
   session_ids: any[] | null;
 };
-

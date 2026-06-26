@@ -1,13 +1,12 @@
 // @vitest-environment jsdom
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vite-plus/test";
 import { mount, unmount } from "svelte";
 // @ts-ignore
 import WorktreeMappingSettings from "./WorktreeMappingSettings.svelte";
 import { SettingsService } from "../../api/generated/index";
 
 vi.mock("../../api/runtime.js", async (importOriginal) => {
-  const orig =
-    await importOriginal<typeof import("../../api/runtime.js")>();
+  const orig = await importOriginal<typeof import("../../api/runtime.js")>();
   return {
     ...orig,
     callGenerated: vi.fn((request: () => Promise<unknown>) => request()),
@@ -15,8 +14,7 @@ vi.mock("../../api/runtime.js", async (importOriginal) => {
 });
 
 vi.mock("../../api/generated/index", async (importOriginal) => {
-  const orig =
-    await importOriginal<typeof import("../../api/generated/index")>();
+  const orig = await importOriginal<typeof import("../../api/generated/index")>();
   return {
     ...orig,
     SettingsService: {
@@ -38,9 +36,7 @@ describe("WorktreeMappingSettings", () => {
       },
     });
 
-    expect(
-      settingsService.getApiV1SettingsWorktreeMappings,
-    ).not.toHaveBeenCalled();
+    expect(settingsService.getApiV1SettingsWorktreeMappings).not.toHaveBeenCalled();
     expect(document.body.textContent).toContain("local mode");
 
     unmount(component);

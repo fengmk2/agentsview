@@ -1,12 +1,5 @@
 // @vitest-environment jsdom
-import {
-  afterEach,
-  beforeEach,
-  describe,
-  expect,
-  it,
-  vi,
-} from "vite-plus/test";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { mount, tick, unmount } from "svelte";
 import { ui } from "../../stores/ui.svelte.js";
 // @ts-ignore
@@ -28,19 +21,15 @@ const services = vi.hoisted(() => {
     state.configPromise = new Promise<Config>((resolve) => {
       state.resolveConfig = resolve;
     });
-    state.getApiV1ConfigGithub.mockImplementation(
-      () => state.configPromise,
-    );
+    state.getApiV1ConfigGithub.mockImplementation(() => state.configPromise);
   }
 
   return {
     configureGeneratedClient: state.configureGeneratedClient,
     getApiV1ConfigGithub: state.getApiV1ConfigGithub,
     postApiV1ConfigGithub: state.postApiV1ConfigGithub,
-    postApiV1InsightsIdPublish:
-      state.postApiV1InsightsIdPublish,
-    postApiV1SessionsIdPublish:
-      state.postApiV1SessionsIdPublish,
+    postApiV1InsightsIdPublish: state.postApiV1InsightsIdPublish,
+    postApiV1SessionsIdPublish: state.postApiV1SessionsIdPublish,
     resolveConfig(config: Config) {
       state.resolveConfig(config);
     },
@@ -64,12 +53,10 @@ vi.mock("../../api/generated/index", () => ({
     postApiV1ConfigGithub: services.postApiV1ConfigGithub,
   },
   InsightsService: {
-    postApiV1InsightsIdPublish:
-      services.postApiV1InsightsIdPublish,
+    postApiV1InsightsIdPublish: services.postApiV1InsightsIdPublish,
   },
   SessionsService: {
-    postApiV1SessionsIdPublish:
-      services.postApiV1SessionsIdPublish,
+    postApiV1SessionsIdPublish: services.postApiV1SessionsIdPublish,
   },
 }));
 
@@ -137,11 +124,7 @@ describe("PublishModal", () => {
     services.resolveConfig({ configured: true });
     await flushAsync();
 
-    expect(
-      services.postApiV1InsightsIdPublish,
-    ).not.toHaveBeenCalled();
-    expect(
-      services.postApiV1SessionsIdPublish,
-    ).not.toHaveBeenCalled();
+    expect(services.postApiV1InsightsIdPublish).not.toHaveBeenCalled();
+    expect(services.postApiV1SessionsIdPublish).not.toHaveBeenCalled();
   });
 });

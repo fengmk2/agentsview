@@ -21,9 +21,8 @@ export namespace TerminalConfigBody {
    * Terminal launch mode
    */
   export enum mode {
-    AUTO = 'auto',
-    CUSTOM = 'custom',
-    CLIPBOARD = 'clipboard',
+    AUTO = "auto",
+    CUSTOM = "custom",
+    CLIPBOARD = "clipboard",
   }
 }
-

@@ -59,9 +59,7 @@ function dumpHtml(filename: string, html: string) {
 // given tokens in order, with arbitrary other tokens (typically the scope
 // hash) interleaved.
 function hasClasses(...tokens: string[]): RegExp {
-  const inner = tokens
-    .map((t) => `\\b${t}\\b`)
-    .join("[^\"]*");
+  const inner = tokens.map((t) => `\\b${t}\\b`).join('[^"]*');
   return new RegExp(`class="[^"]*${inner}[^"]*"`);
 }
 

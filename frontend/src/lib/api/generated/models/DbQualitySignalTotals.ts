@@ -12,4 +12,3 @@ export type DbQualitySignalTotals = {
   short_prompt_count: number;
   unstructured_start: number;
 };
-

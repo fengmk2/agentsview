@@ -2,8 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { ConfigDuckDBConfig } from './ConfigDuckDBConfig';
-import type { ConfigPGConfig } from './ConfigPGConfig';
+import type { ConfigDuckDBConfig } from "./ConfigDuckDBConfig";
+import type { ConfigPGConfig } from "./ConfigPGConfig";
 export type DaemonPushRequest = {
   duckdb?: ConfigDuckDBConfig;
   exclude_projects?: any[] | null;
@@ -13,4 +13,3 @@ export type DaemonPushRequest = {
   projects?: any[] | null;
   sync_state_target?: string;
 };
-

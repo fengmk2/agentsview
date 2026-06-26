@@ -8,4 +8,3 @@ export type ResumeRequest = {
   opener_id?: string;
   skip_permissions?: boolean;
 };
-

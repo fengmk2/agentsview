@@ -35,8 +35,7 @@ describe("UsagePage refresh behavior", () => {
   });
 
   it("keeps refresh progress out of content layout flow", () => {
-    const queryProgress =
-      source.match(/\.query-progress\s*{[^}]+}/)?.[0] ?? "";
+    const queryProgress = source.match(/\.query-progress\s*{[^}]+}/)?.[0] ?? "";
 
     expect(queryProgress).toContain("position: absolute");
     expect(queryProgress).toContain("left: 0;");
@@ -83,12 +82,8 @@ describe("UsagePage refresh behavior", () => {
     const initBlock = source.slice(initStart, initEnd);
 
     expect(source).toContain("function usageSupportedSessionParams");
-    expect(initBlock).toContain(
-      "parseFiltersFromParams(supportedSessionParams)",
-    );
-    expect(initBlock).toContain(
-      "sessions.initFromParams(supportedSessionParams)",
-    );
+    expect(initBlock).toContain("parseFiltersFromParams(supportedSessionParams)");
+    expect(initBlock).toContain("sessions.initFromParams(supportedSessionParams)");
     expect(initBlock).not.toContain("parseFiltersFromParams(params)");
     expect(initBlock).not.toContain("sessions.initFromParams(params)");
   });

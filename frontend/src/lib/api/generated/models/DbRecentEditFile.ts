@@ -11,4 +11,3 @@ export type DbRecentEditFile = {
   last_session_id: string;
   project: string;
 };
-

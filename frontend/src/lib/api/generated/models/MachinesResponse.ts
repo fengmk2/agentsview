@@ -5,4 +5,3 @@
 export type MachinesResponse = {
   machines: any[] | null;
 };
-

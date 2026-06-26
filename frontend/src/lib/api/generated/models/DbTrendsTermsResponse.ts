@@ -10,4 +10,3 @@ export type DbTrendsTermsResponse = {
   series: any[] | null;
   to: string;
 };
-

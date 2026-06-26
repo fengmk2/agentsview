@@ -1,12 +1,5 @@
 // @vitest-environment jsdom
-import {
-  afterEach,
-  beforeEach,
-  describe,
-  expect,
-  it,
-  vi,
-} from "vite-plus/test";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { mount, tick, unmount } from "svelte";
 import { ui } from "../../stores/ui.svelte.js";
 // @ts-ignore
@@ -20,15 +13,9 @@ describe("InsightsPage sidebar filter sync", () => {
     // sidebar toggle, map it to all/human, and write both fields.
     const normalized = source.replace(/\s+/g, " ");
     expect(source).toContain("sessions.filters.includeAutomated");
-    expect(normalized).toContain(
-      'headerIncludeAutomated ? "all" : "human"',
-    );
-    expect(source).toContain(
-      "analytics.includeAutomated = headerIncludeAutomated",
-    );
-    expect(source).toContain(
-      "analytics.automatedScope = headerAutomatedScope",
-    );
+    expect(normalized).toContain('headerIncludeAutomated ? "all" : "human"');
+    expect(source).toContain("analytics.includeAutomated = headerIncludeAutomated");
+    expect(source).toContain("analytics.automatedScope = headerAutomatedScope");
   });
 
   it("refetches when the automated scope changes", () => {
@@ -62,10 +49,7 @@ describe("InsightsPage date yoke controls", () => {
 
   it("preserves relative range selections as rolling yoke state", () => {
     const applyIndex = source.indexOf("function applyRange");
-    const parseIndex = source.indexOf(
-      "function parseInsightWindowDays",
-      applyIndex,
-    );
+    const parseIndex = source.indexOf("function parseInsightWindowDays", applyIndex);
     const applyBlock = source.slice(applyIndex, parseIndex);
 
     expect(source).toContain('mode: "rolling"');
@@ -84,10 +68,7 @@ describe("InsightsPage date yoke controls", () => {
 
   it("refreshes rolling insight URL/yoke bounds after signal fetches", () => {
     const fetchIndex = source.indexOf("function fetchInsightSignals");
-    const nextHandlerIndex = source.indexOf(
-      "\n\n  function handleProjectChange",
-      fetchIndex,
-    );
+    const nextHandlerIndex = source.indexOf("\n\n  function handleProjectChange", fetchIndex);
     const fetchBlock = source.slice(fetchIndex, nextHandlerIndex);
 
     expect(fetchBlock).toContain("analytics.fetchSignalsForInsights()");
@@ -95,13 +76,8 @@ describe("InsightsPage date yoke controls", () => {
   });
 
   it("routes automated scope changes through the insight refresh wrapper", () => {
-    const handlerIndex = source.indexOf(
-      "function handleAutomatedScopeChange",
-    );
-    const nextHandlerIndex = source.indexOf(
-      "\n\n  function handlePromptChange",
-      handlerIndex,
-    );
+    const handlerIndex = source.indexOf("function handleAutomatedScopeChange");
+    const nextHandlerIndex = source.indexOf("\n\n  function handlePromptChange", handlerIndex);
     const handlerBlock = source.slice(handlerIndex, nextHandlerIndex);
 
     expect(handlerBlock).toContain("fetchInsightSignals()");
@@ -200,12 +176,15 @@ vi.mock("../../stores/sync.svelte.js", () => ({
 }));
 
 vi.mock("../../paraglide/messages.js", () => {
-  const stub = new Proxy({}, {
-    get(_target, prop) {
-      if (prop === "m") return stub;
-      return () => String(prop);
+  const stub = new Proxy(
+    {},
+    {
+      get(_target, prop) {
+        if (prop === "m") return stub;
+        return () => String(prop);
+      },
     },
-  });
+  );
   return stub;
 });
 
@@ -244,9 +223,9 @@ describe("InsightsPage selected insight actions", () => {
     component = mount(InsightsPage, { target: document.body });
     await tick();
 
-    const exportButton = Array.from(
-      document.querySelectorAll<HTMLButtonElement>("button"),
-    ).find((button) => button.textContent?.trim() === "Export");
+    const exportButton = Array.from(document.querySelectorAll<HTMLButtonElement>("button")).find(
+      (button) => button.textContent?.trim() === "Export",
+    );
     expect(exportButton).toBeDefined();
 
     exportButton!.click();
@@ -259,9 +238,9 @@ describe("InsightsPage selected insight actions", () => {
     component = mount(InsightsPage, { target: document.body });
     await tick();
 
-    const publishButton = Array.from(
-      document.querySelectorAll<HTMLButtonElement>("button"),
-    ).find((button) => button.textContent?.trim() === "Publish");
+    const publishButton = Array.from(document.querySelectorAll<HTMLButtonElement>("button")).find(
+      (button) => button.textContent?.trim() === "Publish",
+    );
     expect(publishButton).toBeDefined();
 
     publishButton!.click();
@@ -279,9 +258,9 @@ describe("InsightsPage selected insight actions", () => {
     component = mount(InsightsPage, { target: document.body });
     await tick();
 
-    const secretButton = Array.from(
-      document.querySelectorAll<HTMLButtonElement>("button"),
-    ).find((button) => button.textContent?.trim() === "Secret");
+    const secretButton = Array.from(document.querySelectorAll<HTMLButtonElement>("button")).find(
+      (button) => button.textContent?.trim() === "Secret",
+    );
     expect(secretButton).toBeDefined();
 
     secretButton!.click();

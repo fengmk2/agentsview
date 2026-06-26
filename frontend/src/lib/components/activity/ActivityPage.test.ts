@@ -20,12 +20,8 @@ describe("ActivityPage date yoke controls", () => {
   it("yokes week and month selections using resolved period starts", () => {
     expect(source).toContain("startOfIsoWeek(activity.date)");
     expect(source).toContain("startOfMonth(activity.date)");
-    expect(source).not.toContain(
-      "panelDateState(activity.date, addDays(activity.date, 6)",
-    );
-    expect(source).not.toContain(
-      "panelDateState(activity.date, endOfMonth(activity.date)",
-    );
+    expect(source).not.toContain("panelDateState(activity.date, addDays(activity.date, 6)");
+    expect(source).not.toContain("panelDateState(activity.date, endOfMonth(activity.date)");
   });
 
   it("preserves relative range selections as rolling yoke state", () => {

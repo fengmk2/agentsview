@@ -4,9 +4,7 @@ const DAY = 86400;
 const WEEK = 604800;
 
 /** Formats an ISO timestamp as a human-friendly relative time */
-export function formatRelativeTime(
-  isoString: string | null | undefined,
-): string {
+export function formatRelativeTime(isoString: string | null | undefined): string {
   if (!isoString) return "—";
 
   const date = new Date(isoString);
@@ -24,9 +22,7 @@ export function formatRelativeTime(
 }
 
 /** Formats an ISO timestamp as a readable date/time string */
-export function formatTimestamp(
-  isoString: string | null | undefined,
-): string {
+export function formatTimestamp(isoString: string | null | undefined): string {
   if (!isoString) return "—";
   const d = new Date(isoString);
   return d.toLocaleString(undefined, {
@@ -44,9 +40,7 @@ export function truncate(s: string, maxLen: number): string {
 }
 
 /** Formats an agent name for display */
-export function formatAgentName(
-  agent: string | null | undefined,
-): string {
+export function formatAgentName(agent: string | null | undefined): string {
   if (!agent) return "Unknown";
   // Capitalize first letter
   return agent.charAt(0).toUpperCase() + agent.slice(1);
@@ -76,12 +70,8 @@ export function formatTokenUsage(
 ): string | null {
   if (!hasContextTokens && !hasOutputTokens) return null;
 
-  const contextLabel = hasContextTokens
-    ? `${formatTokenCount(contextTokens)} ctx`
-    : "— ctx";
-  const outputLabel = hasOutputTokens
-    ? `${formatTokenCount(outputTokens)} out`
-    : "— out";
+  const contextLabel = hasContextTokens ? `${formatTokenCount(contextTokens)} ctx` : "— ctx";
+  const outputLabel = hasOutputTokens ? `${formatTokenCount(outputTokens)} out` : "— out";
 
   return `${contextLabel} / ${outputLabel}`;
 }

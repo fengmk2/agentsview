@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { DbCallTiming } from './DbCallTiming';
+import type { DbCallTiming } from "./DbCallTiming";
 export type DbSessionTiming = {
   by_category: any[] | null;
   running: boolean;
@@ -15,4 +15,3 @@ export type DbSessionTiming = {
   turn_count: number;
   turns: any[] | null;
 };
-

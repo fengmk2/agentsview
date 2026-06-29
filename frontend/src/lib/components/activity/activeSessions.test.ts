@@ -1,15 +1,21 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import { activeSessionsInSlot } from "./activeSessions.js";
-import type {
-  ActivityReportInterval,
-  ActivitySessionRow,
-} from "../../api/generated/index";
+import type { ActivityReportInterval, ActivitySessionRow } from "../../api/generated/index";
 
 function row(id: string): ActivitySessionRow {
   return {
-    session_id: id, title: id, project: "p", agent: "claude",
-    primary_model: "m", models: ["m"], agent_minutes: 1, cost: 0,
-    output_tokens: 0, first_active: null, last_active: null, timing_quality: "timed",
+    session_id: id,
+    title: id,
+    project: "p",
+    agent: "claude",
+    primary_model: "m",
+    models: ["m"],
+    agent_minutes: 1,
+    cost: 0,
+    output_tokens: 0,
+    first_active: null,
+    last_active: null,
+    timing_quality: "timed",
   } as ActivitySessionRow;
 }
 const ms = (iso: string) => Date.parse(iso);
@@ -43,8 +49,9 @@ describe("activeSessionsInSlot", () => {
     const atStart: ActivityReportInterval[] = [
       { session_id: "a", start: "2026-06-16T10:00:00Z", end: "2026-06-16T10:00:00Z" },
     ];
-    expect(activeSessionsInSlot(atStart, slotStart, slotEnd, bySession).map((r) => r.session_id))
-      .toEqual(["a"]);
+    expect(
+      activeSessionsInSlot(atStart, slotStart, slotEnd, bySession).map((r) => r.session_id),
+    ).toEqual(["a"]);
     // ...while the instant exactly at the slot's end boundary belongs to the next slot.
     const atEnd: ActivityReportInterval[] = [
       { session_id: "a", start: "2026-06-16T10:05:00Z", end: "2026-06-16T10:05:00Z" },

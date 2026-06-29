@@ -4,10 +4,7 @@ import type {
   TopUsageSessionsResponse,
 } from "../api/types/usage.js";
 import { UsageService } from "../api/generated/index";
-import {
-  callGenerated,
-  isAbortError,
-} from "../api/runtime.js";
+import { callGenerated, isAbortError } from "../api/runtime.js";
 import { sessions } from "./sessions.svelte.js";
 import { perf, type PerfEntryStatus } from "./perf.svelte.js";
 import { daysAgo, today } from "../utils/dates.js";
@@ -218,26 +215,15 @@ class UsageStore {
       agent: sessionFilters.agent || undefined,
       termination: sessionFilters.termination || undefined,
       minUserMessages:
-        sessionFilters.minUserMessages > 0
-          ? sessionFilters.minUserMessages
-          : undefined,
+        sessionFilters.minUserMessages > 0 ? sessionFilters.minUserMessages : undefined,
       includeOneShot: sessionFilters.includeOneShot,
-      includeAutomated:
-        sessionFilters.includeAutomated || undefined,
+      includeAutomated: sessionFilters.includeAutomated || undefined,
       activeSince: sessionFilters.recentlyActive
-        ? new Date(
-            Date.now() - 24 * 60 * 60 * 1000,
-          ).toISOString()
+        ? new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
         : undefined,
     };
-    if (
-      sessionFilters.hideUnknownProject &&
-      sessionFilters.project !== "unknown"
-    ) {
-      p.excludeProject = joinCsvParts(
-        this.excludedProjects,
-        "unknown",
-      );
+    if (sessionFilters.hideUnknownProject && sessionFilters.project !== "unknown") {
+      p.excludeProject = joinCsvParts(this.excludedProjects, "unknown");
     } else if (this.excludedProjects) {
       p.excludeProject = this.excludedProjects;
     }
@@ -272,23 +258,17 @@ class UsageStore {
   // Toggle an item's exclusion. Clicking an included item
   // excludes it; clicking an excluded item re-includes it.
   toggleProject(name: string): void {
-    this.excludedProjects = this.toggleCsv(
-      this.excludedProjects, name,
-    );
+    this.excludedProjects = this.toggleCsv(this.excludedProjects, name);
     this.fetchAll();
   }
 
   toggleAgent(name: string): void {
-    this.excludedAgents = this.toggleCsv(
-      this.excludedAgents, name,
-    );
+    this.excludedAgents = this.toggleCsv(this.excludedAgents, name);
     this.fetchAll();
   }
 
   toggleModel(name: string): void {
-    this.selectedModels = this.toggleCsv(
-      this.selectedModels, name,
-    );
+    this.selectedModels = this.toggleCsv(this.selectedModels, name);
     this.excludedModels = "";
     this.fetchAll();
   }
@@ -420,11 +400,7 @@ class UsageStore {
     }
     const [topSessionsResult, comparisonResult] = await Promise.all([
       topSessionsPromise,
-      this.fetchComparison(
-        loadedSummary.version,
-        loadedSummary.summary,
-        loadedSummary.params,
-      ),
+      this.fetchComparison(loadedSummary.version, loadedSummary.summary, loadedSummary.params),
     ]);
     if (
       fetchVersion === this.fetchAllVersion &&
@@ -454,10 +430,10 @@ class UsageStore {
     let status: Extract<PerfEntryStatus, "ok" | "error" | "aborted"> = "ok";
     try {
       const params = options.params ?? this.baseParams();
-      const data = await callGenerated(() =>
-        UsageService.getApiV1UsageSummary(params),
+      const data = (await callGenerated(
+        () => UsageService.getApiV1UsageSummary(params),
         signal,
-      ) as unknown as UsageSummaryResponse;
+      )) as unknown as UsageSummaryResponse;
       if (this.versions.summary === v) {
         this.summary = data;
         this.errors.summary = null;
@@ -479,8 +455,7 @@ class UsageStore {
         // existing values stay visible instead of flipping to a "--"
         // error state. First-load failures still surface.
         if (this.summary === null) {
-          this.errors.summary =
-            e instanceof Error ? e.message : "Failed to load";
+          this.errors.summary = e instanceof Error ? e.message : "Failed to load";
         } else {
           console.warn("usage.fetchSummary refetch failed:", e);
         }
@@ -510,13 +485,14 @@ class UsageStore {
     const started = performance.now();
     let status: Extract<PerfEntryStatus, "ok" | "error" | "aborted"> = "ok";
     try {
-      const comparison = await callGenerated(() =>
-        UsageService.getApiV1UsageComparison({
-          ...params,
-          currentCost: summary.totals.totalCost,
-        }),
+      const comparison = (await callGenerated(
+        () =>
+          UsageService.getApiV1UsageComparison({
+            ...params,
+            currentCost: summary.totals.totalCost,
+          }),
         signal,
-      ) as unknown as UsageComparison;
+      )) as unknown as UsageComparison;
       if (this.versions.summary === summaryVersion) {
         this.summary = { ...summary, comparison };
         return "ok";
@@ -543,9 +519,7 @@ class UsageStore {
     }
   }
 
-  async fetchTopSessions(
-    params: UsageParams | null = null,
-  ): Promise<FetchResult> {
+  async fetchTopSessions(params: UsageParams | null = null): Promise<FetchResult> {
     const v = ++this.versions.topSessions;
     const signal = this.nextAbortSignal("topSessions");
     const isFirstLoad = this.topSessions === null;
@@ -554,12 +528,10 @@ class UsageStore {
     const started = performance.now();
     let status: Extract<PerfEntryStatus, "ok" | "error" | "aborted"> = "ok";
     try {
-      const data = await callGenerated(() =>
-        UsageService.getApiV1UsageTopSessions(
-          params ?? this.baseParams(),
-        ),
+      const data = (await callGenerated(
+        () => UsageService.getApiV1UsageTopSessions(params ?? this.baseParams()),
         signal,
-      ) as unknown as TopUsageSessionsResponse;
+      )) as unknown as TopUsageSessionsResponse;
       if (this.versions.topSessions === v) {
         this.topSessions = data;
         this.errors.topSessions = null;
@@ -574,8 +546,7 @@ class UsageStore {
       status = "error";
       if (this.versions.topSessions === v) {
         if (this.topSessions === null) {
-          this.errors.topSessions =
-            e instanceof Error ? e.message : "Failed to load";
+          this.errors.topSessions = e instanceof Error ? e.message : "Failed to load";
         } else {
           console.warn("usage.fetchTopSessions refetch failed:", e);
         }
@@ -614,10 +585,7 @@ class UsageStore {
     return controller.signal;
   }
 
-  private clearAbortSignal(
-    panel: UsagePanel,
-    signal: AbortSignal,
-  ): boolean {
+  private clearAbortSignal(panel: UsagePanel, signal: AbortSignal): boolean {
     if (this.abortControllers[panel]?.signal === signal) {
       delete this.abortControllers[panel];
       this.querying[panel] = false;
@@ -650,28 +618,18 @@ export const USAGE_DEFAULT_WINDOW_DAYS = DEFAULT_WINDOW_DAYS;
 export function parseWindowDays(raw: string | undefined): number | null {
   if (!raw) return null;
   const n = Number.parseInt(raw, 10);
-  if (
-    !Number.isFinite(n) ||
-    n <= 0 ||
-    n > MAX_WINDOW_DAYS ||
-    String(n) !== raw
-  ) {
+  if (!Number.isFinite(n) || n <= 0 || n > MAX_WINDOW_DAYS || String(n) !== raw) {
     return null;
   }
   return n;
 }
 
-export function buildUsageUrlParams(
-  state: UsageUrlState,
-): Record<string, string> {
+export function buildUsageUrlParams(state: UsageUrlState): Record<string, string> {
   const params: Record<string, string> = {};
   if (state.isPinned) {
     if (state.from) params["from"] = state.from;
     if (state.to) params["to"] = state.to;
-  } else if (
-    state.windowDays > 0 &&
-    state.windowDays !== DEFAULT_WINDOW_DAYS
-  ) {
+  } else if (state.windowDays > 0 && state.windowDays !== DEFAULT_WINDOW_DAYS) {
     params["window_days"] = String(state.windowDays);
   }
   if (state.selectedModels) {
@@ -684,11 +642,7 @@ export function buildUsageUrlParams(
 }
 
 const CSV_MERGE_URL_KEYS = new Set(["exclude_project"]);
-const SESSION_DATE_URL_KEYS = new Set([
-  "date",
-  "date_from",
-  "date_to",
-]);
+const SESSION_DATE_URL_KEYS = new Set(["date", "date_from", "date_to"]);
 
 export function mergeUsageAndSessionUrlParams(
   usageParams: Record<string, string>,

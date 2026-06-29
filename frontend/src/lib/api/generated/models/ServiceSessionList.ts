@@ -7,4 +7,3 @@ export type ServiceSessionList = {
   sessions: any[] | null;
   total: number;
 };
-

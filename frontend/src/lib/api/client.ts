@@ -1,34 +1,23 @@
-import type {
-  SyncProgress,
-  SyncStats,
-  Insight,
-  GenerateInsightRequest,
-} from "./types.js";
+import type { SyncProgress, SyncStats, Insight, GenerateInsightRequest } from "./types.js";
 import type { SessionTiming } from "./types/timing.js";
-import {
-  ApiError,
-  authHeaders,
-  getAuthToken,
-  getBase,
-  responseErrorMessage,
-} from "./runtime.js";
+import { ApiError, authHeaders, getAuthToken, getBase, responseErrorMessage } from "./runtime.js";
 
 export interface SyncHandle {
   abort: () => void;
   done: Promise<SyncStats>;
 }
 
-function streamSyncSSE(
-  path: string,
-  onProgress?: (p: SyncProgress) => void,
-): SyncHandle {
+function streamSyncSSE(path: string, onProgress?: (p: SyncProgress) => void): SyncHandle {
   const controller = new AbortController();
 
   const done = (async () => {
-    const res = await fetch(`${getBase()}${path}`, authHeaders({
-      method: "POST",
-      signal: controller.signal,
-    }));
+    const res = await fetch(
+      `${getBase()}${path}`,
+      authHeaders({
+        method: "POST",
+        signal: controller.signal,
+      }),
+    );
 
     if (!res.ok || !res.body) {
       throw new Error(`Sync request failed: ${res.status}`);
@@ -72,15 +61,11 @@ function streamSyncSSE(
   return { abort: () => controller.abort(), done };
 }
 
-export function triggerSync(
-  onProgress?: (p: SyncProgress) => void,
-): SyncHandle {
+export function triggerSync(onProgress?: (p: SyncProgress) => void): SyncHandle {
   return streamSyncSSE("/sync", onProgress);
 }
 
-export function triggerResync(
-  onProgress?: (p: SyncProgress) => void,
-): SyncHandle {
+export function triggerResync(onProgress?: (p: SyncProgress) => void): SyncHandle {
   return streamSyncSSE("/resync", onProgress);
 }
 
@@ -88,10 +73,7 @@ export function triggerResync(
  * Parse all complete SSE frames in buf.
  * Returns the SyncStats if a "done" event was received, undefined otherwise.
  */
-function processFrames(
-  buf: string,
-  onProgress?: (p: SyncProgress) => void,
-): SyncStats | undefined {
+function processFrames(buf: string, onProgress?: (p: SyncProgress) => void): SyncStats | undefined {
   let idx: number;
   let start = 0;
   while ((idx = buf.indexOf("\n\n", start)) !== -1) {
@@ -240,9 +222,7 @@ export function watchEvents(
 ): EventSource {
   const url = `${getBase()}/events`;
   const token = getAuthToken();
-  const fullUrl = token
-    ? `${url}?token=${encodeURIComponent(token)}`
-    : url;
+  const fullUrl = token ? `${url}?token=${encodeURIComponent(token)}` : url;
   const es = new EventSource(fullUrl);
 
   // Circuit breaker: on N consecutive onerror firings without any
@@ -281,11 +261,7 @@ export function watchEvents(
       typeof parsed === "object" && parsed !== null
         ? (parsed as { scope?: unknown }).scope
         : undefined;
-    if (
-      scope === "messages" ||
-      scope === "sessions" ||
-      scope === "sync"
-    ) {
+    if (scope === "messages" || scope === "sessions" || scope === "sync") {
       onEvent({ scope });
     } else {
       onEvent({ scope: "sync" });
@@ -320,48 +296,29 @@ export function getInsightExportUrl(insightId: number): string {
 }
 
 /** Get markdown export URL for a session, with optional child depth. */
-export function getMarkdownExportUrl(
-  sessionId: string,
-  depth?: 1 | "all",
-): string {
-  const url = new URL(
-    `${getBase()}/sessions/${sessionId}/md`,
-    window.location.origin,
-  );
+export function getMarkdownExportUrl(sessionId: string, depth?: 1 | "all"): string {
+  const url = new URL(`${getBase()}/sessions/${sessionId}/md`, window.location.origin);
   if (depth !== undefined) {
     url.searchParams.set("depth", String(depth));
   }
   return `${url.pathname}${url.search}`;
 }
 
-export function getInsightMarkdownExportUrl(
-  insightId: number,
-): string {
+export function getInsightMarkdownExportUrl(insightId: number): string {
   return `${getBase()}/insights/${insightId}/md`;
 }
 
 /** Download a session export using fetch with auth headers,
  *  avoiding token leakage in the URL for remote connections. */
 export async function downloadExport(sessionId: string): Promise<void> {
-  await downloadAuthenticatedExport(
-    getExportUrl(sessionId),
-    `session-${sessionId}.html`,
-  );
+  await downloadAuthenticatedExport(getExportUrl(sessionId), `session-${sessionId}.html`);
 }
 
-export async function downloadInsightExport(
-  insightId: number,
-): Promise<void> {
-  await downloadAuthenticatedExport(
-    getInsightExportUrl(insightId),
-    `insight-${insightId}.html`,
-  );
+export async function downloadInsightExport(insightId: number): Promise<void> {
+  await downloadAuthenticatedExport(getInsightExportUrl(insightId), `insight-${insightId}.html`);
 }
 
-async function downloadAuthenticatedExport(
-  url: string,
-  fallbackFilename: string,
-): Promise<void> {
+async function downloadAuthenticatedExport(url: string, fallbackFilename: string): Promise<void> {
   const token = getAuthToken();
   if (!token) {
     // Local connection — simple navigation is fine.
@@ -406,12 +363,15 @@ export function generateInsight(
   const controller = new AbortController();
 
   const done = (async () => {
-    const res = await fetch(`${getBase()}/insights/generate`, authHeaders({
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(req),
-      signal: controller.signal,
-    }));
+    const res = await fetch(
+      `${getBase()}/insights/generate`,
+      authHeaders({
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(req),
+        signal: controller.signal,
+      }),
+    );
 
     if (!res.ok) {
       throw new ApiError(res.status, await responseErrorMessage(res));
@@ -523,10 +483,7 @@ export interface ImportCallbacks {
   onIndexing?: () => void;
 }
 
-async function readImportSSE(
-  res: Response,
-  cb?: ImportCallbacks,
-): Promise<ImportStats> {
+async function readImportSSE(res: Response, cb?: ImportCallbacks): Promise<ImportStats> {
   const reader = res.body!.getReader();
   const decoder = new TextDecoder();
   let buf = "";
@@ -563,10 +520,7 @@ async function readImportSSE(
           result = parsed as ImportStats;
           break;
         case "error":
-          throw new Error(
-            (parsed as { error?: string }).error
-            ?? "Import failed",
-          );
+          throw new Error((parsed as { error?: string }).error ?? "Import failed");
       }
     }
   }
@@ -575,25 +529,16 @@ async function readImportSSE(
   return result;
 }
 
-export async function importClaudeAI(
-  file: File,
-  cb?: ImportCallbacks,
-): Promise<ImportStats> {
+export async function importClaudeAI(file: File, cb?: ImportCallbacks): Promise<ImportStats> {
   const form = new FormData();
   form.append("file", file);
   const init = authHeaders({ method: "POST", body: form });
   const headers = new Headers(init.headers);
   headers.set("Accept", "text/event-stream");
-  const res = await fetch(
-    `${getBase()}/import/claude-ai`,
-    { ...init, headers },
-  );
+  const res = await fetch(`${getBase()}/import/claude-ai`, { ...init, headers });
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
-    throw new Error(
-      (err as { error?: string }).error
-      ?? `Import failed (${res.status})`,
-    );
+    throw new Error((err as { error?: string }).error ?? `Import failed (${res.status})`);
   }
   if (res.headers.get("content-type")?.includes("text/event-stream")) {
     return readImportSSE(res, cb);
@@ -601,25 +546,16 @@ export async function importClaudeAI(
   return res.json();
 }
 
-export async function importChatGPT(
-  file: File,
-  cb?: ImportCallbacks,
-): Promise<ImportStats> {
+export async function importChatGPT(file: File, cb?: ImportCallbacks): Promise<ImportStats> {
   const form = new FormData();
   form.append("file", file);
   const init = authHeaders({ method: "POST", body: form });
   const headers = new Headers(init.headers);
   headers.set("Accept", "text/event-stream");
-  const res = await fetch(
-    `${getBase()}/import/chatgpt`,
-    { ...init, headers },
-  );
+  const res = await fetch(`${getBase()}/import/chatgpt`, { ...init, headers });
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
-    throw new Error(
-      (err as { error?: string }).error
-      ?? `Import failed (${res.status})`,
-    );
+    throw new Error((err as { error?: string }).error ?? `Import failed (${res.status})`);
   }
   if (res.headers.get("content-type")?.includes("text/event-stream")) {
     return readImportSSE(res, cb);

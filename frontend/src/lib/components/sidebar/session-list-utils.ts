@@ -1,7 +1,4 @@
-import type {
-  SessionGroup,
-  SessionGroupInput,
-} from "../../stores/sessions.svelte.js";
+import type { SessionGroup, SessionGroupInput } from "../../stores/sessions.svelte.js";
 
 export const ITEM_HEIGHT = 42;
 export const CHILD_ITEM_HEIGHT = 34;
@@ -61,14 +58,9 @@ export function getInitialGroupMode(): GroupMode {
  * prefer the root session (matching the group key), otherwise
  * pick the most recently active session.
  */
-export function selectPrimaryId(
-  sessions: SessionGroupInput[],
-  groupKey: string,
-): string {
+export function selectPrimaryId(sessions: SessionGroupInput[], groupKey: string): string {
   if (sessions.length === 0) return groupKey;
-  const hasSubagents = sessions.some(
-    (s) => s.relationship_type === "subagent",
-  );
+  const hasSubagents = sessions.some((s) => s.relationship_type === "subagent");
   if (hasSubagents) {
     const root = sessions.find((s) => s.id === groupKey);
     return root ? root.id : sessions[0]!.id;
@@ -91,16 +83,11 @@ export function selectPrimaryId(
  * Groups by agent name or project depending on mode.
  * Returns empty array when mode is "none".
  */
-export function buildGroupSections(
-  groups: SessionGroup[],
-  mode: GroupMode,
-): GroupSection[] {
+export function buildGroupSections(groups: SessionGroup[], mode: GroupMode): GroupSection[] {
   if (mode === "none") return [];
   const map = new Map<string, SessionGroup[]>();
   for (const g of groups) {
-    const primary =
-      g.sessions.find((s) => s.id === g.primarySessionId) ??
-      g.sessions[0];
+    const primary = g.sessions.find((s) => s.id === g.primarySessionId) ?? g.sessions[0];
     if (!primary) continue;
     const key = mode === "agent" ? primary.agent : primary.project;
     let list = map.get(key);
@@ -117,18 +104,13 @@ export function buildGroupSections(
 }
 
 /** @deprecated Use buildGroupSections */
-export function buildAgentSections(
-  groups: SessionGroup[],
-  groupByAgent: boolean,
-): GroupSection[] {
+export function buildAgentSections(groups: SessionGroup[], groupByAgent: boolean): GroupSection[] {
   return buildGroupSections(groups, groupByAgent ? "agent" : "none");
 }
 
 /** Check if a session is a teammate (received a <teammate-message>). */
 function isTeammateByMessage(s: SessionGroupInput): boolean {
-  return s.is_teammate
-    ?? s.first_message?.includes("<teammate-message")
-    ?? false;
+  return s.is_teammate ?? s.first_message?.includes("<teammate-message") ?? false;
 }
 
 /**
@@ -137,10 +119,7 @@ function isTeammateByMessage(s: SessionGroupInput): boolean {
  * `<teammate-message>` tag themselves, but they belong to the
  * same teammate chain.
  */
-function isTeammate(
-  s: SessionGroupInput,
-  allSessions: SessionGroupInput[],
-): boolean {
+function isTeammate(s: SessionGroupInput, allSessions: SessionGroupInput[]): boolean {
   if (isTeammateByMessage(s)) return true;
   // Walk up the parent chain within the group to inherit.
   if (s.parent_session_id) {
@@ -182,9 +161,7 @@ export function isSubagentDescendant(
   let cur: SessionGroupInput | undefined = s;
   while (cur?.parent_session_id && !visited.has(cur.id)) {
     visited.add(cur.id);
-    const parent = groupSessions.find(
-      (p) => p.id === cur!.parent_session_id,
-    );
+    const parent = groupSessions.find((p) => p.id === cur!.parent_session_id);
     if (!parent) break;
     if (isSubagent(parent)) return true;
     cur = parent;
@@ -425,10 +402,7 @@ export function computeTotalSize(displayItems: DisplayItem[]): number {
  * scrollY position.  Accounts for OVERSCAN rows before the
  * viewport.
  */
-export function findStart(
-  displayItems: DisplayItem[],
-  scrollY: number,
-): number {
+export function findStart(displayItems: DisplayItem[], scrollY: number): number {
   const target = scrollY - OVERSCAN * ITEM_HEIGHT;
   let lo = 0;
   let hi = displayItems.length - 1;

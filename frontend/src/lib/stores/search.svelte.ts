@@ -1,14 +1,7 @@
 import { SearchService } from "../api/generated/index";
-import {
-  configureGeneratedClient,
-  isAbortError,
-  withAbort,
-} from "../api/runtime.js";
+import { configureGeneratedClient, isAbortError, withAbort } from "../api/runtime.js";
 import { debounce } from "../utils/debounce.js";
-import type {
-  SearchResponse,
-  SearchResult,
-} from "../api/types.js";
+import type { SearchResponse, SearchResult } from "../api/types.js";
 
 class SearchStore {
   query: string = $state("");
@@ -19,12 +12,9 @@ class SearchStore {
 
   private abortController: AbortController | null = null;
 
-  private debouncedSearch = debounce(
-    (q: string, project: string) => {
-      this.executeSearch(q, project);
-    },
-    300,
-  );
+  private debouncedSearch = debounce((q: string, project: string) => {
+    this.executeSearch(q, project);
+  }, 300);
 
   search(q: string, project?: string) {
     this.query = q;
@@ -65,9 +55,7 @@ class SearchStore {
     this.sort = "relevance";
   }
 
-  private async executeSearch(
-    q: string, project: string,
-  ) {
+  private async executeSearch(q: string, project: string) {
     this.abortController?.abort();
     this.abortController = new AbortController();
     const { signal } = this.abortController;

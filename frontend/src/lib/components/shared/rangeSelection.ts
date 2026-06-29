@@ -36,10 +36,7 @@ export interface CustomSelection {
   from: string;
   to: string;
 }
-export type RangeSelection =
-  | RelativeSelection
-  | CalendarSelection
-  | CustomSelection;
+export type RangeSelection = RelativeSelection | CalendarSelection | CustomSelection;
 
 export interface RelativePreset {
   /** Compact pill label. */
@@ -99,11 +96,7 @@ export function periodBounds(unit: CalendarUnit, anchor: string): DateRange {
  * into March). Mirrors the activity store's step() so period navigation is
  * unchanged.
  */
-export function stepAnchor(
-  unit: CalendarUnit,
-  anchor: string,
-  dir: -1 | 1,
-): string {
+export function stepAnchor(unit: CalendarUnit, anchor: string, dir: -1 | 1): string {
   const d = parseLocal(anchor);
   if (unit === "day") {
     d.setDate(d.getDate() + dir);
@@ -111,11 +104,7 @@ export function stepAnchor(
     d.setDate(d.getDate() + 7 * dir);
   } else {
     const target = new Date(d.getFullYear(), d.getMonth() + dir, 1);
-    const lastDay = new Date(
-      target.getFullYear(),
-      target.getMonth() + 1,
-      0,
-    ).getDate();
+    const lastDay = new Date(target.getFullYear(), target.getMonth() + 1, 0).getDate();
     target.setDate(Math.min(d.getDate(), lastDay));
     d.setTime(target.getTime());
   }
@@ -123,10 +112,7 @@ export function stepAnchor(
 }
 
 /** Turn any selection into the concrete {from, to} the stores consume. */
-export function resolveRange(
-  sel: RangeSelection,
-  earliestSession?: string | null,
-): DateRange {
+export function resolveRange(sel: RangeSelection, earliestSession?: string | null): DateRange {
   switch (sel.mode) {
     case "relative":
       return presetRange(sel.days, earliestSession);

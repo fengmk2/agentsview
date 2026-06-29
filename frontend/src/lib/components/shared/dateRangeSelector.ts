@@ -1,8 +1,4 @@
-import {
-  daysAgo,
-  localDateStr,
-  today,
-} from "../../utils/dates.js";
+import { daysAgo, localDateStr, today } from "../../utils/dates.js";
 
 export interface DateRange {
   from: string;
@@ -35,10 +31,7 @@ export function allFromDate(earliestSession: string | null | undefined): string 
   return daysAgo(365);
 }
 
-export function presetRange(
-  days: number,
-  earliestSession: string | null | undefined,
-): DateRange {
+export function presetRange(days: number, earliestSession: string | null | undefined): DateRange {
   return {
     from: days === 0 ? allFromDate(earliestSession) : daysAgo(days),
     to: todayStr(),

@@ -13,4 +13,3 @@ export type DbToolCall = {
   tool_name: string;
   tool_use_id?: string;
 };
-

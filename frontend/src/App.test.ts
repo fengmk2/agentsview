@@ -19,57 +19,32 @@ describe("App session URL date state", () => {
   it("preserves rolling window dates when writing sessions URLs", () => {
     expect(source).toContain("sessionRouteParamsForFilters(");
     expect(source).toContain("router.navigateFromSession(nextParams)");
-    expect(source).toContain(
-      "const newParams = sessionRouteParamsForFilters(",
-    );
-    expect(source).not.toContain(
-      "navigateFromSession(filtersToParams(sessions.filters))",
-    );
-    expect(source).not.toContain(
-      "const newParams = filtersToParams(sessions.filters);",
-    );
+    expect(source).toContain("const newParams = sessionRouteParamsForFilters(");
+    expect(source).not.toContain("navigateFromSession(filtersToParams(sessions.filters))");
+    expect(source).not.toContain("const newParams = filtersToParams(sessions.filters);");
   });
 
   it("preserves rolling window dates when entering session detail", () => {
     const syncUrlIndex = source.indexOf("// Sync active session to URL.");
-    const navigateFromSessionIndex = source.indexOf(
-      "router.navigateFromSession",
-      syncUrlIndex,
-    );
-    const activeSessionBranch = source.slice(
-      syncUrlIndex,
-      navigateFromSessionIndex,
-    );
+    const navigateFromSessionIndex = source.indexOf("router.navigateFromSession", syncUrlIndex);
+    const activeSessionBranch = source.slice(syncUrlIndex, navigateFromSessionIndex);
 
-    expect(activeSessionBranch).toContain(
-      "const nextParams = sessionRouteParamsForFilters(",
-    );
-    expect(activeSessionBranch).toContain(
-      "router.navigateToSession(activeId, nextParams)",
-    );
-    expect(activeSessionBranch).not.toContain(
-      "router.navigateToSession(activeId);",
-    );
+    expect(activeSessionBranch).toContain("const nextParams = sessionRouteParamsForFilters(");
+    expect(activeSessionBranch).toContain("router.navigateToSession(activeId, nextParams)");
+    expect(activeSessionBranch).not.toContain("router.navigateToSession(activeId);");
   });
 
   it("preserves direct detail URL params when leaving session detail", () => {
     const syncUrlIndex = source.indexOf("// Sync active session to URL.");
-    const navigateFromSessionIndex = source.indexOf(
-      "router.navigateFromSession",
-      syncUrlIndex,
-    );
+    const navigateFromSessionIndex = source.indexOf("router.navigateFromSession", syncUrlIndex);
     const inactiveSessionBranch = source.slice(
       navigateFromSessionIndex - 260,
       navigateFromSessionIndex + 80,
     );
 
     expect(source).toContain("sessionRouteParamsForDetailExit");
-    expect(inactiveSessionBranch).toContain(
-      ": sessionRouteParamsForDetailExit(",
-    );
-    expect(inactiveSessionBranch).toContain(
-      "router.navigateFromSession(nextParams)",
-    );
+    expect(inactiveSessionBranch).toContain(": sessionRouteParamsForDetailExit(");
+    expect(inactiveSessionBranch).toContain("router.navigateFromSession(nextParams)");
   });
 
   it("updates detail URL params after explicit filter changes", () => {
@@ -78,17 +53,11 @@ describe("App session URL date state", () => {
       "\n\n  // URL write-back",
     );
 
-    expect(source).toContain(
-      "let lastDetailFilterParamsSignature: string | null = $state(null);",
-    );
+    expect(source).toContain("let lastDetailFilterParamsSignature: string | null = $state(null);");
     expect(syncUrlBlock).toContain("const filterParams = filtersToParams(");
-    expect(syncUrlBlock).toContain(
-      "lastDetailFilterParamsSignature !== null &&",
-    );
+    expect(syncUrlBlock).toContain("lastDetailFilterParamsSignature !== null &&");
     expect(syncUrlBlock).toContain("router.replaceParams(nextParams);");
-    expect(syncUrlBlock).toContain(
-      "lastDetailFilterParamsSignature = filterParamsSignature;",
-    );
+    expect(syncUrlBlock).toContain("lastDetailFilterParamsSignature = filterParamsSignature;");
   });
 
   it("does not preserve stale detail params after filter changes", () => {
@@ -101,9 +70,7 @@ describe("App session URL date state", () => {
     expect(syncUrlBlock).toContain(
       "filterChangedOnDetail\n          ? sessionRouteParamsForFilters(",
     );
-    expect(syncUrlBlock).toContain(
-      ": sessionRouteParamsForDetailExit(",
-    );
+    expect(syncUrlBlock).toContain(": sessionRouteParamsForDetailExit(");
   });
 
   it("clears stored yoke when session date params are removed while analytics is unmounted", () => {
@@ -111,21 +78,14 @@ describe("App session URL date state", () => {
       "// Sync active session to URL.",
       "\n\n  // URL write-back",
     );
-    const writeBackBlock = appSourceSlice(
-      "// URL write-back",
-      "\n\n  function showAbout",
-    );
+    const writeBackBlock = appSourceSlice("// URL write-back", "\n\n  function showAbout");
 
     expect(source).toContain("import { yokedDates");
     expect(source).toContain("function clearYokeForClearedSessionDates");
     expect(source).toContain("sessionDateIntentCleared(");
     expect(source).toContain("yokedDates.clear();");
-    expect(syncUrlBlock).toContain(
-      "clearYokeForClearedSessionDates(nextParams);",
-    );
-    expect(writeBackBlock).toContain(
-      "clearYokeForClearedSessionDates(newParams);",
-    );
+    expect(syncUrlBlock).toContain("clearYokeForClearedSessionDates(nextParams);");
+    expect(writeBackBlock).toContain("clearYokeForClearedSessionDates(newParams);");
   });
 
   it("clears detail filter signatures outside session detail routes", () => {
@@ -148,9 +108,7 @@ describe("App session URL date state", () => {
       "\n  </div>\n{/if}",
     );
 
-    expect(undoBlock).toContain(
-      "await sessions.restoreRecentlyDeleted(last);",
-    );
+    expect(undoBlock).toContain("await sessions.restoreRecentlyDeleted(last);");
     expect(undoBlock).not.toContain("await sessions.restoreSession(last.id);");
   });
 });

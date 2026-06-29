@@ -8,4 +8,3 @@ export type DbToolsAnalyticsResponse = {
   total_calls: number;
   trend: any[] | null;
 };
-

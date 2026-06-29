@@ -1,19 +1,10 @@
 // @vitest-environment jsdom
-import {
-  afterEach,
-  beforeEach,
-  describe,
-  expect,
-  it,
-} from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vite-plus/test";
 import { mount, tick, unmount } from "svelte";
 // @ts-ignore
 import CostTimeSeriesChart from "./CostTimeSeriesChart.svelte";
 import { usage } from "../../stores/usage.svelte.js";
-import type {
-  DailyUsageEntry,
-  UsageSummaryResponse,
-} from "../../api/types/usage.js";
+import type { DailyUsageEntry, UsageSummaryResponse } from "../../api/types/usage.js";
 
 const OBSERVED_WIDTH = 1648;
 
@@ -118,8 +109,7 @@ function usageSummary(): UsageSummaryResponse {
 
 describe("CostTimeSeriesChart", () => {
   beforeEach(() => {
-    globalThis.ResizeObserver =
-      ImmediateResizeObserver as typeof ResizeObserver;
+    globalThis.ResizeObserver = ImmediateResizeObserver as typeof ResizeObserver;
     usage.summary = usageSummary();
     usage.toggles.timeSeries.groupBy = "project";
   });
@@ -140,9 +130,7 @@ describe("CostTimeSeriesChart", () => {
     const viewBox = svg!.getAttribute("viewBox")!.split(" ").map(Number);
     const viewBoxRight = viewBox[2]!;
 
-    const labels = Array.from(
-      document.querySelectorAll<SVGTextElement>("text.x-label"),
-    );
+    const labels = Array.from(document.querySelectorAll<SVGTextElement>("text.x-label"));
     const lastLabel = labels.at(-1);
     expect(lastLabel).toBeTruthy();
 

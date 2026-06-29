@@ -7,4 +7,3 @@ export type DbToolAgentBreakdown = {
   categories: any[] | null;
   total: number;
 };
-

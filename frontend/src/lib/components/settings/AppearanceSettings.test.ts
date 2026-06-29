@@ -1,5 +1,5 @@
 import { cleanup, fireEvent, render } from "@testing-library/svelte";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vite-plus/test";
 
 import AppearanceSettings from "./AppearanceSettings.svelte";
 import { ui } from "../../stores/ui.svelte.js";
@@ -17,9 +17,7 @@ describe("AppearanceSettings", () => {
     for (const pct of [90, 100, 110, 120, 130]) {
       expect(getByRole("button", { name: `${pct}%` })).toBeTruthy();
     }
-    expect(
-      getByRole("button", { name: "110%" }).classList.contains("active"),
-    ).toBe(true);
+    expect(getByRole("button", { name: "110%" }).classList.contains("active")).toBe(true);
   });
 
   it("changes the font scale when an option is clicked", async () => {

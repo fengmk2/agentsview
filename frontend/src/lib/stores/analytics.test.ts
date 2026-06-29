@@ -1,11 +1,4 @@
-import {
-  describe,
-  it,
-  expect,
-  vi,
-  beforeEach,
-  afterEach,
-} from "vite-plus/test";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vite-plus/test";
 import { analytics } from "./analytics.svelte.js";
 import { AnalyticsService } from "../api/generated/index";
 import { callGenerated } from "../api/runtime.js";
@@ -200,39 +193,17 @@ function makeSignals(): SignalsAnalyticsResponse {
 }
 
 function mockAllAPIs() {
-  vi.mocked(analyticsService.getApiV1AnalyticsSummary).mockResolvedValue(
-    makeSummary(),
-  );
-  vi.mocked(analyticsService.getApiV1AnalyticsActivity).mockResolvedValue(
-    makeActivity(),
-  );
-  vi.mocked(analyticsService.getApiV1AnalyticsHeatmap).mockResolvedValue(
-    makeHeatmap(),
-  );
-  vi.mocked(analyticsService.getApiV1AnalyticsProjects).mockResolvedValue(
-    makeProjects(),
-  );
-  vi.mocked(analyticsService.getApiV1AnalyticsHourOfWeek).mockResolvedValue(
-    makeHourOfWeek(),
-  );
-  vi.mocked(analyticsService.getApiV1AnalyticsSessions).mockResolvedValue(
-    makeSessionShape(),
-  );
-  vi.mocked(analyticsService.getApiV1AnalyticsVelocity).mockResolvedValue(
-    makeVelocity(),
-  );
-  vi.mocked(analyticsService.getApiV1AnalyticsTools).mockResolvedValue(
-    makeTools(),
-  );
-  vi.mocked(analyticsService.getApiV1AnalyticsSkills).mockResolvedValue(
-    makeSkills(),
-  );
-  vi.mocked(analyticsService.getApiV1AnalyticsTopSessions).mockResolvedValue(
-    makeTopSessions(),
-  );
-  vi.mocked(analyticsService.getApiV1AnalyticsSignals).mockResolvedValue(
-    makeSignals(),
-  );
+  vi.mocked(analyticsService.getApiV1AnalyticsSummary).mockResolvedValue(makeSummary());
+  vi.mocked(analyticsService.getApiV1AnalyticsActivity).mockResolvedValue(makeActivity());
+  vi.mocked(analyticsService.getApiV1AnalyticsHeatmap).mockResolvedValue(makeHeatmap());
+  vi.mocked(analyticsService.getApiV1AnalyticsProjects).mockResolvedValue(makeProjects());
+  vi.mocked(analyticsService.getApiV1AnalyticsHourOfWeek).mockResolvedValue(makeHourOfWeek());
+  vi.mocked(analyticsService.getApiV1AnalyticsSessions).mockResolvedValue(makeSessionShape());
+  vi.mocked(analyticsService.getApiV1AnalyticsVelocity).mockResolvedValue(makeVelocity());
+  vi.mocked(analyticsService.getApiV1AnalyticsTools).mockResolvedValue(makeTools());
+  vi.mocked(analyticsService.getApiV1AnalyticsSkills).mockResolvedValue(makeSkills());
+  vi.mocked(analyticsService.getApiV1AnalyticsTopSessions).mockResolvedValue(makeTopSessions());
+  vi.mocked(analyticsService.getApiV1AnalyticsSignals).mockResolvedValue(makeSignals());
 }
 
 async function loadAnalyticsStore() {
@@ -351,7 +322,8 @@ describe("AnalyticsStore.selectDate", () => {
     analytics.selectDate("2024-01-15"); // deselect
 
     const expected = expect.objectContaining({
-      from: "2024-01-01", to: "2024-01-31",
+      from: "2024-01-01",
+      to: "2024-01-31",
     });
     expect(analyticsService.getApiV1AnalyticsSummary).toHaveBeenCalled();
     expect(analyticsService.getApiV1AnalyticsSummary).toHaveBeenLastCalledWith(expected);
@@ -382,7 +354,8 @@ describe("AnalyticsStore.setDateRange", () => {
     expect(analyticsService.getApiV1AnalyticsSkills).toHaveBeenCalledTimes(1);
 
     const expected = expect.objectContaining({
-      from: "2024-02-01", to: "2024-02-28",
+      from: "2024-02-01",
+      to: "2024-02-28",
     });
     expect(analyticsService.getApiV1AnalyticsSummary).toHaveBeenLastCalledWith(expected);
     expect(analyticsService.getApiV1AnalyticsActivity).toHaveBeenLastCalledWith(expected);
@@ -404,9 +377,7 @@ describe("AnalyticsStore freshness state", () => {
 
       await analytics.fetchAll();
 
-      expect(analytics.lastUpdatedAt).toBe(
-        new Date("2026-06-15T15:00:00Z").getTime(),
-      );
+      expect(analytics.lastUpdatedAt).toBe(new Date("2026-06-15T15:00:00Z").getTime());
 
       analytics.markNewData();
       expect(analytics.hasNewData).toBe(true);
@@ -414,9 +385,7 @@ describe("AnalyticsStore freshness state", () => {
       vi.setSystemTime(new Date("2026-06-15T15:05:00Z"));
       await analytics.fetchAll();
 
-      expect(analytics.lastUpdatedAt).toBe(
-        new Date("2026-06-15T15:05:00Z").getTime(),
-      );
+      expect(analytics.lastUpdatedAt).toBe(new Date("2026-06-15T15:05:00Z").getTime());
       expect(analytics.hasNewData).toBe(false);
     } finally {
       vi.useRealTimers();
@@ -432,8 +401,9 @@ describe("AnalyticsStore freshness state", () => {
       const previousUpdatedAt = analytics.lastUpdatedAt;
 
       analytics.markNewData();
-      vi.mocked(analyticsService.getApiV1AnalyticsVelocity)
-        .mockRejectedValueOnce(new Error("velocity failed"));
+      vi.mocked(analyticsService.getApiV1AnalyticsVelocity).mockRejectedValueOnce(
+        new Error("velocity failed"),
+      );
 
       vi.setSystemTime(new Date("2026-06-15T15:05:00Z"));
       await analytics.fetchAll();
@@ -517,7 +487,8 @@ describe("AnalyticsStore.clearDate", () => {
     analytics.clearDate();
 
     const expected = expect.objectContaining({
-      from: "2024-01-01", to: "2024-01-31",
+      from: "2024-01-01",
+      to: "2024-01-31",
     });
     expect(analyticsService.getApiV1AnalyticsSummary).toHaveBeenLastCalledWith(expected);
     expect(analyticsService.getApiV1AnalyticsProjects).toHaveBeenLastCalledWith(expected);
@@ -550,32 +521,25 @@ describe("AnalyticsStore.setProject", () => {
     { name: "tools", fn: () => analyticsService.getApiV1AnalyticsTools },
     { name: "skills", fn: () => analyticsService.getApiV1AnalyticsSkills },
     { name: "topSessions", fn: () => analyticsService.getApiV1AnalyticsTopSessions },
-  ])(
-    "should include project in $name params",
-    ({ fn }) => {
-      analytics.setProject("alpha");
-      const params = vi.mocked(fn()).mock.lastCall?.[0];
-      expect(params?.project).toBe("alpha");
-    },
-  );
+  ])("should include project in $name params", ({ fn }) => {
+    analytics.setProject("alpha");
+    const params = vi.mocked(fn()).mock.lastCall?.[0];
+    expect(params?.project).toBe("alpha");
+  });
 
   it.each([
     { name: "heatmap", fn: () => analyticsService.getApiV1AnalyticsHeatmap },
     { name: "hourOfWeek", fn: () => analyticsService.getApiV1AnalyticsHourOfWeek },
-  ])(
-    "should include project in $name base params",
-    ({ fn }) => {
-      analytics.setProject("alpha");
-      const params = vi.mocked(fn()).mock.lastCall?.[0];
-      expect(params?.project).toBe("alpha");
-    },
-  );
+  ])("should include project in $name base params", ({ fn }) => {
+    analytics.setProject("alpha");
+    const params = vi.mocked(fn()).mock.lastCall?.[0];
+    expect(params?.project).toBe("alpha");
+  });
 
   it("should exclude project from fetchProjects params", () => {
     analytics.setProject("alpha");
 
-    const projectsParams =
-      vi.mocked(analyticsService.getApiV1AnalyticsProjects).mock.lastCall?.[0];
+    const projectsParams = vi.mocked(analyticsService.getApiV1AnalyticsProjects).mock.lastCall?.[0];
     expect(projectsParams?.project).toBeUndefined();
   });
 
@@ -585,8 +549,7 @@ describe("AnalyticsStore.setProject", () => {
 
     analytics.setProject("alpha");
 
-    const projectsParams =
-      vi.mocked(analyticsService.getApiV1AnalyticsProjects).mock.lastCall?.[0];
+    const projectsParams = vi.mocked(analyticsService.getApiV1AnalyticsProjects).mock.lastCall?.[0];
     expect(projectsParams?.project).toBeUndefined();
     expect(projectsParams?.from).toBe("2024-01-15");
   });
@@ -601,20 +564,17 @@ describe("AnalyticsStore.setProject", () => {
     { name: "topSessions", fn: () => analyticsService.getApiV1AnalyticsTopSessions },
     { name: "heatmap", fn: () => analyticsService.getApiV1AnalyticsHeatmap },
     { name: "hourOfWeek", fn: () => analyticsService.getApiV1AnalyticsHourOfWeek },
-  ])(
-    "should clear project from $name params after deselecting",
-    ({ fn }) => {
-      analytics.setProject("alpha");
-      vi.clearAllMocks();
+  ])("should clear project from $name params after deselecting", ({ fn }) => {
+    analytics.setProject("alpha");
+    vi.clearAllMocks();
 
-      analytics.setProject("alpha"); // deselect
+    analytics.setProject("alpha"); // deselect
 
-      const mock = vi.mocked(fn());
-      expect(mock).toHaveBeenCalled();
-      const params = mock.mock.lastCall?.[0];
-      expect(params?.project).toBeUndefined();
-    },
-  );
+    const mock = vi.mocked(fn());
+    expect(mock).toHaveBeenCalled();
+    const params = mock.mock.lastCall?.[0];
+    expect(params?.project).toBeUndefined();
+  });
 });
 
 describe("AnalyticsStore machine filter", () => {
@@ -693,8 +653,7 @@ describe("AnalyticsStore model filter", () => {
     analytics.clearModel();
 
     expect(analytics.model).toBe("");
-    const params =
-      vi.mocked(analyticsService.getApiV1AnalyticsSummary).mock.lastCall?.[0];
+    const params = vi.mocked(analyticsService.getApiV1AnalyticsSummary).mock.lastCall?.[0];
     expect(params?.model).toBeUndefined();
   });
 
@@ -794,7 +753,9 @@ describe("executeFetch concurrency and error handling", () => {
   it("should set loading true during fetch", async () => {
     let resolve!: (v: AnalyticsSummary) => void;
     vi.mocked(analyticsService.getApiV1AnalyticsSummary).mockReturnValue(
-      new Promise((r) => { resolve = r; }),
+      new Promise((r) => {
+        resolve = r;
+      }),
     );
 
     const p = analytics.fetchSummary();
@@ -809,7 +770,9 @@ describe("executeFetch concurrency and error handling", () => {
     analytics.summary = makeSummary();
     let resolve!: (v: AnalyticsSummary) => void;
     vi.mocked(analyticsService.getApiV1AnalyticsSummary).mockReturnValue(
-      new Promise((r) => { resolve = r; }),
+      new Promise((r) => {
+        resolve = r;
+      }),
     );
 
     const p = analytics.fetchSummary();
@@ -826,20 +789,19 @@ describe("executeFetch concurrency and error handling", () => {
   });
 
   it("should clear error on new request", async () => {
-    vi.mocked(analyticsService.getApiV1AnalyticsSummary)
-      .mockRejectedValueOnce(new Error("fail"));
+    vi.mocked(analyticsService.getApiV1AnalyticsSummary).mockRejectedValueOnce(new Error("fail"));
     await analytics.fetchSummary();
     expect(analytics.errors.summary).toBe("fail");
 
-    vi.mocked(analyticsService.getApiV1AnalyticsSummary)
-      .mockResolvedValueOnce(makeSummary());
+    vi.mocked(analyticsService.getApiV1AnalyticsSummary).mockResolvedValueOnce(makeSummary());
     await analytics.fetchSummary();
     expect(analytics.errors.summary).toBeNull();
   });
 
   it("should set error message on failure", async () => {
-    vi.mocked(analyticsService.getApiV1AnalyticsSummary)
-      .mockRejectedValueOnce(new Error("network down"));
+    vi.mocked(analyticsService.getApiV1AnalyticsSummary).mockRejectedValueOnce(
+      new Error("network down"),
+    );
 
     await analytics.fetchSummary();
 
@@ -848,8 +810,7 @@ describe("executeFetch concurrency and error handling", () => {
   });
 
   it("should use fallback message for non-Error throws", async () => {
-    vi.mocked(analyticsService.getApiV1AnalyticsSummary)
-      .mockRejectedValueOnce("string error");
+    vi.mocked(analyticsService.getApiV1AnalyticsSummary).mockRejectedValueOnce("string error");
 
     await analytics.fetchSummary();
 
@@ -858,17 +819,17 @@ describe("executeFetch concurrency and error handling", () => {
 
   it("should ignore stale success from superseded request", async () => {
     let resolveFirst!: (v: AnalyticsSummary) => void;
-    vi.mocked(analyticsService.getApiV1AnalyticsSummary)
-      .mockReturnValueOnce(
-        new Promise((r) => { resolveFirst = r; }),
-      );
+    vi.mocked(analyticsService.getApiV1AnalyticsSummary).mockReturnValueOnce(
+      new Promise((r) => {
+        resolveFirst = r;
+      }),
+    );
 
     const firstFetch = analytics.fetchSummary();
 
     const secondData = makeSummary();
     secondData.total_sessions = 99;
-    vi.mocked(analyticsService.getApiV1AnalyticsSummary)
-      .mockResolvedValueOnce(secondData);
+    vi.mocked(analyticsService.getApiV1AnalyticsSummary).mockResolvedValueOnce(secondData);
     const secondFetch = analytics.fetchSummary();
 
     await secondFetch;
@@ -884,16 +845,16 @@ describe("executeFetch concurrency and error handling", () => {
 
   it("should ignore stale error from superseded request", async () => {
     let rejectFirst!: (e: Error) => void;
-    vi.mocked(analyticsService.getApiV1AnalyticsSummary)
-      .mockReturnValueOnce(
-        new Promise((_r, rej) => { rejectFirst = rej; }),
-      );
+    vi.mocked(analyticsService.getApiV1AnalyticsSummary).mockReturnValueOnce(
+      new Promise((_r, rej) => {
+        rejectFirst = rej;
+      }),
+    );
 
     const firstFetch = analytics.fetchSummary();
 
     const data = makeSummary();
-    vi.mocked(analyticsService.getApiV1AnalyticsSummary)
-      .mockResolvedValueOnce(data);
+    vi.mocked(analyticsService.getApiV1AnalyticsSummary).mockResolvedValueOnce(data);
     const secondFetch = analytics.fetchSummary();
     await secondFetch;
 
@@ -909,18 +870,20 @@ describe("executeFetch concurrency and error handling", () => {
 
   it("should not clear loading for superseded request", async () => {
     let resolveFirst!: (v: AnalyticsSummary) => void;
-    vi.mocked(analyticsService.getApiV1AnalyticsSummary)
-      .mockReturnValueOnce(
-        new Promise((r) => { resolveFirst = r; }),
-      );
+    vi.mocked(analyticsService.getApiV1AnalyticsSummary).mockReturnValueOnce(
+      new Promise((r) => {
+        resolveFirst = r;
+      }),
+    );
 
     const firstFetch = analytics.fetchSummary();
 
     let resolveSecond!: (v: AnalyticsSummary) => void;
-    vi.mocked(analyticsService.getApiV1AnalyticsSummary)
-      .mockReturnValueOnce(
-        new Promise((r) => { resolveSecond = r; }),
-      );
+    vi.mocked(analyticsService.getApiV1AnalyticsSummary).mockReturnValueOnce(
+      new Promise((r) => {
+        resolveSecond = r;
+      }),
+    );
     const secondFetch = analytics.fetchSummary();
 
     expect(analytics.loading.summary).toBe(true);

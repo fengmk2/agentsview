@@ -1,22 +1,12 @@
 /** Agent types that support CLI session resumption. */
-const RESUME_AGENTS: Record<
-  string,
-  (sessionId: string) => string
-> = Object.create(null);
-RESUME_AGENTS["claude"] = (id) =>
-  `claude --resume ${shellQuote(id)}`;
-RESUME_AGENTS["codex"] = (id) =>
-  `codex resume ${shellQuote(id)}`;
-RESUME_AGENTS["copilot"] = (id) =>
-  `copilot --resume=${shellQuote(id)}`;
-RESUME_AGENTS["cursor"] = (id) =>
-  `cursor agent --resume ${shellQuote(id)}`;
-RESUME_AGENTS["gemini"] = (id) =>
-  `gemini --resume ${shellQuote(id)}`;
-RESUME_AGENTS["opencode"] = (id) =>
-  `opencode --session ${shellQuote(id)}`;
-RESUME_AGENTS["amp"] = (id) =>
-  `amp --resume ${shellQuote(id)}`;
+const RESUME_AGENTS: Record<string, (sessionId: string) => string> = Object.create(null);
+RESUME_AGENTS["claude"] = (id) => `claude --resume ${shellQuote(id)}`;
+RESUME_AGENTS["codex"] = (id) => `codex resume ${shellQuote(id)}`;
+RESUME_AGENTS["copilot"] = (id) => `copilot --resume=${shellQuote(id)}`;
+RESUME_AGENTS["cursor"] = (id) => `cursor agent --resume ${shellQuote(id)}`;
+RESUME_AGENTS["gemini"] = (id) => `gemini --resume ${shellQuote(id)}`;
+RESUME_AGENTS["opencode"] = (id) => `opencode --session ${shellQuote(id)}`;
+RESUME_AGENTS["amp"] = (id) => `amp --resume ${shellQuote(id)}`;
 
 /**
  * Agents whose resume commands require server-resolved parameters
@@ -95,8 +85,7 @@ export function buildResumeCommand(
   let cmd = builder(rawId);
 
   if (agent === "claude" && flags) {
-    if (flags.skipPermissions)
-      cmd += " --dangerously-skip-permissions";
+    if (flags.skipPermissions) cmd += " --dangerously-skip-permissions";
     if (flags.forkSession) cmd += " --fork-session";
     if (flags.print) cmd += " --print";
   }

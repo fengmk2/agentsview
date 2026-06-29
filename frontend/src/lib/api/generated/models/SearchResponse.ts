@@ -8,4 +8,3 @@ export type SearchResponse = {
   query: string;
   results: any[] | null;
 };
-

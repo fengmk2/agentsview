@@ -2,15 +2,15 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { ApplyWorktreeMappingsResponse } from '../models/ApplyWorktreeMappingsResponse';
-import type { DbWorktreeProjectMapping } from '../models/DbWorktreeProjectMapping';
-import type { SettingsResponse } from '../models/SettingsResponse';
-import type { SettingsUpdateRequest } from '../models/SettingsUpdateRequest';
-import type { WorktreeMappingRequest } from '../models/WorktreeMappingRequest';
-import type { WorktreeMappingsResponse } from '../models/WorktreeMappingsResponse';
-import type { CancelablePromise } from '../core/CancelablePromise';
-import { OpenAPI } from '../core/OpenAPI';
-import { request as __request } from '../core/request';
+import type { ApplyWorktreeMappingsResponse } from "../models/ApplyWorktreeMappingsResponse";
+import type { DbWorktreeProjectMapping } from "../models/DbWorktreeProjectMapping";
+import type { SettingsResponse } from "../models/SettingsResponse";
+import type { SettingsUpdateRequest } from "../models/SettingsUpdateRequest";
+import type { WorktreeMappingRequest } from "../models/WorktreeMappingRequest";
+import type { WorktreeMappingsResponse } from "../models/WorktreeMappingsResponse";
+import type { CancelablePromise } from "../core/CancelablePromise";
+import { OpenAPI } from "../core/OpenAPI";
+import { request as __request } from "../core/request";
 export class SettingsService {
   /**
    * Get settings
@@ -19,8 +19,8 @@ export class SettingsService {
    */
   public static getApiV1Settings(): CancelablePromise<SettingsResponse> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/settings',
+      method: "GET",
+      url: "/api/v1/settings",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,
@@ -43,13 +43,13 @@ export class SettingsService {
   public static putApiV1Settings({
     requestBody,
   }: {
-    requestBody: SettingsUpdateRequest,
+    requestBody: SettingsUpdateRequest;
   }): CancelablePromise<SettingsResponse> {
     return __request(OpenAPI, {
-      method: 'PUT',
-      url: '/api/v1/settings',
+      method: "PUT",
+      url: "/api/v1/settings",
       body: requestBody,
-      mediaType: 'application/json',
+      mediaType: "application/json",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,
@@ -72,8 +72,8 @@ export class SettingsService {
    */
   public static getApiV1SettingsWorktreeMappings(): CancelablePromise<WorktreeMappingsResponse> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/settings/worktree-mappings',
+      method: "GET",
+      url: "/api/v1/settings/worktree-mappings",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,
@@ -96,13 +96,13 @@ export class SettingsService {
   public static postApiV1SettingsWorktreeMappings({
     requestBody,
   }: {
-    requestBody: WorktreeMappingRequest,
+    requestBody: WorktreeMappingRequest;
   }): CancelablePromise<DbWorktreeProjectMapping> {
     return __request(OpenAPI, {
-      method: 'POST',
-      url: '/api/v1/settings/worktree-mappings',
+      method: "POST",
+      url: "/api/v1/settings/worktree-mappings",
       body: requestBody,
-      mediaType: 'application/json',
+      mediaType: "application/json",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,
@@ -125,8 +125,8 @@ export class SettingsService {
    */
   public static postApiV1SettingsWorktreeMappingsApply(): CancelablePromise<ApplyWorktreeMappingsResponse> {
     return __request(OpenAPI, {
-      method: 'POST',
-      url: '/api/v1/settings/worktree-mappings/apply',
+      method: "POST",
+      url: "/api/v1/settings/worktree-mappings/apply",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,
@@ -152,13 +152,13 @@ export class SettingsService {
     /**
      * Mapping ID
      */
-    id: string,
+    id: string;
   }): CancelablePromise<void> {
     return __request(OpenAPI, {
-      method: 'DELETE',
-      url: '/api/v1/settings/worktree-mappings/{id}',
+      method: "DELETE",
+      url: "/api/v1/settings/worktree-mappings/{id}",
       path: {
-        'id': id,
+        id: id,
       },
       errors: {
         400: `Bad Request`,
@@ -187,17 +187,17 @@ export class SettingsService {
     /**
      * Mapping ID
      */
-    id: string,
-    requestBody: WorktreeMappingRequest,
+    id: string;
+    requestBody: WorktreeMappingRequest;
   }): CancelablePromise<DbWorktreeProjectMapping> {
     return __request(OpenAPI, {
-      method: 'PUT',
-      url: '/api/v1/settings/worktree-mappings/{id}',
+      method: "PUT",
+      url: "/api/v1/settings/worktree-mappings/{id}",
       path: {
-        'id': id,
+        id: id,
       },
       body: requestBody,
-      mediaType: 'application/json',
+      mediaType: "application/json",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,

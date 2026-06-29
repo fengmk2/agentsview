@@ -2,9 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CancelablePromise } from '../core/CancelablePromise';
-import { OpenAPI } from '../core/OpenAPI';
-import { request as __request } from '../core/request';
+import type { CancelablePromise } from "../core/CancelablePromise";
+import { OpenAPI } from "../core/OpenAPI";
+import { request as __request } from "../core/request";
 export class AssetsService {
   /**
    * Get imported asset
@@ -17,13 +17,13 @@ export class AssetsService {
     /**
      * Asset filename
      */
-    filename: string,
+    filename: string;
   }): CancelablePromise<string> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/assets/{filename}',
+      method: "GET",
+      url: "/api/v1/assets/{filename}",
       path: {
-        'filename': filename,
+        filename: filename,
       },
       errors: {
         400: `Bad Request`,

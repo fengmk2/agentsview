@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { DbQualitySignals } from './DbQualitySignals';
+import type { DbQualitySignals } from "./DbQualitySignals";
 export type DbSession = {
   agent: string;
   compaction_count: number;
@@ -55,4 +55,3 @@ export type DbSession = {
   transcript_fidelity?: string;
   user_message_count: number;
 };
-

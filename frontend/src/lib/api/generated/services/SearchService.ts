@@ -2,11 +2,11 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { SearchResponse } from '../models/SearchResponse';
-import type { ServiceContentSearchResult } from '../models/ServiceContentSearchResult';
-import type { CancelablePromise } from '../core/CancelablePromise';
-import { OpenAPI } from '../core/OpenAPI';
-import { request as __request } from '../core/request';
+import type { SearchResponse } from "../models/SearchResponse";
+import type { ServiceContentSearchResult } from "../models/ServiceContentSearchResult";
+import type { CancelablePromise } from "../core/CancelablePromise";
+import { OpenAPI } from "../core/OpenAPI";
+import { request as __request } from "../core/request";
 export class SearchService {
   /**
    * Search sessions
@@ -16,40 +16,40 @@ export class SearchService {
   public static getApiV1Search({
     q,
     project,
-    sort = 'relevance',
+    sort = "relevance",
     limit,
     cursor,
   }: {
     /**
      * Search query
      */
-    q: string,
+    q: string;
     /**
      * Filter by project
      */
-    project?: string,
+    project?: string;
     /**
      * Sort order
      */
-    sort?: 'relevance' | 'recency',
+    sort?: "relevance" | "recency";
     /**
      * Maximum number of results
      */
-    limit?: number,
+    limit?: number;
     /**
      * Pagination cursor
      */
-    cursor?: number,
+    cursor?: number;
   }): CancelablePromise<SearchResponse> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/search',
+      method: "GET",
+      url: "/api/v1/search",
       query: {
-        'q': q,
-        'project': project,
-        'sort': sort,
-        'limit': limit,
-        'cursor': cursor,
+        q: q,
+        project: project,
+        sort: sort,
+        limit: limit,
+        cursor: cursor,
       },
       errors: {
         400: `Bad Request`,
@@ -94,98 +94,98 @@ export class SearchService {
     /**
      * Pattern to search for
      */
-    pattern: string,
+    pattern: string;
     /**
      * Search mode
      */
-    mode?: 'substring' | 'regex' | 'fts',
+    mode?: "substring" | "regex" | "fts";
     /**
      * Comma-separated content sources
      */
-    _in?: string,
+    _in?: string;
     /**
      * Exclude system messages
      */
-    excludeSystem?: boolean,
+    excludeSystem?: boolean;
     /**
      * Return unredacted secret matches for localhost callers
      */
-    reveal?: boolean,
+    reveal?: boolean;
     /**
      * Filter by project
      */
-    project?: string,
+    project?: string;
     /**
      * Exclude a project
      */
-    excludeProject?: string,
+    excludeProject?: string;
     /**
      * Filter by machine
      */
-    machine?: string,
+    machine?: string;
     /**
      * Filter by agent
      */
-    agent?: string,
+    agent?: string;
     /**
      * Filter to a single YYYY-MM-DD date
      */
-    date?: string,
+    date?: string;
     /**
      * Filter start date
      */
-    dateFrom?: string,
+    dateFrom?: string;
     /**
      * Filter end date
      */
-    dateTo?: string,
+    dateTo?: string;
     /**
      * Filter sessions active since this RFC3339 timestamp
      */
-    activeSince?: string,
+    activeSince?: string;
     /**
      * Include child sessions
      */
-    includeChildren?: boolean,
+    includeChildren?: boolean;
     /**
      * Include automated sessions
      */
-    includeAutomated?: boolean,
+    includeAutomated?: boolean;
     /**
      * Include one-shot sessions
      */
-    includeOneShot?: boolean,
+    includeOneShot?: boolean;
     /**
      * Maximum number of results
      */
-    limit?: number,
+    limit?: number;
     /**
      * Pagination cursor
      */
-    cursor?: number,
+    cursor?: number;
   }): CancelablePromise<ServiceContentSearchResult> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/search/content',
+      method: "GET",
+      url: "/api/v1/search/content",
       query: {
-        'pattern': pattern,
-        'mode': mode,
-        'in': _in,
-        'exclude_system': excludeSystem,
-        'reveal': reveal,
-        'project': project,
-        'exclude_project': excludeProject,
-        'machine': machine,
-        'agent': agent,
-        'date': date,
-        'date_from': dateFrom,
-        'date_to': dateTo,
-        'active_since': activeSince,
-        'include_children': includeChildren,
-        'include_automated': includeAutomated,
-        'include_one_shot': includeOneShot,
-        'limit': limit,
-        'cursor': cursor,
+        pattern: pattern,
+        mode: mode,
+        in: _in,
+        exclude_system: excludeSystem,
+        reveal: reveal,
+        project: project,
+        exclude_project: excludeProject,
+        machine: machine,
+        agent: agent,
+        date: date,
+        date_from: dateFrom,
+        date_to: dateTo,
+        active_since: activeSince,
+        include_children: includeChildren,
+        include_automated: includeAutomated,
+        include_one_shot: includeOneShot,
+        limit: limit,
+        cursor: cursor,
       },
       errors: {
         400: `Bad Request`,

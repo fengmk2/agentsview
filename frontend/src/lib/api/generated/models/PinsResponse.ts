@@ -5,4 +5,3 @@
 export type PinsResponse = {
   pins: any[] | null;
 };
-

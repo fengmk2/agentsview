@@ -7,4 +7,3 @@ export type DbSessionActivityResponse = {
   interval_seconds: number;
   total_messages: number;
 };
-

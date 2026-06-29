@@ -6,4 +6,3 @@ export type DbTopSessionsResponse = {
   metric: string;
   sessions: any[] | null;
 };
-

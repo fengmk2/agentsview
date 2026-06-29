@@ -6,4 +6,3 @@ export type DbSkillProjectBreakdown = {
   count: number;
   project: string;
 };
-

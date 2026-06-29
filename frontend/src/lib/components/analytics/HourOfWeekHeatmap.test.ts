@@ -1,12 +1,5 @@
 // @vitest-environment jsdom
-import {
-  afterEach,
-  describe,
-  expect,
-  it,
-  vi,
-  type MockInstance,
-} from "vitest";
+import { afterEach, describe, expect, it, vi, type MockInstance } from "vite-plus/test";
 import { mount, tick, unmount } from "svelte";
 // @ts-ignore
 import HourOfWeekHeatmap from "./HourOfWeekHeatmap.svelte";
@@ -61,25 +54,15 @@ describe("HourOfWeekHeatmap", () => {
     const component = mountWithData();
     await tick();
 
-    const dayLabels = Array.from(
-      document.querySelectorAll(".day-label"),
-    ).map((el) => el.textContent?.trim());
-    expect(dayLabels).toEqual([
-      "Sun",
-      "Mon",
-      "Tue",
-      "Wed",
-      "Thu",
-      "Fri",
-      "Sat",
-    ]);
+    const dayLabels = Array.from(document.querySelectorAll(".day-label")).map((el) =>
+      el.textContent?.trim(),
+    );
+    expect(dayLabels).toEqual(["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]);
 
     const fetchSpies = stubFetches();
     const firstCell = document.querySelector(".how-cell");
     expect(firstCell).toBeTruthy();
-    firstCell!.dispatchEvent(
-      new MouseEvent("click", { bubbles: true }),
-    );
+    firstCell!.dispatchEvent(new MouseEvent("click", { bubbles: true }));
     await tick();
 
     expect(analytics.selectedDow).toBe(6);

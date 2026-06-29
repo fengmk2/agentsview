@@ -1,7 +1,4 @@
-import type {
-  ActivityReportInterval,
-  ActivitySessionRow,
-} from "../../api/generated/index";
+import type { ActivityReportInterval, ActivitySessionRow } from "../../api/generated/index";
 
 /**
  * The unique sessions whose interval overlaps the half-open slot

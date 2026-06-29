@@ -1,19 +1,11 @@
 // @vitest-environment jsdom
-import {
-  describe,
-  it,
-  expect,
-  vi,
-  beforeEach,
-} from "vite-plus/test";
+import { describe, it, expect, vi, beforeEach } from "vite-plus/test";
 import { mount, unmount, tick } from "svelte";
 
 const { mockUi, mockSessions, mockSearchStore, mockRouter, mockCopyToClipboard } = vi.hoisted(
   () => ({
     mockUi: {
-      activeModal: "commandPalette" as
-        | "commandPalette"
-        | null,
+      activeModal: "commandPalette" as "commandPalette" | null,
       scrollToOrdinal: vi.fn(),
       clearSelection: vi.fn(),
       clearScrollState: vi.fn(),
@@ -83,18 +75,13 @@ import CommandPalette from "./CommandPalette.svelte";
  * Svelte 5's microtask scheduler requires explicit tick() calls to flush DOM
  * updates in jsdom — setTimeout-based waitFor() retries don't drive it.
  */
-async function tickUntil(
-  selector: string,
-  maxTicks = 20,
-): Promise<HTMLElement> {
+async function tickUntil(selector: string, maxTicks = 20): Promise<HTMLElement> {
   for (let i = 0; i < maxTicks; i++) {
     await tick();
     const el = document.querySelector<HTMLElement>(selector);
     if (el) return el;
   }
-  throw new Error(
-    `"${selector}" not found after ${maxTicks} tick() calls`,
-  );
+  throw new Error(`"${selector}" not found after ${maxTicks} tick() calls`);
 }
 
 function makeSession(id: string, agent: string) {
@@ -122,10 +109,7 @@ describe("CommandPalette", () => {
     mockSearchStore.results = [];
     mockSearchStore.isSearching = false;
     mockSessions.filters.project = "";
-    mockSessions.sessions = [
-      makeSession("s1", "cursor"),
-      makeSession("s2", "unknown"),
-    ];
+    mockSessions.sessions = [makeSession("s1", "cursor"), makeSession("s2", "unknown")];
   });
 
   it("uses agentColor for recent-session dots including fallback", async () => {
@@ -135,16 +119,10 @@ describe("CommandPalette", () => {
 
     await tick();
 
-    const dots = Array.from(
-      document.querySelectorAll<HTMLElement>(".item-dot"),
-    );
+    const dots = Array.from(document.querySelectorAll<HTMLElement>(".item-dot"));
     expect(dots).toHaveLength(2);
-    expect(dots[0]?.getAttribute("style")).toContain(
-      "var(--accent-black)",
-    );
-    expect(dots[1]?.getAttribute("style")).toContain(
-      "var(--accent-blue)",
-    );
+    expect(dots[0]?.getAttribute("style")).toContain("var(--accent-black)");
+    expect(dots[1]?.getAttribute("style")).toContain("var(--accent-blue)");
 
     unmount(component);
   });
@@ -267,8 +245,7 @@ describe("CommandPalette", () => {
     function typeChar(char: string) {
       const start = input.selectionStart ?? input.value.length;
       const end = input.selectionEnd ?? input.value.length;
-      input.value =
-        input.value.slice(0, start) + char + input.value.slice(end);
+      input.value = input.value.slice(0, start) + char + input.value.slice(end);
       input.setSelectionRange(start + 1, start + 1);
       input.dispatchEvent(
         new InputEvent("input", { bubbles: true, inputType: "insertText", data: char }),

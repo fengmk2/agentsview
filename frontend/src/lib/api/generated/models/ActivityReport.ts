@@ -2,8 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { ActivityPeak } from './ActivityPeak';
-import type { ActivityTotals } from './ActivityTotals';
+import type { ActivityPeak } from "./ActivityPeak";
+import type { ActivityTotals } from "./ActivityTotals";
 export type ActivityReport = {
   as_of: string | null;
   bucket_count: number;
@@ -24,4 +24,3 @@ export type ActivityReport = {
   timezone: string;
   totals: ActivityTotals;
 };
-

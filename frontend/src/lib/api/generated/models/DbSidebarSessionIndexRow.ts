@@ -19,4 +19,3 @@ export type DbSidebarSessionIndexRow = {
   termination_status?: string;
   user_message_count: number;
 };
-

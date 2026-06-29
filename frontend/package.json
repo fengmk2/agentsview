@@ -1,11 +1,8 @@
 {
   "name": "agentsview-frontend",
-  "private": true,
   "version": "0.1.0",
+  "private": true,
   "type": "module",
-  "engines": {
-    "node": "^20.19.0 || ^22.18.0 || >=24.11.0"
-  },
   "scripts": {
     "dev": "vp dev",
     "build": "vp build",
@@ -32,17 +29,22 @@
     "@sveltejs/vite-plugin-svelte": "7.1.2",
     "@testing-library/svelte": "^5.3.1",
     "@tsconfig/svelte": "5.0.8",
+    "@types/node": "^26.0.1",
     "jsdom": "29.1.1",
     "openapi-typescript-codegen": "^0.31.0",
     "svelte": "5.56.3",
     "svelte-check": "4.6.0",
     "typescript": "6.0.3",
-    "vite": "npm:@voidzero-dev/vite-plus-core@0.2.1",
-    "vite-plus": "0.2.1",
+    "vite": "npm:@voidzero-dev/vite-plus-core@0.0.0-commit.595280825cada6a3d3ee72e3314258340e320581",
+    "vite-plus": "0.0.0-commit.595280825cada6a3d3ee72e3314258340e320581",
     "vitest": "4.1.9"
   },
   "overrides": {
-    "vite": "npm:@voidzero-dev/vite-plus-core@0.2.1"
+    "vite": "npm:@voidzero-dev/vite-plus-core@0.0.0-commit.595280825cada6a3d3ee72e3314258340e320581",
+    "vitest": "4.1.9"
+  },
+  "engines": {
+    "node": "^20.19.0 || ^22.18.0 || >=24.11.0"
   },
   "packageManager": "npm@11.17.0"
 }

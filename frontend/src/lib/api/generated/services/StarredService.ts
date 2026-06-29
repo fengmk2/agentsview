@@ -2,11 +2,11 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { BulkStarInputBody } from '../models/BulkStarInputBody';
-import type { StarredResponse } from '../models/StarredResponse';
-import type { CancelablePromise } from '../core/CancelablePromise';
-import { OpenAPI } from '../core/OpenAPI';
-import { request as __request } from '../core/request';
+import type { BulkStarInputBody } from "../models/BulkStarInputBody";
+import type { StarredResponse } from "../models/StarredResponse";
+import type { CancelablePromise } from "../core/CancelablePromise";
+import { OpenAPI } from "../core/OpenAPI";
+import { request as __request } from "../core/request";
 export class StarredService {
   /**
    * Unstar session
@@ -19,13 +19,13 @@ export class StarredService {
     /**
      * Session ID
      */
-    id: string,
+    id: string;
   }): CancelablePromise<void> {
     return __request(OpenAPI, {
-      method: 'DELETE',
-      url: '/api/v1/sessions/{id}/star',
+      method: "DELETE",
+      url: "/api/v1/sessions/{id}/star",
       path: {
-        'id': id,
+        id: id,
       },
       errors: {
         400: `Bad Request`,
@@ -53,13 +53,13 @@ export class StarredService {
     /**
      * Session ID
      */
-    id: string,
+    id: string;
   }): CancelablePromise<void> {
     return __request(OpenAPI, {
-      method: 'PUT',
-      url: '/api/v1/sessions/{id}/star',
+      method: "PUT",
+      url: "/api/v1/sessions/{id}/star",
       path: {
-        'id': id,
+        id: id,
       },
       errors: {
         400: `Bad Request`,
@@ -83,8 +83,8 @@ export class StarredService {
    */
   public static getApiV1Starred(): CancelablePromise<StarredResponse> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/starred',
+      method: "GET",
+      url: "/api/v1/starred",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,
@@ -107,13 +107,13 @@ export class StarredService {
   public static postApiV1StarredBulk({
     requestBody,
   }: {
-    requestBody: BulkStarInputBody,
+    requestBody: BulkStarInputBody;
   }): CancelablePromise<void> {
     return __request(OpenAPI, {
-      method: 'POST',
-      url: '/api/v1/starred/bulk',
+      method: "POST",
+      url: "/api/v1/starred/bulk",
       body: requestBody,
-      mediaType: 'application/json',
+      mediaType: "application/json",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,

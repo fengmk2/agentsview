@@ -66,8 +66,7 @@ class SettingsStore {
     this.needsAuth = false;
     try {
       configureGeneratedClient();
-      const data =
-        await SettingsService.getApiV1Settings() as unknown as AppSettings;
+      const data = (await SettingsService.getApiV1Settings()) as unknown as AppSettings;
       this.agentDirs = data.agent_dirs;
       this.githubConfigured = data.github_configured;
       this.terminal = data.terminal;
@@ -88,8 +87,7 @@ class SettingsStore {
       } else if (e instanceof GeneratedApiError && e.status === 403) {
         this.error = forbiddenMessage(generatedErrorMessage(e));
       } else {
-        this.error =
-          e instanceof Error ? e.message : "Failed to load settings";
+        this.error = e instanceof Error ? e.message : "Failed to load settings";
       }
     } finally {
       this.loading = false;
@@ -102,10 +100,9 @@ class SettingsStore {
     this.error = null;
     try {
       configureGeneratedClient();
-      const data =
-        await SettingsService.putApiV1Settings({
-          requestBody: patch as SettingsUpdateRequest,
-        }) as unknown as AppSettings;
+      const data = (await SettingsService.putApiV1Settings({
+        requestBody: patch as SettingsUpdateRequest,
+      })) as unknown as AppSettings;
       this.agentDirs = data.agent_dirs;
       this.githubConfigured = data.github_configured;
       this.terminal = data.terminal;
@@ -118,8 +115,7 @@ class SettingsStore {
         setAuthToken(data.auth_token);
       }
     } catch (e) {
-      this.error =
-        e instanceof Error ? e.message : "Failed to save settings";
+      this.error = e instanceof Error ? e.message : "Failed to save settings";
     } finally {
       this.saving = false;
     }

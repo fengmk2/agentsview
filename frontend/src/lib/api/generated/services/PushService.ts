@@ -2,12 +2,12 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { DaemonPushRequest } from '../models/DaemonPushRequest';
-import type { DuckdbPushResult } from '../models/DuckdbPushResult';
-import type { PostgresPushResult } from '../models/PostgresPushResult';
-import type { CancelablePromise } from '../core/CancelablePromise';
-import { OpenAPI } from '../core/OpenAPI';
-import { request as __request } from '../core/request';
+import type { DaemonPushRequest } from "../models/DaemonPushRequest";
+import type { DuckdbPushResult } from "../models/DuckdbPushResult";
+import type { PostgresPushResult } from "../models/PostgresPushResult";
+import type { CancelablePromise } from "../core/CancelablePromise";
+import { OpenAPI } from "../core/OpenAPI";
+import { request as __request } from "../core/request";
 export class PushService {
   /**
    * Push to DuckDB
@@ -17,13 +17,13 @@ export class PushService {
   public static postApiV1PushDuckdb({
     requestBody,
   }: {
-    requestBody: DaemonPushRequest,
+    requestBody: DaemonPushRequest;
   }): CancelablePromise<DuckdbPushResult> {
     return __request(OpenAPI, {
-      method: 'POST',
-      url: '/api/v1/push/duckdb',
+      method: "POST",
+      url: "/api/v1/push/duckdb",
       body: requestBody,
-      mediaType: 'application/json',
+      mediaType: "application/json",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,
@@ -47,13 +47,13 @@ export class PushService {
   public static postApiV1PushPg({
     requestBody,
   }: {
-    requestBody: DaemonPushRequest,
+    requestBody: DaemonPushRequest;
   }): CancelablePromise<PostgresPushResult> {
     return __request(OpenAPI, {
-      method: 'POST',
-      url: '/api/v1/push/pg',
+      method: "POST",
+      url: "/api/v1/push/pg",
       body: requestBody,
-      mediaType: 'application/json',
+      mediaType: "application/json",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,

@@ -9,4 +9,3 @@ export type PostgresPushResult = {
   SessionsPushed: number;
   SkippedConflicts: number;
 };
-

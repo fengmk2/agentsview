@@ -11,4 +11,3 @@ export type ActivityKeyMinutes = {
   interactive_cost: number;
   key: string;
 };
-

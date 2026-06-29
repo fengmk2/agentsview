@@ -22,10 +22,7 @@ class SessionTimingStore {
    *  snapshot is in memory. SSE events update the cached snapshot
    *  in place. */
   async load(sessionId: string): Promise<void> {
-    if (
-      this.currentSessionId === sessionId &&
-      this.timing !== null
-    ) {
+    if (this.currentSessionId === sessionId && this.timing !== null) {
       return;
     }
     if (this.currentSessionId !== sessionId) {
@@ -42,8 +39,7 @@ class SessionTimingStore {
       this.timing = t;
     } catch (e) {
       if (version !== this.loadVersion) return;
-      this.error =
-        e instanceof Error ? e.message : String(e);
+      this.error = e instanceof Error ? e.message : String(e);
       this.timing = null;
     } finally {
       if (version === this.loadVersion) {

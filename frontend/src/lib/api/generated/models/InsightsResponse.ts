@@ -5,4 +5,3 @@
 export type InsightsResponse = {
   insights: any[] | null;
 };
-

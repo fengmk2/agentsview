@@ -7,4 +7,3 @@ export type RemoteSyncRequest = {
   hosts: any[] | null;
   include_local: boolean;
 };
-

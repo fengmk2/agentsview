@@ -7,4 +7,3 @@ export type ActivityReportInterval = {
   session_id: string;
   start: string;
 };
-

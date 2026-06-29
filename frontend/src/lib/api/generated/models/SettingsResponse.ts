@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { TerminalResponse } from './TerminalResponse';
+import type { TerminalResponse } from "./TerminalResponse";
 export type SettingsResponse = {
   agent_dirs: Record<string, any[] | null>;
   auth_token?: string;
@@ -13,4 +13,3 @@ export type SettingsResponse = {
   require_auth: boolean;
   terminal: TerminalResponse;
 };
-

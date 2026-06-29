@@ -10,4 +10,3 @@ export type ConfigPGConfig = {
   schema: string;
   url: string;
 };
-

@@ -194,22 +194,16 @@ describe("ToolBlock output section", () => {
     document.querySelector<HTMLButtonElement>(".history-header")!.click();
     await tick();
 
-    expect(document.querySelector(".output-header .output-label")?.textContent)
-      .toBe("输出");
-    expect(document.querySelector(".history-header .output-label")?.textContent)
-      .toBe("历史");
+    expect(document.querySelector(".output-header .output-label")?.textContent).toBe("输出");
+    expect(document.querySelector(".history-header .output-label")?.textContent).toBe("历史");
     expect(
-      Array.from(document.querySelectorAll(".meta-label"))
-        .map((node) => node.textContent),
+      Array.from(document.querySelectorAll(".meta-label")).map((node) => node.textContent),
     ).toEqual(["状态：", "来源：", "agent："]);
   });
 
   it("localizes long content expansion controls", async () => {
     setLocale("zh-CN");
-    const content = Array.from(
-      { length: 22 },
-      (_, i) => `line ${i + 1}`,
-    ).join("\n");
+    const content = Array.from({ length: 22 }, (_, i) => `line ${i + 1}`).join("\n");
     component = mount(ToolBlock, {
       target: document.body,
       props: { content },
@@ -225,8 +219,7 @@ describe("ToolBlock output section", () => {
     showMore!.click();
     await tick();
 
-    expect(document.querySelector(".show-more-btn")?.textContent?.trim())
-      .toBe("收起");
+    expect(document.querySelector(".show-more-btn")?.textContent?.trim()).toBe("收起");
   });
 
   it("expands event history and shows chronological event content", async () => {
@@ -539,10 +532,7 @@ describe("ToolBlock show-more for long content", () => {
   });
 
   it("auto-expands hidden Bash fallback content on search match", async () => {
-    const longCommand = Array.from(
-      { length: 30 },
-      (_, i) => `echo hidden-line-${i}`,
-    ).join("\n");
+    const longCommand = Array.from({ length: 30 }, (_, i) => `echo hidden-line-${i}`).join("\n");
     const toolCall: ToolCall = {
       tool_name: "Bash",
       category: "Bash",
@@ -561,9 +551,7 @@ describe("ToolBlock show-more for long content", () => {
     const toolContent = document.querySelector(".tool-content");
     expect(toolContent).not.toBeNull();
     expect(toolContent!.textContent).toContain("hidden-line-29");
-    expect(document.querySelector(".show-more-btn")!.textContent).toContain(
-      "show less",
-    );
+    expect(document.querySelector(".show-more-btn")!.textContent).toContain("show less");
   });
 });
 
@@ -811,9 +799,7 @@ describe("ToolBlock collapsed preview", () => {
     await tick();
 
     const preview = document.querySelector(".tool-header .tool-preview");
-    expect(preview!.textContent).toBe(
-      "#29 · in_progress · Rebuild Companies list table columns",
-    );
+    expect(preview!.textContent).toBe("#29 · in_progress · Rebuild Companies list table columns");
   });
 
   it("shows just task id and status for TaskUpdate without subject", async () => {

@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vite-plus/test";
 import { mount, tick, unmount } from "svelte";
 import SessionsTable from "./SessionsTable.svelte";
 import { m } from "../../i18n/index.js";
@@ -7,9 +7,7 @@ import { router } from "../../stores/router.svelte.js";
 import type { Report } from "../../api/types.js";
 import type { ActivitySessionRow } from "../../api/generated/index";
 
-function makeRow(
-  overrides: Partial<ActivitySessionRow> = {},
-): ActivitySessionRow {
+function makeRow(overrides: Partial<ActivitySessionRow> = {}): ActivitySessionRow {
   return {
     session_id: "sess",
     title: "Session",
@@ -144,9 +142,7 @@ describe("SessionsTable", () => {
     });
     await tick();
 
-    const costHeader = document.querySelector(
-      '[data-sort-key="cost"]',
-    ) as HTMLElement | null;
+    const costHeader = document.querySelector('[data-sort-key="cost"]') as HTMLElement | null;
     expect(costHeader).toBeTruthy();
     costHeader!.dispatchEvent(new MouseEvent("click", { bubbles: true }));
     await tick();
@@ -160,9 +156,7 @@ describe("SessionsTable", () => {
   });
 
   it("intercepts a plain left-click on a session link for SPA navigation", async () => {
-    const navSpy = vi
-      .spyOn(router, "navigateToSession")
-      .mockImplementation(() => {});
+    const navSpy = vi.spyOn(router, "navigateToSession").mockImplementation(() => {});
     const report = makeReport(fixtureRows());
     const c = mount(SessionsTable, {
       target: document.body,
@@ -171,9 +165,7 @@ describe("SessionsTable", () => {
     await tick();
 
     // Default order is high-min first, so the first link is its row.
-    const link = document.querySelector(
-      ".session-row .session-link",
-    ) as HTMLAnchorElement | null;
+    const link = document.querySelector(".session-row .session-link") as HTMLAnchorElement | null;
     expect(link).toBeTruthy();
 
     // Real browser clicks are cancelable; preventDefault is a no-op
@@ -220,9 +212,7 @@ describe("SessionsTable", () => {
     });
     await tick();
 
-    const badge = document.querySelector(
-      ".filter-badge",
-    ) as HTMLButtonElement | null;
+    const badge = document.querySelector(".filter-badge") as HTMLButtonElement | null;
     expect(badge).toBeTruthy();
     expect(badge!.textContent).toContain("06:00–09:00");
     badge!.dispatchEvent(new MouseEvent("click", { bubbles: true }));
@@ -263,12 +253,8 @@ describe("SessionsTable", () => {
     await tick();
 
     expect(document.querySelectorAll(".auto-badge").length).toBe(1);
-    const robotRow = document.querySelector(
-      '.session-row[data-session-id="robot"]',
-    );
-    const humanRow = document.querySelector(
-      '.session-row[data-session-id="human"]',
-    );
+    const robotRow = document.querySelector('.session-row[data-session-id="robot"]');
+    const humanRow = document.querySelector('.session-row[data-session-id="human"]');
     expect(robotRow?.querySelector(".auto-badge")).toBeTruthy();
     expect(humanRow?.querySelector(".auto-badge")).toBeNull();
 

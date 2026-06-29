@@ -17,8 +17,7 @@ vi.mock("../api/runtime.js", () => ({
       isCancelled?: unknown;
       name?: unknown;
     };
-    return candidate.isCancelled === true ||
-      candidate.name === "CancelError";
+    return candidate.isCancelled === true || candidate.name === "CancelError";
   },
   withAbort: async <T>(promise: Promise<T> & { cancel?: () => void }, signal?: AbortSignal) => {
     if (signal) {
@@ -52,10 +51,7 @@ function createDeferred<T>() {
   return { promise, resolve };
 }
 
-function makeSearchResponse(
-  query: string,
-  count: number,
-): SearchResponse {
+function makeSearchResponse(query: string, count: number): SearchResponse {
   return {
     query,
     results: Array.from({ length: count }, (_, i) => ({
@@ -117,9 +113,7 @@ describe("SearchStore", () => {
     searchService.getApiV1Search.mockReturnValueOnce(cancelableNever());
 
     // Second search: resolves immediately
-    searchService.getApiV1Search.mockResolvedValueOnce(
-      makeSearchResponse("world", 2),
-    );
+    searchService.getApiV1Search.mockResolvedValueOnce(makeSearchResponse("world", 2));
 
     // Trigger first search
     searchStore.search("hello");
@@ -156,9 +150,7 @@ describe("SearchStore", () => {
   });
 
   it("should debounce rapid queries and only fire the last one", async () => {
-    searchService.getApiV1Search.mockResolvedValueOnce(
-      makeSearchResponse("final", 3),
-    );
+    searchService.getApiV1Search.mockResolvedValueOnce(makeSearchResponse("final", 3));
 
     // Type several queries within debounce window
     searchStore.search("f");
@@ -221,9 +213,7 @@ describe("SearchStore", () => {
   });
 
   it("should keep previous results when generated cancellation aborts stale search", async () => {
-    searchService.getApiV1Search.mockResolvedValueOnce(
-      makeSearchResponse("stable", 3),
-    );
+    searchService.getApiV1Search.mockResolvedValueOnce(makeSearchResponse("stable", 3));
 
     searchStore.search("stable");
     vi.advanceTimersByTime(DEBOUNCE_MS);
@@ -255,9 +245,7 @@ describe("SearchStore", () => {
     searchService.getApiV1Search.mockReturnValueOnce(firstPromise);
 
     // Second search: resolves immediately
-    searchService.getApiV1Search.mockResolvedValueOnce(
-      makeSearchResponse("beta", 2),
-    );
+    searchService.getApiV1Search.mockResolvedValueOnce(makeSearchResponse("beta", 2));
 
     // Fire first search
     searchStore.search("alpha");
@@ -286,9 +274,7 @@ describe("SearchStore", () => {
   });
 
   it("should call generated search with query params", async () => {
-    searchService.getApiV1Search.mockResolvedValueOnce(
-      makeSearchResponse("test", 1),
-    );
+    searchService.getApiV1Search.mockResolvedValueOnce(makeSearchResponse("test", 1));
 
     searchStore.search("test");
     vi.advanceTimersByTime(DEBOUNCE_MS);
@@ -296,9 +282,12 @@ describe("SearchStore", () => {
     await vi.runAllTimersAsync();
     await Promise.resolve();
 
-    expect(searchService.getApiV1Search).toHaveBeenCalledWith(
-      { q: "test", project: undefined, limit: 30, sort: "relevance" },
-    );
+    expect(searchService.getApiV1Search).toHaveBeenCalledWith({
+      q: "test",
+      project: undefined,
+      limit: 30,
+      sort: "relevance",
+    });
   });
 
   it("sort defaults to relevance", () => {

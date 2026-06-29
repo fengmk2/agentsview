@@ -11,4 +11,3 @@ export type DbWorktreeProjectMapping = {
   project: string;
   updated_at: string;
 };
-

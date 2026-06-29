@@ -12,4 +12,3 @@ export type InsightCannedSessionFilters = {
   termination?: string;
   timezone: string;
 };
-

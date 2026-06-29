@@ -14,4 +14,3 @@ export type SyncProgress = {
   sessions_done: number;
   sessions_total: number;
 };
-

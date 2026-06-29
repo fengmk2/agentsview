@@ -2,10 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { DbRecentEditsResult } from '../models/DbRecentEditsResult';
-import type { CancelablePromise } from '../core/CancelablePromise';
-import { OpenAPI } from '../core/OpenAPI';
-import { request as __request } from '../core/request';
+import type { DbRecentEditsResult } from "../models/DbRecentEditsResult";
+import type { CancelablePromise } from "../core/CancelablePromise";
+import { OpenAPI } from "../core/OpenAPI";
+import { request as __request } from "../core/request";
 export class RecentEditsService {
   /**
    * List recent edits
@@ -21,28 +21,28 @@ export class RecentEditsService {
     /**
      * Max files per page
      */
-    limit?: number,
+    limit?: number;
     /**
      * Files to skip
      */
-    offset?: number,
+    offset?: number;
     /**
      * Filter by project
      */
-    project?: string,
+    project?: string;
     /**
      * Filter by file path substring (case-insensitive)
      */
-    search?: string,
+    search?: string;
   }): CancelablePromise<DbRecentEditsResult> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/recent-edits',
+      method: "GET",
+      url: "/api/v1/recent-edits",
       query: {
-        'limit': limit,
-        'offset': offset,
-        'project': project,
-        'search': search,
+        limit: limit,
+        offset: offset,
+        project: project,
+        search: search,
       },
       errors: {
         400: `Bad Request`,

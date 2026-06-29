@@ -1,10 +1,4 @@
-import {
-  describe,
-  expect,
-  it,
-  vi,
-  beforeEach,
-} from "vite-plus/test";
+import { describe, expect, it, vi, beforeEach } from "vite-plus/test";
 
 const { request } = vi.hoisted(() => ({
   request: vi.fn(),

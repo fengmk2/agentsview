@@ -1,7 +1,4 @@
-import {
-  getLocale,
-  setLocale as setParaglideLocale,
-} from "../paraglide/runtime.js";
+import { getLocale, setLocale as setParaglideLocale } from "../paraglide/runtime.js";
 
 export { m } from "../paraglide/messages.js";
 
@@ -9,7 +6,7 @@ export const DEFAULT_LOCALE = "en";
 export const LOCALE_STORAGE_KEY = "agentsview-locale";
 export const SUPPORTED_LOCALES = ["en", "zh-CN"] as const;
 
-export type SupportedLocale = typeof SUPPORTED_LOCALES[number];
+export type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
 
 export function normalizeLocale(value: string | null | undefined): SupportedLocale {
   return matchingLocale(value) ?? DEFAULT_LOCALE;
@@ -39,9 +36,7 @@ function storedLocale(): SupportedLocale | null {
 
 function browserLocales(): string[] {
   if (typeof navigator === "undefined") return [];
-  const languages = Array.isArray(navigator.languages)
-    ? navigator.languages
-    : [];
+  const languages = Array.isArray(navigator.languages) ? navigator.languages : [];
   return [...languages, navigator.language].filter(Boolean);
 }
 

@@ -12,4 +12,3 @@ export type ActivityBucket = {
   output_tokens: number;
   start: string;
 };
-

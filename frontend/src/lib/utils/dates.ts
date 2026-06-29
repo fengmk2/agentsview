@@ -15,10 +15,7 @@ export function today(): string {
   return localDateStr(new Date());
 }
 
-export function rollingRange(
-  days: number,
-  now: Date = new Date(),
-): { from: string; to: string } {
+export function rollingRange(days: number, now: Date = new Date()): { from: string; to: string } {
   const to = new Date(now);
   const from = new Date(to);
   from.setDate(from.getDate() - days);

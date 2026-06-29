@@ -1,11 +1,6 @@
-import { describe, expect, it } from "vitest";
-import {
-  ApiError,
-  callGenerated,
-} from "./runtime.js";
-import {
-  ApiError as GeneratedApiError,
-} from "./generated/index";
+import { describe, expect, it } from "vite-plus/test";
+import { ApiError, callGenerated } from "./runtime.js";
+import { ApiError as GeneratedApiError } from "./generated/index";
 
 describe("callGenerated", () => {
   it("normalizes generated API error bodies", async () => {

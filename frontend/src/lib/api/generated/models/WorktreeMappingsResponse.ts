@@ -6,4 +6,3 @@ export type WorktreeMappingsResponse = {
   machine: string;
   mappings: any[] | null;
 };
-

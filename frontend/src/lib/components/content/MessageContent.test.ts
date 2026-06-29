@@ -6,9 +6,7 @@ import { setLocale } from "../../i18n/index.js";
 // @ts-ignore
 import MessageContent from "./MessageContent.svelte";
 
-const copyToClipboardMock = vi.hoisted(() =>
-  vi.fn().mockResolvedValue(true),
-);
+const copyToClipboardMock = vi.hoisted(() => vi.fn().mockResolvedValue(true));
 
 vi.mock("../../stores/messages.svelte.js", () => ({
   messages: {
@@ -38,9 +36,9 @@ vi.mock("../../stores/sessions.svelte.js", () => ({
 }));
 
 vi.mock("../../utils/highlight.js", async () => {
-  const actual = await vi.importActual<
-    typeof import("../../utils/highlight.js")
-  >("../../utils/highlight.js");
+  const actual = await vi.importActual<typeof import("../../utils/highlight.js")>(
+    "../../utils/highlight.js",
+  );
   return {
     ...actual,
     applyHighlight: () => {},
@@ -56,9 +54,7 @@ type MessageWithTokenFlags = Message & {
   has_output_tokens?: boolean;
 };
 
-function makeMessage(
-  overrides: Partial<MessageWithTokenFlags> = {},
-): MessageWithTokenFlags {
+function makeMessage(overrides: Partial<MessageWithTokenFlags> = {}): MessageWithTokenFlags {
   return {
     id: 1,
     session_id: "session-1",
@@ -100,22 +96,16 @@ describe("MessageContent", () => {
 
     await tick();
 
-    expect(document.querySelector(".role-label")?.textContent?.trim()).toBe(
-      "用户",
-    );
+    expect(document.querySelector(".role-label")?.textContent?.trim()).toBe("用户");
     expect(document.querySelector(".role-icon")?.getAttribute("style")).toContain(
       "var(--accent-blue-foreground)",
     );
-    const copyButton = document.querySelector<HTMLButtonElement>(
-      "button.copy-btn",
-    );
+    const copyButton = document.querySelector<HTMLButtonElement>("button.copy-btn");
     expect(copyButton?.getAttribute("aria-label")).toBe("复制消息");
     expect(copyButton?.getAttribute("title")).toBe("复制消息");
-    expect(
-      document.querySelector<HTMLButtonElement>(".pin-btn")?.getAttribute(
-        "title",
-      ),
-    ).toBe("固定消息");
+    expect(document.querySelector<HTMLButtonElement>(".pin-btn")?.getAttribute("title")).toBe(
+      "固定消息",
+    );
     expect(document.body.textContent).toContain("Do not translate this prompt.");
 
     unmount(component);
@@ -139,12 +129,8 @@ describe("MessageContent", () => {
 
     await tick();
 
-    expect(document.querySelector(".role-label")?.textContent?.trim()).toBe(
-      "助手",
-    );
-    expect(document.querySelector(".thinking-label")?.textContent?.trim()).toBe(
-      "思考",
-    );
+    expect(document.querySelector(".role-label")?.textContent?.trim()).toBe("助手");
+    expect(document.querySelector(".thinking-label")?.textContent?.trim()).toBe("思考");
     expect(document.body.textContent).toContain("Visible response.");
 
     unmount(component);
@@ -165,9 +151,7 @@ describe("MessageContent", () => {
 
     await tick();
     const tokenMeta = document.querySelector(".message-tokens");
-    expect(tokenMeta?.textContent?.replace(/\s+/g, " ").trim()).toBe(
-      "2.4k ctx / 180 out",
-    );
+    expect(tokenMeta?.textContent?.replace(/\s+/g, " ").trim()).toBe("2.4k ctx / 180 out");
 
     unmount(component);
   });
@@ -204,9 +188,7 @@ describe("MessageContent", () => {
 
     await tick();
     const tokenMeta = document.querySelector(".message-tokens");
-    expect(tokenMeta?.textContent?.replace(/\s+/g, " ").trim()).toBe(
-      "— ctx / 180 out",
-    );
+    expect(tokenMeta?.textContent?.replace(/\s+/g, " ").trim()).toBe("— ctx / 180 out");
 
     unmount(component);
   });
@@ -237,9 +219,7 @@ describe("MessageContent", () => {
     await tick();
 
     expect(copyToClipboardMock).toHaveBeenCalledWith(code);
-    expect(copyButton!.getAttribute("aria-label")).toBe(
-      "Copied code block",
-    );
+    expect(copyButton!.getAttribute("aria-label")).toBe("Copied code block");
     expect(copyButton!.querySelector("svg")).not.toBeNull();
     expect(copyButton!.textContent?.trim()).toBe("");
 

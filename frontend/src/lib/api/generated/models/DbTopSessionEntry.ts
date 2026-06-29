@@ -11,4 +11,3 @@ export type DbTopSessionEntry = {
   startedAt: string;
   totalTokens: number;
 };
-

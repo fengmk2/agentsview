@@ -8,4 +8,3 @@ export type BulkStarInputBody = {
    */
   session_ids: any[] | null;
 };
-

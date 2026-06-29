@@ -2,11 +2,11 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { Comparison } from '../models/Comparison';
-import type { UsageSummaryResponse } from '../models/UsageSummaryResponse';
-import type { CancelablePromise } from '../core/CancelablePromise';
-import { OpenAPI } from '../core/OpenAPI';
-import { request as __request } from '../core/request';
+import type { Comparison } from "../models/Comparison";
+import type { UsageSummaryResponse } from "../models/UsageSummaryResponse";
+import type { CancelablePromise } from "../core/CancelablePromise";
+import { OpenAPI } from "../core/OpenAPI";
+import { request as __request } from "../core/request";
 export class UsageService {
   /**
    * Get usage comparison
@@ -37,103 +37,103 @@ export class UsageService {
     /**
      * Current period total cost
      */
-    currentCost: number,
+    currentCost: number;
     /**
      * Range start date
      */
-    from?: string,
+    from?: string;
     /**
      * Range end date
      */
-    to?: string,
+    to?: string;
     /**
      * IANA timezone name
      */
-    timezone?: string,
+    timezone?: string;
     /**
      * Filter by agent
      */
-    agent?: string,
+    agent?: string;
     /**
      * Filter by project
      */
-    project?: string,
+    project?: string;
     /**
      * Filter by machine
      */
-    machine?: string,
+    machine?: string;
     /**
      * Exclude a project
      */
-    excludeProject?: string,
+    excludeProject?: string;
     /**
      * Exclude an agent
      */
-    excludeAgent?: string,
+    excludeAgent?: string;
     /**
      * Exclude a model
      */
-    excludeModel?: string,
+    excludeModel?: string;
     /**
      * Filter by model
      */
-    model?: string,
+    model?: string;
     /**
      * Minimum user message count
      */
-    minUserMessages?: number,
+    minUserMessages?: number;
     /**
      * Filter sessions active since this RFC3339 timestamp
      */
-    activeSince?: string,
+    activeSince?: string;
     /**
      * Filter by termination status
      */
-    termination?: string,
+    termination?: string;
     /**
      * Include one-shot sessions
      */
-    includeOneShot?: boolean,
+    includeOneShot?: boolean;
     /**
      * Include automated sessions
      */
-    includeAutomated?: boolean,
+    includeAutomated?: boolean;
     /**
      * Preserve omitted from/to without applying default range
      */
-    noDefaultRange?: boolean,
+    noDefaultRange?: boolean;
     /**
      * Include per-model, per-project, and per-agent breakdowns
      */
-    breakdowns?: boolean,
+    breakdowns?: boolean;
     /**
      * Include distinct session counts
      */
-    sessionCounts?: boolean,
+    sessionCounts?: boolean;
   }): CancelablePromise<Comparison> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/usage/comparison',
+      method: "GET",
+      url: "/api/v1/usage/comparison",
       query: {
-        'from': from,
-        'to': to,
-        'timezone': timezone,
-        'agent': agent,
-        'project': project,
-        'machine': machine,
-        'exclude_project': excludeProject,
-        'exclude_agent': excludeAgent,
-        'exclude_model': excludeModel,
-        'model': model,
-        'min_user_messages': minUserMessages,
-        'active_since': activeSince,
-        'termination': termination,
-        'include_one_shot': includeOneShot,
-        'include_automated': includeAutomated,
-        'no_default_range': noDefaultRange,
-        'breakdowns': breakdowns,
-        'session_counts': sessionCounts,
-        'current_cost': currentCost,
+        from: from,
+        to: to,
+        timezone: timezone,
+        agent: agent,
+        project: project,
+        machine: machine,
+        exclude_project: excludeProject,
+        exclude_agent: excludeAgent,
+        exclude_model: excludeModel,
+        model: model,
+        min_user_messages: minUserMessages,
+        active_since: activeSince,
+        termination: termination,
+        include_one_shot: includeOneShot,
+        include_automated: includeAutomated,
+        no_default_range: noDefaultRange,
+        breakdowns: breakdowns,
+        session_counts: sessionCounts,
+        current_cost: currentCost,
       },
       errors: {
         400: `Bad Request`,
@@ -178,98 +178,98 @@ export class UsageService {
     /**
      * Range start date
      */
-    from?: string,
+    from?: string;
     /**
      * Range end date
      */
-    to?: string,
+    to?: string;
     /**
      * IANA timezone name
      */
-    timezone?: string,
+    timezone?: string;
     /**
      * Filter by agent
      */
-    agent?: string,
+    agent?: string;
     /**
      * Filter by project
      */
-    project?: string,
+    project?: string;
     /**
      * Filter by machine
      */
-    machine?: string,
+    machine?: string;
     /**
      * Exclude a project
      */
-    excludeProject?: string,
+    excludeProject?: string;
     /**
      * Exclude an agent
      */
-    excludeAgent?: string,
+    excludeAgent?: string;
     /**
      * Exclude a model
      */
-    excludeModel?: string,
+    excludeModel?: string;
     /**
      * Filter by model
      */
-    model?: string,
+    model?: string;
     /**
      * Minimum user message count
      */
-    minUserMessages?: number,
+    minUserMessages?: number;
     /**
      * Filter sessions active since this RFC3339 timestamp
      */
-    activeSince?: string,
+    activeSince?: string;
     /**
      * Filter by termination status
      */
-    termination?: string,
+    termination?: string;
     /**
      * Include one-shot sessions
      */
-    includeOneShot?: boolean,
+    includeOneShot?: boolean;
     /**
      * Include automated sessions
      */
-    includeAutomated?: boolean,
+    includeAutomated?: boolean;
     /**
      * Preserve omitted from/to without applying default range
      */
-    noDefaultRange?: boolean,
+    noDefaultRange?: boolean;
     /**
      * Include per-model, per-project, and per-agent breakdowns
      */
-    breakdowns?: boolean,
+    breakdowns?: boolean;
     /**
      * Include distinct session counts
      */
-    sessionCounts?: boolean,
+    sessionCounts?: boolean;
   }): CancelablePromise<UsageSummaryResponse> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/usage/summary',
+      method: "GET",
+      url: "/api/v1/usage/summary",
       query: {
-        'from': from,
-        'to': to,
-        'timezone': timezone,
-        'agent': agent,
-        'project': project,
-        'machine': machine,
-        'exclude_project': excludeProject,
-        'exclude_agent': excludeAgent,
-        'exclude_model': excludeModel,
-        'model': model,
-        'min_user_messages': minUserMessages,
-        'active_since': activeSince,
-        'termination': termination,
-        'include_one_shot': includeOneShot,
-        'include_automated': includeAutomated,
-        'no_default_range': noDefaultRange,
-        'breakdowns': breakdowns,
-        'session_counts': sessionCounts,
+        from: from,
+        to: to,
+        timezone: timezone,
+        agent: agent,
+        project: project,
+        machine: machine,
+        exclude_project: excludeProject,
+        exclude_agent: excludeAgent,
+        exclude_model: excludeModel,
+        model: model,
+        min_user_messages: minUserMessages,
+        active_since: activeSince,
+        termination: termination,
+        include_one_shot: includeOneShot,
+        include_automated: includeAutomated,
+        no_default_range: noDefaultRange,
+        breakdowns: breakdowns,
+        session_counts: sessionCounts,
       },
       errors: {
         400: `Bad Request`,
@@ -315,103 +315,103 @@ export class UsageService {
     /**
      * Range start date
      */
-    from?: string,
+    from?: string;
     /**
      * Range end date
      */
-    to?: string,
+    to?: string;
     /**
      * IANA timezone name
      */
-    timezone?: string,
+    timezone?: string;
     /**
      * Filter by agent
      */
-    agent?: string,
+    agent?: string;
     /**
      * Filter by project
      */
-    project?: string,
+    project?: string;
     /**
      * Filter by machine
      */
-    machine?: string,
+    machine?: string;
     /**
      * Exclude a project
      */
-    excludeProject?: string,
+    excludeProject?: string;
     /**
      * Exclude an agent
      */
-    excludeAgent?: string,
+    excludeAgent?: string;
     /**
      * Exclude a model
      */
-    excludeModel?: string,
+    excludeModel?: string;
     /**
      * Filter by model
      */
-    model?: string,
+    model?: string;
     /**
      * Minimum user message count
      */
-    minUserMessages?: number,
+    minUserMessages?: number;
     /**
      * Filter sessions active since this RFC3339 timestamp
      */
-    activeSince?: string,
+    activeSince?: string;
     /**
      * Filter by termination status
      */
-    termination?: string,
+    termination?: string;
     /**
      * Include one-shot sessions
      */
-    includeOneShot?: boolean,
+    includeOneShot?: boolean;
     /**
      * Include automated sessions
      */
-    includeAutomated?: boolean,
+    includeAutomated?: boolean;
     /**
      * Preserve omitted from/to without applying default range
      */
-    noDefaultRange?: boolean,
+    noDefaultRange?: boolean;
     /**
      * Include per-model, per-project, and per-agent breakdowns
      */
-    breakdowns?: boolean,
+    breakdowns?: boolean;
     /**
      * Include distinct session counts
      */
-    sessionCounts?: boolean,
+    sessionCounts?: boolean;
     /**
      * Maximum number of sessions
      */
-    limit?: number,
+    limit?: number;
   }): CancelablePromise<any[] | null> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/usage/top-sessions',
+      method: "GET",
+      url: "/api/v1/usage/top-sessions",
       query: {
-        'from': from,
-        'to': to,
-        'timezone': timezone,
-        'agent': agent,
-        'project': project,
-        'machine': machine,
-        'exclude_project': excludeProject,
-        'exclude_agent': excludeAgent,
-        'exclude_model': excludeModel,
-        'model': model,
-        'min_user_messages': minUserMessages,
-        'active_since': activeSince,
-        'termination': termination,
-        'include_one_shot': includeOneShot,
-        'include_automated': includeAutomated,
-        'no_default_range': noDefaultRange,
-        'breakdowns': breakdowns,
-        'session_counts': sessionCounts,
-        'limit': limit,
+        from: from,
+        to: to,
+        timezone: timezone,
+        agent: agent,
+        project: project,
+        machine: machine,
+        exclude_project: excludeProject,
+        exclude_agent: excludeAgent,
+        exclude_model: excludeModel,
+        model: model,
+        min_user_messages: minUserMessages,
+        active_since: activeSince,
+        termination: termination,
+        include_one_shot: includeOneShot,
+        include_automated: includeAutomated,
+        no_default_range: noDefaultRange,
+        breakdowns: breakdowns,
+        session_counts: sessionCounts,
+        limit: limit,
       },
       errors: {
         400: `Bad Request`,

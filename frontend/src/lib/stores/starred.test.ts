@@ -1,11 +1,4 @@
-import {
-  describe,
-  it,
-  expect,
-  beforeEach,
-  afterEach,
-  vi,
-} from "vite-plus/test";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vite-plus/test";
 import { StarredService } from "../api/generated/index";
 import { createStarredStore } from "./starred.svelte.js";
 
@@ -119,10 +112,7 @@ describe("StarredStore localStorage seeding", () => {
   });
 
   it("seeds ids from localStorage on construction", () => {
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(["legacy-1", "legacy-2"]),
-    );
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(["legacy-1", "legacy-2"]));
     const store = createStarredStore();
     expect(store.isStarred("legacy-1")).toBe(true);
     expect(store.isStarred("legacy-2")).toBe(true);
@@ -130,10 +120,7 @@ describe("StarredStore localStorage seeding", () => {
   });
 
   it("toggle unstars a localStorage-seeded session", () => {
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(["legacy-1"]),
-    );
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(["legacy-1"]));
     const store = createStarredStore();
     expect(store.isStarred("legacy-1")).toBe(true);
 
@@ -155,10 +142,7 @@ describe("StarredStore migration reconcile", () => {
   });
 
   it("does not merge stale IDs when migration refresh fails", async () => {
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(["exists", "stale"]),
-    );
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(["exists", "stale"]));
 
     starredService.getApiV1Starred
       // Initial load
@@ -182,10 +166,7 @@ describe("StarredStore migration reconcile", () => {
   });
 
   it("recovers migrated IDs after multiple reconcile failures", async () => {
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(["migrated"]),
-    );
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(["migrated"]));
 
     starredService.getApiV1Starred
       // Initial load
@@ -241,8 +222,7 @@ describe("StarredStore load retry", () => {
   });
 
   it("stops retrying after 3 failures", async () => {
-    starredService.getApiV1Starred
-      .mockRejectedValue(new Error("network"));
+    starredService.getApiV1Starred.mockRejectedValue(new Error("network"));
 
     const store = createStarredStore();
     await store.load(); // fail 1

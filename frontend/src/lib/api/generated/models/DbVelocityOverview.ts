@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { DbPercentiles } from './DbPercentiles';
+import type { DbPercentiles } from "./DbPercentiles";
 export type DbVelocityOverview = {
   chars_per_active_min: number;
   first_response_sec: DbPercentiles;
@@ -10,4 +10,3 @@ export type DbVelocityOverview = {
   tool_calls_per_active_min: number;
   turn_cycle_sec: DbPercentiles;
 };
-

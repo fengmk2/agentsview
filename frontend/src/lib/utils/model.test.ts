@@ -27,11 +27,7 @@ describe("computeMainModel", () => {
   });
 
   it("returns the single model", () => {
-    expect(
-      computeMainModel([
-        msg("assistant", "claude-sonnet-4.6"),
-      ]),
-    ).toBe("claude-sonnet-4.6");
+    expect(computeMainModel([msg("assistant", "claude-sonnet-4.6")])).toBe("claude-sonnet-4.6");
   });
 
   it("returns most frequent model", () => {
@@ -45,38 +41,24 @@ describe("computeMainModel", () => {
   });
 
   it("breaks ties alphabetically", () => {
-    expect(
-      computeMainModel([
-        msg("assistant", "b-model"),
-        msg("assistant", "a-model"),
-      ]),
-    ).toBe("a-model");
+    expect(computeMainModel([msg("assistant", "b-model"), msg("assistant", "a-model")])).toBe(
+      "a-model",
+    );
   });
 
   it("ignores user messages", () => {
     expect(
-      computeMainModel([
-        msg("user", "some-model"),
-        msg("assistant", "claude-sonnet-4.6"),
-      ]),
+      computeMainModel([msg("user", "some-model"), msg("assistant", "claude-sonnet-4.6")]),
     ).toBe("claude-sonnet-4.6");
   });
 
   it("ignores empty model strings", () => {
-    expect(
-      computeMainModel([
-        msg("assistant", ""),
-        msg("assistant", "claude-sonnet-4.6"),
-      ]),
-    ).toBe("claude-sonnet-4.6");
+    expect(computeMainModel([msg("assistant", ""), msg("assistant", "claude-sonnet-4.6")])).toBe(
+      "claude-sonnet-4.6",
+    );
   });
 
   it("returns empty when no model data", () => {
-    expect(
-      computeMainModel([
-        msg("assistant", ""),
-        msg("user", ""),
-      ]),
-    ).toBe("");
+    expect(computeMainModel([msg("assistant", ""), msg("user", "")])).toBe("");
   });
 });

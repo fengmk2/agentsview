@@ -2,15 +2,15 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { AgentsResponse } from '../models/AgentsResponse';
-import type { DbStats } from '../models/DbStats';
-import type { MachinesResponse } from '../models/MachinesResponse';
-import type { ProjectsResponse } from '../models/ProjectsResponse';
-import type { UpdateCheckResponse } from '../models/UpdateCheckResponse';
-import type { VersionInfo } from '../models/VersionInfo';
-import type { CancelablePromise } from '../core/CancelablePromise';
-import { OpenAPI } from '../core/OpenAPI';
-import { request as __request } from '../core/request';
+import type { AgentsResponse } from "../models/AgentsResponse";
+import type { DbStats } from "../models/DbStats";
+import type { MachinesResponse } from "../models/MachinesResponse";
+import type { ProjectsResponse } from "../models/ProjectsResponse";
+import type { UpdateCheckResponse } from "../models/UpdateCheckResponse";
+import type { VersionInfo } from "../models/VersionInfo";
+import type { CancelablePromise } from "../core/CancelablePromise";
+import { OpenAPI } from "../core/OpenAPI";
+import { request as __request } from "../core/request";
 export class MetadataService {
   /**
    * List agents
@@ -24,18 +24,18 @@ export class MetadataService {
     /**
      * Include one-shot sessions
      */
-    includeOneShot?: boolean,
+    includeOneShot?: boolean;
     /**
      * Include automated sessions
      */
-    includeAutomated?: boolean,
+    includeAutomated?: boolean;
   }): CancelablePromise<AgentsResponse> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/agents',
+      method: "GET",
+      url: "/api/v1/agents",
       query: {
-        'include_one_shot': includeOneShot,
-        'include_automated': includeAutomated,
+        include_one_shot: includeOneShot,
+        include_automated: includeAutomated,
       },
       errors: {
         400: `Bad Request`,
@@ -64,18 +64,18 @@ export class MetadataService {
     /**
      * Include one-shot sessions
      */
-    includeOneShot?: boolean,
+    includeOneShot?: boolean;
     /**
      * Include automated sessions
      */
-    includeAutomated?: boolean,
+    includeAutomated?: boolean;
   }): CancelablePromise<MachinesResponse> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/machines',
+      method: "GET",
+      url: "/api/v1/machines",
       query: {
-        'include_one_shot': includeOneShot,
-        'include_automated': includeAutomated,
+        include_one_shot: includeOneShot,
+        include_automated: includeAutomated,
       },
       errors: {
         400: `Bad Request`,
@@ -104,18 +104,18 @@ export class MetadataService {
     /**
      * Include one-shot sessions
      */
-    includeOneShot?: boolean,
+    includeOneShot?: boolean;
     /**
      * Include automated sessions
      */
-    includeAutomated?: boolean,
+    includeAutomated?: boolean;
   }): CancelablePromise<ProjectsResponse> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/projects',
+      method: "GET",
+      url: "/api/v1/projects",
       query: {
-        'include_one_shot': includeOneShot,
-        'include_automated': includeAutomated,
+        include_one_shot: includeOneShot,
+        include_automated: includeAutomated,
       },
       errors: {
         400: `Bad Request`,
@@ -144,18 +144,18 @@ export class MetadataService {
     /**
      * Include one-shot sessions
      */
-    includeOneShot?: boolean,
+    includeOneShot?: boolean;
     /**
      * Include automated sessions
      */
-    includeAutomated?: boolean,
+    includeAutomated?: boolean;
   }): CancelablePromise<DbStats> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/stats',
+      method: "GET",
+      url: "/api/v1/stats",
       query: {
-        'include_one_shot': includeOneShot,
-        'include_automated': includeAutomated,
+        include_one_shot: includeOneShot,
+        include_automated: includeAutomated,
       },
       errors: {
         400: `Bad Request`,
@@ -179,8 +179,8 @@ export class MetadataService {
    */
   public static getApiV1UpdateCheck(): CancelablePromise<UpdateCheckResponse> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/update/check',
+      method: "GET",
+      url: "/api/v1/update/check",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,
@@ -202,8 +202,8 @@ export class MetadataService {
    */
   public static getApiV1Version(): CancelablePromise<VersionInfo> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/version',
+      method: "GET",
+      url: "/api/v1/version",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,

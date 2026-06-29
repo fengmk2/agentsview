@@ -14,4 +14,3 @@ export type DbDailyUsageEntry = {
   projectBreakdowns?: any[] | null;
   totalCost: number;
 };
-

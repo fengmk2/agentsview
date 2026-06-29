@@ -1,16 +1,6 @@
-import {
-  SessionsService,
-} from "../api/generated/index";
-import type {
-  Message,
-  MessagesResponse,
-  Session,
-} from "../api/types.js";
-import {
-  configureGeneratedClient,
-  isAbortError,
-  withAbort,
-} from "../api/runtime.js";
+import { SessionsService } from "../api/generated/index";
+import type { Message, MessagesResponse, Session } from "../api/types.js";
+import { configureGeneratedClient, isAbortError, withAbort } from "../api/runtime.js";
 import { clearContentCaches } from "../utils/content-parser.js";
 import { computeMainModel } from "../utils/model.js";
 
@@ -46,10 +36,7 @@ class MessagesStore {
   private loadOlderPromise: Promise<void> | null = null;
 
   async loadSession(id: string) {
-    if (
-      this.sessionId === id &&
-      (this.messages.length > 0 || this.loading)
-    ) {
+    if (this.sessionId === id && (this.messages.length > 0 || this.loading)) {
       return;
     }
     this.clear();
@@ -71,23 +58,13 @@ class MessagesStore {
         countHint = sess.message_count ?? 0;
       } catch (err) {
         if (isAbortError(err)) return;
-        console.warn(
-          "Failed to fetch session metadata:",
-          err,
-        );
+        console.warn("Failed to fetch session metadata:", err);
       }
 
-      if (
-        countHint !== null &&
-        countHint > FULL_SESSION_MESSAGE_THRESHOLD
-      ) {
+      if (countHint !== null && countHint > FULL_SESSION_MESSAGE_THRESHOLD) {
         await this.loadProgressively(id, ac.signal);
       } else {
-        await this.loadAllMessages(
-          id,
-          ac.signal,
-          countHint ?? undefined,
-        );
+        await this.loadAllMessages(id, ac.signal, countHint ?? undefined);
       }
     } catch (err) {
       if (isAbortError(err)) return;
@@ -95,10 +72,7 @@ class MessagesStore {
     } finally {
       if (this.sessionId === id) {
         this.loading = false;
-        this._stableMainModel =
-          this.messages.length > 0
-            ? computeMainModel(this.messages)
-            : "";
+        this._stableMainModel = this.messages.length > 0 ? computeMainModel(this.messages) : "";
       }
     }
   }
@@ -106,10 +80,7 @@ class MessagesStore {
   reload(): Promise<void> {
     if (!this.sessionId) return Promise.resolve();
 
-    if (
-      this.reloadPromise &&
-      this.reloadSessionId === this.sessionId
-    ) {
+    if (this.reloadPromise && this.reloadSessionId === this.sessionId) {
       this.pendingReload = true;
       return this.reloadPromise;
     }
@@ -148,10 +119,7 @@ class MessagesStore {
     this.loadOlderPromise = null;
   }
 
-  private async fetchPages(
-    id: string,
-    opts: FetchPageOptions,
-  ): Promise<Message[]> {
+  private async fetchPages(id: string, opts: FetchPageOptions): Promise<Message[]> {
     const loaded: Message[] = [];
     let from = opts.from;
 
@@ -174,15 +142,8 @@ class MessagesStore {
       const last = res.messages[res.messages.length - 1];
       if (!last) break;
 
-      const nextFrom =
-        opts.direction === "asc"
-          ? last.ordinal + 1
-          : last.ordinal - 1;
-      if (
-        opts.direction === "asc"
-          ? nextFrom <= from
-          : nextFrom >= from
-      ) {
+      const nextFrom = opts.direction === "asc" ? last.ordinal + 1 : last.ordinal - 1;
+      if (opts.direction === "asc" ? nextFrom <= from : nextFrom >= from) {
         break;
       }
       from = nextFrom;
@@ -191,11 +152,7 @@ class MessagesStore {
     return loaded;
   }
 
-  private async loadAllMessages(
-    id: string,
-    signal: AbortSignal,
-    messageCountHint?: number,
-  ) {
+  private async loadAllMessages(id: string, signal: AbortSignal, messageCountHint?: number) {
     let from = 0;
     let loaded: Message[] = [];
 
@@ -216,9 +173,7 @@ class MessagesStore {
       this.messages = loaded;
 
       const newest = loaded[loaded.length - 1];
-      this.messageCount =
-        messageCountHint ??
-        (newest ? newest.ordinal + 1 : loaded.length);
+      this.messageCount = messageCountHint ?? (newest ? newest.ordinal + 1 : loaded.length);
       this.hasOlder = false;
 
       if (res.messages.length < MESSAGE_PAGE_SIZE) break;
@@ -230,16 +185,11 @@ class MessagesStore {
     }
 
     const newest = this.messages[this.messages.length - 1];
-    this.messageCount =
-      messageCountHint ??
-      (newest ? newest.ordinal + 1 : this.messages.length);
+    this.messageCount = messageCountHint ?? (newest ? newest.ordinal + 1 : this.messages.length);
     this.hasOlder = false;
   }
 
-  private async loadProgressively(
-    id: string,
-    signal: AbortSignal,
-  ) {
+  private async loadProgressively(id: string, signal: AbortSignal) {
     configureGeneratedClient();
     const firstRes = await withAbort(
       SessionsService.getApiV1SessionsIdMessages({
@@ -254,15 +204,10 @@ class MessagesStore {
     const newest = this.messages[this.messages.length - 1];
     this.messageCount = newest ? newest.ordinal + 1 : 0;
     const oldest = this.messages[0]?.ordinal;
-    this.hasOlder =
-      oldest !== undefined ? oldest > 0 : false;
+    this.hasOlder = oldest !== undefined ? oldest > 0 : false;
   }
 
-  private async loadFrom(
-    id: string,
-    from: number,
-    signal: AbortSignal,
-  ) {
+  private async loadFrom(id: string, from: number, signal: AbortSignal) {
     const pages = await this.fetchPages(id, {
       from,
       limit: MESSAGE_PAGE_SIZE,
@@ -270,30 +215,16 @@ class MessagesStore {
       signal,
     });
     if (pages.length > 0) {
-      const updates = new Map(
-        pages.map((m) => [m.ordinal, m]),
-      );
-      const existingOrdinals = new Set(
-        this.messages.map((m) => m.ordinal),
-      );
-      const appended = pages.filter(
-        (m) => !existingOrdinals.has(m.ordinal),
-      );
+      const updates = new Map(pages.map((m) => [m.ordinal, m]));
+      const existingOrdinals = new Set(this.messages.map((m) => m.ordinal));
+      const appended = pages.filter((m) => !existingOrdinals.has(m.ordinal));
       clearContentCaches();
-      this.messages = [
-        ...this.messages.map((m) => updates.get(m.ordinal) ?? m),
-        ...appended,
-      ];
+      this.messages = [...this.messages.map((m) => updates.get(m.ordinal) ?? m), ...appended];
     }
   }
 
   async loadOlder() {
-    if (
-      !this.sessionId ||
-      this.loadOlderPromise ||
-      !this.hasOlder ||
-      this.messages.length === 0
-    ) {
+    if (!this.sessionId || this.loadOlderPromise || !this.hasOlder || this.messages.length === 0) {
       return this.loadOlderPromise ?? undefined;
     }
 
@@ -364,10 +295,7 @@ class MessagesStore {
       if (this.messages[0]!.ordinal <= targetOrdinal) return;
     }
 
-    const p = this.doEnsureOrdinal(
-      id,
-      targetOrdinal,
-    ).finally(() => {
+    const p = this.doEnsureOrdinal(id, targetOrdinal).finally(() => {
       if (this.loadOlderPromise === p) {
         this.loadOlderPromise = null;
       }
@@ -376,10 +304,7 @@ class MessagesStore {
     return p;
   }
 
-  private async doEnsureOrdinal(
-    id: string,
-    targetOrdinal: number,
-  ) {
+  private async doEnsureOrdinal(id: string, targetOrdinal: number) {
     const signal = this.abortController?.signal;
     if (!signal || signal.aborted) return;
 
@@ -425,14 +350,10 @@ class MessagesStore {
       }
 
       const oldestNow = this.messages[0]?.ordinal;
-      this.hasOlder =
-        oldestNow !== undefined && oldestNow > 0;
+      this.hasOlder = oldestNow !== undefined && oldestNow > 0;
     } catch (err) {
       if (isAbortError(err)) return;
-      console.warn(
-        "Failed to load older messages for ordinal:",
-        err,
-      );
+      console.warn("Failed to load older messages for ordinal:", err);
     } finally {
       if (this.sessionId === id) {
         this.loadingOlder = false;
@@ -464,8 +385,7 @@ class MessagesStore {
         await this.loadFrom(id, oldestOrdinal, signal);
         if (this.sessionId !== id) return;
 
-        const newest =
-          this.messages[this.messages.length - 1];
+        const newest = this.messages[this.messages.length - 1];
         if (newest && newest.ordinal !== newCount - 1) {
           await this.fullReload(id, signal, newCount);
           return;
@@ -482,10 +402,7 @@ class MessagesStore {
     }
   }
 
-  private async refreshLoadedWindow(
-    id: string,
-    signal: AbortSignal,
-  ) {
+  private async refreshLoadedWindow(id: string, signal: AbortSignal) {
     const oldest = this.messages[0];
     const newest = this.messages[this.messages.length - 1];
     if (!oldest || !newest) return;
@@ -502,46 +419,26 @@ class MessagesStore {
 
     const updates = new Map(
       refreshed
-        .filter(
-          (m) =>
-            m.ordinal >= oldest.ordinal &&
-            m.ordinal <= newest.ordinal,
-        )
+        .filter((m) => m.ordinal >= oldest.ordinal && m.ordinal <= newest.ordinal)
         .map((m) => [m.ordinal, m]),
     );
     clearContentCaches();
-    this.messages = this.messages.map(
-      (m) => updates.get(m.ordinal) ?? m,
-    );
+    this.messages = this.messages.map((m) => updates.get(m.ordinal) ?? m);
   }
 
-  private async fullReload(
-    id: string,
-    signal: AbortSignal,
-    messageCountHint?: number,
-  ) {
+  private async fullReload(id: string, signal: AbortSignal, messageCountHint?: number) {
     clearContentCaches();
     this.loading = true;
     try {
-      if (
-        messageCountHint !== undefined &&
-        messageCountHint > FULL_SESSION_MESSAGE_THRESHOLD
-      ) {
+      if (messageCountHint !== undefined && messageCountHint > FULL_SESSION_MESSAGE_THRESHOLD) {
         await this.loadProgressively(id, signal);
       } else {
-        await this.loadAllMessages(
-          id,
-          signal,
-          messageCountHint,
-        );
+        await this.loadAllMessages(id, signal, messageCountHint);
       }
     } finally {
       if (this.sessionId === id) {
         this.loading = false;
-        this._stableMainModel =
-          this.messages.length > 0
-            ? computeMainModel(this.messages)
-            : "";
+        this._stableMainModel = this.messages.length > 0 ? computeMainModel(this.messages) : "";
       }
     }
   }

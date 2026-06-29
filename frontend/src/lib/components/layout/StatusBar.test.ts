@@ -1,12 +1,5 @@
 // @vitest-environment jsdom
-import {
-  afterEach,
-  beforeEach,
-  describe,
-  expect,
-  it,
-  vi,
-} from "vite-plus/test";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { mount, tick, unmount } from "svelte";
 // @ts-ignore
 import StatusBar from "./StatusBar.svelte";
@@ -47,30 +40,21 @@ describe("StatusBar", () => {
     });
 
     await tick();
-    const syncLabel = document.querySelector(
-      ".status-right span[title]",
-    );
-    const expectedTitle = new Date(sync.lastSync!).toLocaleString(
-      undefined,
-      {
-        month: "short",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      },
-    );
+    const syncLabel = document.querySelector(".status-right span[title]");
+    const expectedTitle = new Date(sync.lastSync!).toLocaleString(undefined, {
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
 
-    expect(document.body.textContent).toContain(
-      "synced just now",
-    );
+    expect(document.body.textContent).toContain("synced just now");
     expect(syncLabel?.getAttribute("title")).toBe(expectedTitle);
 
     await vi.advanceTimersByTimeAsync(70_000);
     await tick();
 
-    expect(document.body.textContent).toContain(
-      "synced 1m ago",
-    );
+    expect(document.body.textContent).toContain("synced 1m ago");
 
     unmount(component);
   });
@@ -81,15 +65,11 @@ describe("StatusBar", () => {
       target: document.body,
     });
     await tick();
-    expect(document.body.textContent).toContain(
-      "remote server unreachable",
-    );
+    expect(document.body.textContent).toContain("remote server unreachable");
 
     sync.remoteUnreachable = false;
     await tick();
-    expect(document.body.textContent).not.toContain(
-      "remote server unreachable",
-    );
+    expect(document.body.textContent).not.toContain("remote server unreachable");
 
     unmount(component);
   });
@@ -103,9 +83,7 @@ describe("StatusBar", () => {
     await tick();
 
     expect(document.body.textContent).toContain("sync not ready");
-    expect(
-      document.querySelector(".backend-warn")?.getAttribute("title"),
-    ).toBe("sync not ready");
+    expect(document.querySelector(".backend-warn")?.getAttribute("title")).toBe("sync not ready");
 
     sync.backendDegraded = false;
     await tick();

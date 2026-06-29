@@ -6,4 +6,3 @@ export type DbActivityResponse = {
   granularity: string;
   series: any[] | null;
 };
-

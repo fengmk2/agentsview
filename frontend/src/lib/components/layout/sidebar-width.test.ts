@@ -24,13 +24,9 @@ describe("sidebar width helpers", () => {
   it("falls back to the default for invalid stored values", () => {
     expect(clampStoredSidebarWidth(undefined)).toBe(SIDEBAR_WIDTH_DEFAULT);
     expect(clampStoredSidebarWidth(null)).toBe(SIDEBAR_WIDTH_DEFAULT);
-    expect(clampStoredSidebarWidth("not-a-number")).toBe(
-      SIDEBAR_WIDTH_DEFAULT,
-    );
+    expect(clampStoredSidebarWidth("not-a-number")).toBe(SIDEBAR_WIDTH_DEFAULT);
     expect(clampStoredSidebarWidth(Number.NaN)).toBe(SIDEBAR_WIDTH_DEFAULT);
-    expect(clampStoredSidebarWidth(Number.POSITIVE_INFINITY)).toBe(
-      SIDEBAR_WIDTH_DEFAULT,
-    );
+    expect(clampStoredSidebarWidth(Number.POSITIVE_INFINITY)).toBe(SIDEBAR_WIDTH_DEFAULT);
   });
 
   it("clamps stored values to the supported minimum and maximum", () => {

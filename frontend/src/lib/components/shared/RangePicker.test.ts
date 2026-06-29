@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vite-plus/test";
 import { render, screen, fireEvent } from "@testing-library/svelte";
 
 import RangePicker from "./RangePicker.svelte";
@@ -33,9 +33,9 @@ describe("RangePicker", () => {
     for (const t of ["Relative", "Calendar", "Custom"]) {
       expect(screen.getByRole("tab", { name: t })).toBeTruthy();
     }
-    expect(
-      screen.getByRole("tab", { name: "Relative" }).getAttribute("aria-selected"),
-    ).toBe("true");
+    expect(screen.getByRole("tab", { name: "Relative" }).getAttribute("aria-selected")).toBe(
+      "true",
+    );
   });
 
   it("emits a relative selection when a preset is clicked", async () => {

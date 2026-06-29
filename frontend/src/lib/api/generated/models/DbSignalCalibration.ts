@@ -11,4 +11,3 @@ export type DbSignalCalibration = {
   incomplete_lift: number | null;
   signal: string;
 };
-

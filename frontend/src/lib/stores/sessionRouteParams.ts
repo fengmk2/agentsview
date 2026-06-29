@@ -25,23 +25,15 @@ export function hasFilterParams(params: Record<string, string>): boolean {
   return Object.keys(params).some((k) => SESSION_FILTER_KEYS.has(k));
 }
 
-function hasFixedSessionDateParams(
-  params: Record<string, string>,
-): boolean {
+function hasFixedSessionDateParams(params: Record<string, string>): boolean {
   return !!params["date"] || !!params["date_from"] || !!params["date_to"];
 }
 
-export function hasSessionDateIntent(
-  params: Record<string, string>,
-): boolean {
-  return hasFixedSessionDateParams(params) ||
-    !!params[SESSION_ANALYTICS_WINDOW_PARAM];
+export function hasSessionDateIntent(params: Record<string, string>): boolean {
+  return hasFixedSessionDateParams(params) || !!params[SESSION_ANALYTICS_WINDOW_PARAM];
 }
 
-export function hasSessionRouteDateIntent(
-  route: string,
-  params: Record<string, string>,
-): boolean {
+export function hasSessionRouteDateIntent(route: string, params: Record<string, string>): boolean {
   return route === "sessions" && hasSessionDateIntent(params);
 }
 
@@ -49,8 +41,7 @@ export function sessionDateIntentCleared(
   currentParams: Record<string, string>,
   nextParams: Record<string, string>,
 ): boolean {
-  return hasSessionDateIntent(currentParams) &&
-    !hasSessionDateIntent(nextParams);
+  return hasSessionDateIntent(currentParams) && !hasSessionDateIntent(nextParams);
 }
 
 function isValidWindowDaysParam(raw: string | undefined): raw is string {
@@ -134,10 +125,7 @@ export function sessionRouteParamsForDetailExit(
   return sessionRouteParamsForFilters(filterParams, currentParams);
 }
 
-export function filterParamsEqual(
-  a: Record<string, string>,
-  b: Record<string, string>,
-): boolean {
+export function filterParamsEqual(a: Record<string, string>, b: Record<string, string>): boolean {
   for (const k of SESSION_FILTER_KEYS) {
     if ((a[k] ?? "") !== (b[k] ?? "")) return false;
   }

@@ -182,10 +182,7 @@ function getApiBase(): string {
 }
 
 function resolveAssetURLs(text: string): string {
-  return text.replace(
-    /asset:\/\/([^\s)]+)/g,
-    `${getApiBase()}/assets/$1`,
-  );
+  return text.replace(/asset:\/\/([^\s)]+)/g, `${getApiBase()}/assets/$1`);
 }
 
 function isPreservedHtmlTag(name: string): boolean {
@@ -236,9 +233,7 @@ function toEscapedTextToken(raw: string): MarkdownToken {
 
 function isMarkdownToken(value: unknown): value is MarkdownToken {
   return Boolean(
-    value &&
-      typeof value === "object" &&
-      "type" in (value as Record<string, unknown>),
+    value && typeof value === "object" && "type" in (value as Record<string, unknown>),
   );
 }
 

@@ -8,4 +8,3 @@ export type ConfigRemoteHost = {
   port?: number;
   user?: string;
 };
-

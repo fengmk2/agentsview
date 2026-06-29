@@ -31,9 +31,7 @@ async function gotoShowcase(page: Page) {
   // Wait for timing data — the Calls section renders rows once
   // the API response lands. Without this, early assertions race
   // the fetch.
-  await expect(
-    page.locator(".calls .call").first(),
-  ).toBeVisible({ timeout: 5_000 });
+  await expect(page.locator(".calls .call").first()).toBeVisible({ timeout: 5_000 });
 }
 
 test.describe("Session Vital Signs", () => {
@@ -48,23 +46,13 @@ test.describe("Session Vital Signs", () => {
       .filter({ hasText: /^(Session|Time spent|Timeline|Calls)$/ });
     await expect(headers).toHaveCount(4);
 
-    await expect(
-      page.locator(".v-section .v-h", { hasText: "Session" }),
-    ).toBeVisible();
-    await expect(
-      page.locator(".v-section .v-h", { hasText: "Time spent" }),
-    ).toBeVisible();
-    await expect(
-      page.locator(".v-section .v-h", { hasText: "Timeline" }),
-    ).toBeVisible();
-    await expect(
-      page.locator(".v-section .v-h", { hasText: "Calls" }),
-    ).toBeVisible();
+    await expect(page.locator(".v-section .v-h", { hasText: "Session" })).toBeVisible();
+    await expect(page.locator(".v-section .v-h", { hasText: "Time spent" })).toBeVisible();
+    await expect(page.locator(".v-section .v-h", { hasText: "Timeline" })).toBeVisible();
+    await expect(page.locator(".v-section .v-h", { hasText: "Calls" })).toBeVisible();
   });
 
-  test("slowest-call link scrolls the conversation", async ({
-    page,
-  }) => {
+  test("slowest-call link scrolls the conversation", async ({ page }) => {
     await gotoShowcase(page);
 
     const scroller = page.locator(SCROLLER);
@@ -86,9 +74,7 @@ test.describe("Session Vital Signs", () => {
       .toBeGreaterThan(0);
   });
 
-  test("Time spent row click filters siblings", async ({
-    page,
-  }) => {
+  test("Time spent row click filters siblings", async ({ page }) => {
     await gotoShowcase(page);
 
     // Bash exists in the showcase fixture — pick it as the
@@ -121,9 +107,7 @@ test.describe("Session Vital Signs", () => {
     await expect(bashRow).not.toHaveClass(/\bactive\b/);
   });
 
-  test("clicking a slow call scrolls the conversation", async ({
-    page,
-  }) => {
+  test("clicking a slow call scrolls the conversation", async ({ page }) => {
     await gotoShowcase(page);
 
     const scroller = page.locator(SCROLLER);
@@ -147,19 +131,15 @@ test.describe("Session Vital Signs", () => {
       .toBeGreaterThan(0);
   });
 
-  test("sub-agent expands and collapses inline via chevron", async ({
-    page,
-  }) => {
+  test("sub-agent expands and collapses inline via chevron", async ({ page }) => {
     await gotoShowcase(page);
 
     // The sub-agent lives on the Task call inside the parallel
     // group (`.cgroup`). CallRow renders `button.chev` only for
     // calls with a subagent_session_id.
-    const taskRow = page
-      .locator(".cgroup .call")
-      .filter({
-        has: page.locator(".cn", { hasText: "Task" }),
-      });
+    const taskRow = page.locator(".cgroup .call").filter({
+      has: page.locator(".cn", { hasText: "Task" }),
+    });
     await expect(taskRow).toHaveCount(1);
     const chev = taskRow.locator("button.chev");
     await expect(chev).toBeVisible();

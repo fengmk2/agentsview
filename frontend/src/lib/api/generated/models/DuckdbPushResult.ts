@@ -8,4 +8,3 @@ export type DuckdbPushResult = {
   MessagesPushed: number;
   SessionsPushed: number;
 };
-

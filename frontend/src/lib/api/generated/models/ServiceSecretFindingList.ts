@@ -6,4 +6,3 @@ export type ServiceSecretFindingList = {
   findings: any[] | null;
   next_cursor?: number;
 };
-

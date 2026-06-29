@@ -47,11 +47,7 @@ function dateOnly(value: string | undefined): string | undefined {
 }
 
 function validWindowDays(value: unknown): number | undefined {
-  if (
-    typeof value !== "number" ||
-    !Number.isInteger(value) ||
-    value <= 0
-  ) {
+  if (typeof value !== "number" || !Number.isInteger(value) || value <= 0) {
     return undefined;
   }
   return value;
@@ -174,7 +170,7 @@ export function panelStateToRange(
         to: state.to,
         mode: "fixed",
         updatedAt,
-    };
+      };
 }
 
 export function rangeToPanelDate(
@@ -205,13 +201,8 @@ export function sessionParamsToPanelDate(
   }
   if (params["date_from"] || params["date_to"]) {
     const from =
-      dateOnly(params["date_from"]) ??
-      dateOnly(bounds.earliest) ??
-      dateOnly(params["date_to"])!;
-    const to =
-      dateOnly(params["date_to"]) ??
-      dateOnly(bounds.latest) ??
-      today();
+      dateOnly(params["date_from"]) ?? dateOnly(bounds.earliest) ?? dateOnly(params["date_to"])!;
+    const to = dateOnly(params["date_to"]) ?? dateOnly(bounds.latest) ?? today();
     return panelDateState(from, to, {
       mode: "fixed",
     });
@@ -219,9 +210,7 @@ export function sessionParamsToPanelDate(
   return null;
 }
 
-export function rangeToSessionParams(
-  range: YokedDateRange,
-): Record<string, string> {
+export function rangeToSessionParams(range: YokedDateRange): Record<string, string> {
   if (range.mode === "rolling" && range.windowDays) {
     return { window_days: String(range.windowDays) };
   }
@@ -265,9 +254,7 @@ function activityCustomRangeWithinLimit(from: string, to: string): boolean {
   return durationMs > 0 && durationMs <= ACTIVITY_MAX_CUSTOM_RANGE_MS;
 }
 
-export function rangeToInsightParams(
-  range: YokedDateRange,
-): Record<string, string> {
+export function rangeToInsightParams(range: YokedDateRange): Record<string, string> {
   const state = rangeToPanelDate(range);
   if (!state) return {};
   const params: Record<string, string> = {
@@ -327,10 +314,7 @@ export class YokedDatesStore {
       range: this.range ? copyRange(this.range) : null,
     };
     try {
-      this.storage.setItem(
-        YOKED_DATES_STORAGE_KEY,
-        JSON.stringify(stored),
-      );
+      this.storage.setItem(YOKED_DATES_STORAGE_KEY, JSON.stringify(stored));
     } catch {
       // Storage can be unavailable or full; current-tab state still works.
     }

@@ -2,13 +2,13 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { DbInsight } from '../models/DbInsight';
-import type { GenerateInsightRequest } from '../models/GenerateInsightRequest';
-import type { InsightsResponse } from '../models/InsightsResponse';
-import type { PublishResponse } from '../models/PublishResponse';
-import type { CancelablePromise } from '../core/CancelablePromise';
-import { OpenAPI } from '../core/OpenAPI';
-import { request as __request } from '../core/request';
+import type { DbInsight } from "../models/DbInsight";
+import type { GenerateInsightRequest } from "../models/GenerateInsightRequest";
+import type { InsightsResponse } from "../models/InsightsResponse";
+import type { PublishResponse } from "../models/PublishResponse";
+import type { CancelablePromise } from "../core/CancelablePromise";
+import { OpenAPI } from "../core/OpenAPI";
+import { request as __request } from "../core/request";
 export class InsightsService {
   /**
    * List insights
@@ -24,28 +24,28 @@ export class InsightsService {
     /**
      * Insight type
      */
-    type?: 'daily_activity' | 'agent_analysis' | 'llm_canned',
+    type?: "daily_activity" | "agent_analysis" | "llm_canned";
     /**
      * Filter by project
      */
-    project?: string,
+    project?: string;
     /**
      * Filter date_from >= (YYYY-MM-DD)
      */
-    dateFrom?: string,
+    dateFrom?: string;
     /**
      * Filter date_to <= (YYYY-MM-DD)
      */
-    dateTo?: string,
+    dateTo?: string;
   }): CancelablePromise<InsightsResponse> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/insights',
+      method: "GET",
+      url: "/api/v1/insights",
       query: {
-        'type': type,
-        'project': project,
-        'date_from': dateFrom,
-        'date_to': dateTo,
+        type: type,
+        project: project,
+        date_from: dateFrom,
+        date_to: dateTo,
       },
       errors: {
         400: `Bad Request`,
@@ -70,13 +70,13 @@ export class InsightsService {
   public static postApiV1InsightsGenerate({
     requestBody,
   }: {
-    requestBody: GenerateInsightRequest,
+    requestBody: GenerateInsightRequest;
   }): CancelablePromise<string> {
     return __request(OpenAPI, {
-      method: 'POST',
-      url: '/api/v1/insights/generate',
+      method: "POST",
+      url: "/api/v1/insights/generate",
       body: requestBody,
-      mediaType: 'application/json',
+      mediaType: "application/json",
       errors: {
         400: `Bad Request`,
         401: `Unauthorized`,
@@ -103,13 +103,13 @@ export class InsightsService {
     /**
      * Numeric ID
      */
-    id: number,
+    id: number;
   }): CancelablePromise<void> {
     return __request(OpenAPI, {
-      method: 'DELETE',
-      url: '/api/v1/insights/{id}',
+      method: "DELETE",
+      url: "/api/v1/insights/{id}",
       path: {
-        'id': id,
+        id: id,
       },
       errors: {
         400: `Bad Request`,
@@ -137,13 +137,13 @@ export class InsightsService {
     /**
      * Numeric ID
      */
-    id: number,
+    id: number;
   }): CancelablePromise<DbInsight> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/insights/{id}',
+      method: "GET",
+      url: "/api/v1/insights/{id}",
       path: {
-        'id': id,
+        id: id,
       },
       errors: {
         400: `Bad Request`,
@@ -171,13 +171,13 @@ export class InsightsService {
     /**
      * Numeric ID
      */
-    id: number,
+    id: number;
   }): CancelablePromise<string> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/insights/{id}/export',
+      method: "GET",
+      url: "/api/v1/insights/{id}/export",
       path: {
-        'id': id,
+        id: id,
       },
       errors: {
         400: `Bad Request`,
@@ -205,13 +205,13 @@ export class InsightsService {
     /**
      * Numeric ID
      */
-    id: number,
+    id: number;
   }): CancelablePromise<string> {
     return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/v1/insights/{id}/md',
+      method: "GET",
+      url: "/api/v1/insights/{id}/md",
       path: {
-        'id': id,
+        id: id,
       },
       errors: {
         400: `Bad Request`,
@@ -240,20 +240,20 @@ export class InsightsService {
     /**
      * Insight ID
      */
-    id: number,
+    id: number;
     /**
      * Create a secret gist instead of a public one
      */
-    secret?: boolean,
+    secret?: boolean;
   }): CancelablePromise<PublishResponse> {
     return __request(OpenAPI, {
-      method: 'POST',
-      url: '/api/v1/insights/{id}/publish',
+      method: "POST",
+      url: "/api/v1/insights/{id}/publish",
       path: {
-        'id': id,
+        id: id,
       },
       query: {
-        'secret': secret,
+        secret: secret,
       },
       errors: {
         400: `Bad Request`,

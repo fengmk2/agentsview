@@ -80,17 +80,21 @@ describe("i18n locale selection", () => {
   it("renders generated Paraglide messages for each supported locale", () => {
     runtime.setLocale("en", { reload: false });
     expect(m.nav_sessions()).toBe("Sessions");
-    expect(m.status_bar_sessions({
-      count: 12,
-      countLabel: "12",
-    })).toBe("12 sessions");
+    expect(
+      m.status_bar_sessions({
+        count: 12,
+        countLabel: "12",
+      }),
+    ).toBe("12 sessions");
 
     runtime.setLocale("zh-CN", { reload: false });
     expect(m.nav_sessions()).toBe("会话");
-    expect(m.status_bar_sessions({
-      count: 12,
-      countLabel: "12",
-    })).toBe("12 个会话");
+    expect(
+      m.status_bar_sessions({
+        count: 12,
+        countLabel: "12",
+      }),
+    ).toBe("12 个会话");
   });
 
   it("selects cardinal plural variants per locale", () => {
@@ -99,26 +103,32 @@ describe("i18n locale selection", () => {
     expect(m.tool_call_group_call_count({ count: 3 })).toBe("3 tool calls");
     expect(m.parallel_group_call_count({ count: 1 })).toBe("1 call");
     expect(m.parallel_group_call_count({ count: 2 })).toBe("2 calls");
-    expect(m.status_bar_sessions({
-      count: 1,
-      countLabel: "1",
-    })).toBe("1 session");
-    expect(m.sidebar_session_count({
-      count: 2,
-      countLabel: "2",
-    })).toBe("2 sessions");
-    expect(m.trash_msgs({
-      count: 1,
-      countLabel: "1",
-    })).toBe("1 msg");
+    expect(
+      m.status_bar_sessions({
+        count: 1,
+        countLabel: "1",
+      }),
+    ).toBe("1 session");
+    expect(
+      m.sidebar_session_count({
+        count: 2,
+        countLabel: "2",
+      }),
+    ).toBe("2 sessions");
+    expect(
+      m.trash_msgs({
+        count: 1,
+        countLabel: "1",
+      }),
+    ).toBe("1 msg");
     expect(m.subagent_inline_message_count({ count: 1 })).toBe("1 message");
     expect(m.subagent_inline_message_count({ count: 5 })).toBe("5 messages");
-    expect(
-      m.message_content_turn_summary({ count: 1, duration: "2m 1s" }),
-    ).toBe("turn 2m 1s · 1 call");
-    expect(
-      m.message_content_turn_summary({ count: 4, duration: "2m 1s" }),
-    ).toBe("turn 2m 1s · 4 calls");
+    expect(m.message_content_turn_summary({ count: 1, duration: "2m 1s" })).toBe(
+      "turn 2m 1s · 1 call",
+    );
+    expect(m.message_content_turn_summary({ count: 4, duration: "2m 1s" })).toBe(
+      "turn 2m 1s · 4 calls",
+    );
 
     // Simplified Chinese has no plural distinction, so a single variant
     // serves every count.
@@ -146,9 +156,7 @@ describe("i18n locale selection", () => {
   });
 
   it("sets the Paraglide runtime locale with its default reload behavior", () => {
-    const setParaglideLocale = vi
-      .spyOn(runtime, "setLocale")
-      .mockImplementation(() => undefined);
+    const setParaglideLocale = vi.spyOn(runtime, "setLocale").mockImplementation(() => undefined);
 
     setLocale("zh-CN");
 

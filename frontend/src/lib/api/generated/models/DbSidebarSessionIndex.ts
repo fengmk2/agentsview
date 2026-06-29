@@ -7,4 +7,3 @@ export type DbSidebarSessionIndex = {
   sessions: any[] | null;
   total: number;
 };
-
